@@ -1,8 +1,16 @@
 import express from 'express';
-import User from '../models/User'
+import User from '../models/User';
+import Post from '../models/Post';
 import {authenticate, passChange} from '../util/authMiddleware';
 
 const router = express.Router();
+
+// get all posts for user
+router.get('/:id/posts', (req, res) => {
+  Post.find({author: req.params.id}, (err, posts) => {
+    res.status(err ? 400 : 200).send(err || posts);
+  }).populate('comments');
+});
 
 router.post('/login', (req, res) => {
   User.login(req.body, (err, token) => {

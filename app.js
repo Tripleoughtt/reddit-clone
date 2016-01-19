@@ -8,9 +8,12 @@ import bodyParser from 'body-parser';
 import schema from "./data/schema";
 import GraphQLHTTP from "express-graphql";
 
-import indexRoutes from './routes/index';
 import mongoose from 'mongoose';
+
+import indexRoutes from './routes/index';
 import userRoutes from './routes/users';
+import postRoutes from './routes/posts';
+import commentRoutes from './routes/comments';
 
 let PORT = process.env.PORT || 3000;
 
@@ -35,7 +38,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
 
-app.use('/users', userRoutes)
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
 
 app.use("/graphql", GraphQLHTTP({
   schema,
@@ -76,5 +81,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`I'm listening on this port: ${PORT}`);
 })
-
-
