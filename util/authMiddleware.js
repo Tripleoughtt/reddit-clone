@@ -6,13 +6,13 @@ import User from '../models/User';
 export function authenticate(req, res, next){
   let token = req.cookies.token;
 
-  if (!token) {
+  if(!token) {
     return res.status(401).send('authorization required');
   }
 
   try {
     var decoded = jwt.decode(token, process.env.JWT_SECRET);
-  } catch (e) {
+  } catch(e) {
     return res.status(401).send('authorization required');
   }
 
@@ -22,22 +22,20 @@ export function authenticate(req, res, next){
 
   req.decodedToken = decoded;
   next();
-};
+}
 
 export function passChange(req, res, next){
   if(req.body.newPassword){
     User.hashNewPassword(req, (err, hashedPassword) => {
-      console.log('inDatPassChangeFunk', err, hashedPassword)
       if(!hashedPassword || err){
-        return res.status(400).send(err)
+        return res.status(400).send(err);
       }
       req.body.password = hashedPassword;
       delete req.body.newPassword;
-      delete req.body.username;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      console.log('IN PASS CHANGE FUNCTION', req.body)
+      delete req.body.username;
       next();
     });
   } else {
-    next()
+    next();
   }
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+}
