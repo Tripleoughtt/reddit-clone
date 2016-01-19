@@ -1,5 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import AppController from "./components/AppController"
+import {Router, Route, Link, browserHistory, IndexRoute} from 'react-router';
 
-ReactDOM.render(<AppController/>, document.getElementById("react"));
+import AppController from "./components/AppController";
+import Home from "./components/Home";
+
+ReactDOM.render((
+  <Router history={browserHistory}>
+    <Route component={AppController} path="/">
+      <IndexRoute component={Home} />
+    </Route>
+  </Router>
+), document.getElementById("react"));
