@@ -1,35 +1,31 @@
+// Basic imports for express
 import express from 'express';
 import path from 'path';
-import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-
-import schema from "./data/schema";
-import GraphQLHTTP from "express-graphql";
-
 import mongoose from 'mongoose';
 
+// Imports for GraphQL --> Uncomment when prepared to refractor or remove 
+// import schema from "./data/schema";
+// import GraphQLHTTP from "express-graphql";
+
+// Import routes from /routes
 import indexRoutes from './routes/index';
 import userRoutes from './routes/users';
 import postRoutes from './routes/posts';
 import commentRoutes from './routes/comments';
 
-let PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+const app = express();
 
-let app = express();
-
-
-//Mongoose connection
+// Mongoose connection
 mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/reddit-clone");
 
-
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,15 +33,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
-
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
-app.use("/graphql", GraphQLHTTP({
-  schema,
-  graphiql: true
-}));
+// Setup for GraphQS connection refer to note above
+// app.use("/graphql", GraphQLHTTP({
+//  schema,
+//  graphiql: true
+// }));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -78,6 +74,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Setup portto listen and print confirmation when connected
 app.listen(PORT, () => {
   console.log(`I'm listening on this port: ${PORT}`);
 })
