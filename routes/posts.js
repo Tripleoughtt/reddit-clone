@@ -1,48 +1,49 @@
 import express from 'express';
+
+// Import Schemas To Interact With Mongo
 import Post from '../models/Post';
 import Comment from '../models/Comment';
-import {authenticate, passChange} from '../util/authMiddleware';
+
+// Import Middleware For Authentication --> Uncomment When Needed
+// import { authenticate, passChange } from '../util/authMiddleware';
 
 const router = express.Router();
 
-// get all posts on main page
+// Get All Posts On Main Page
 router.get('/', (req, res) => {
   Post.find({}, (err, posts) => {
-    if (err) return res.status(400).send(err);
-    res.send(posts);
+    res.status(err ? 400:200).send(err || posts);
   });
 });
 
-// // get individual post info (after clicking on post)
+// Get Individual Post Info (After Clicking On Post)
 router.get('/:id', (req, res) => {
   Post.findById(req.params.id, (err, post) => {
-    if (err) return res.status(400).send(err);
+    if(err) return res.status(400).send(err);
     post.deepPopulate(`comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
-      res.send(post);
-    })
+      res.status(err ? 400:200).send(err || post);
+    });
   });
 });
 
-// add new post
+// Create New Post
 router.post('/', (req, res) => {
   Post.create(req.body, (err, post) => {
-    if (err) return res.status(400).send(err);
-    res.send(post);
+    res.status(err ? 400:200).send(err || post);
   });
 });
 
-// add new comment to post
+// Create Comment and Add Comment To Post
 router.post('/:id/newcomment', (req, res) => {
   Comment.create(req.body, (err, comment) => {
-    if (err) return res.status(400).send(err);
-    Post.findByIdAndUpdate(req.params.id, {$push: {comments: comment}}, (err) => {
-      if (err) return res.status(400).send(err);
+    if(err) return res.status(400).send(err);
+    Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment }}, (err) => {
+      if(err) return res.status(400).send(err);
       Post.findById(req.params.id, (err, post) => {
-        if (err) return res.status(400).send(err);
-        res.send(post);
-      })
-    })
-  })
+        res.status(err ? 400:200).send(err || post);
+      });
+    });
+  });
 });
 
 export default router;
