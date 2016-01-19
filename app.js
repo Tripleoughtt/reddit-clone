@@ -8,11 +8,18 @@ import bodyParser from 'body-parser';
 import schema from "./data/schema";
 import GraphQLHTTP from "express-graphql";
 
-import routes from './routes/index';
+import indexRoutes from './routes/index';
+import mongoose from 'mongoose';
+import userRoutes from './routes/users';
 
 let PORT = process.env.PORT || 3000;
 
 let app = express();
+
+
+//Mongoose connection
+mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/reddit-clone");
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +33,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', indexRoutes);
+
+app.use('/users', userRoutes)
 
 app.use("/graphql", GraphQLHTTP({
   schema,
