@@ -11,7 +11,6 @@ import mongoose from 'mongoose';
 // import GraphQLHTTP from "express-graphql";
 
 // Import routes from /routes
-import indexRoutes from './routes/index';
 import userRoutes from './routes/users';
 import postRoutes from './routes/posts';
 import commentRoutes from './routes/comments';
