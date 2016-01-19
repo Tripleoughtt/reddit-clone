@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-    , jwt      = require('jwt-simple')
-    , bcrypt   = require('bcryptjs')
-    , moment   = require('moment')
-import CONFIG from "../util/authConfig"
-let Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+import jwt from 'jwt-simple';
+import bcrypt from 'bcryptjs';
+import moment from 'moment';
+import CONFIG from "../util/authConfig";
 
+let Schema = mongoose.Schema;
 let User;
 
 let userSchema = mongoose.Schema({
@@ -41,27 +41,27 @@ userSchema.statics.login = function(userInfo, cb) {
 
 userSchema.statics.hashNewPassword = (userInfo, cb) => {
   User.findById(userInfo.params.id, (err, user) => {
-    console.log('finding user', err, user)
-    if (err) return cb(err) 
+    console.log('finding user', err, user);
+    if (err) return cb(err);
 
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
-      console.log('salt gen', salt)
+      console.log('salt gen', salt);
       if (err) return cb(err);
       bcrypt.hash(userInfo.body.password, salt, (err, userInputHashedPassword) => {
-        console.log('hash old pass', err, userInputHashedPassword)
+        console.log('hash old pass', err, userInputHashedPassword);
         if (err) return cb(err);
-        console.log(user)
+        console.log(user);
         if (user.password === userInputHashedPassword){
-          console.log('checking new pass', user.password, userInputHashedPassword)
+          console.log('checking new pass', user.password, userInputHashedPassword);
           bcrypt.hash(userInfo.body.newPassword, salt, (err, hashedPassword) => {
-            return cb(err, hashedPassword)
+            return cb(err, hashedPassword);
           })
         } else {
           return cb(err, user.password);
         }
-      })
-    })
-  })
+      });
+    });
+  });
 }
 
 userSchema.statics.register = function(userInfo, cb) {
