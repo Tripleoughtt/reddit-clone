@@ -46,4 +46,20 @@ router.post('/:id/newcomment', (req, res) => {
   });
 });
 
+// Update An Indivual Post
+router.put('/:id', (req, res) => {
+  Post.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, post) => {
+    if(err) return res.status(400).send(err);
+    Post.findById(req.params.id, (err, updatedPost) => {
+      res.status(err ? 400:200).send(err || updatedPost);
+    });
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  Post.findByIdAndRemove(req.params.id, (err) => {
+    res.status(err ? 400:200).send(err || 'Post Deleted');
+  });
+});
+
 export default router;
