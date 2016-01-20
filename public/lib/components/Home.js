@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router';
 import NavBarDefault from "../components/NavBarDefault";
 import SignUpForm from "../components/SignUpForm";
 import PostFeed from "../components/PostFeed";
@@ -14,6 +15,7 @@ class Home extends React.Component{
         <NavBarDefault />
         <SignUpForm />
         <PostFeed />
+        <button><Link to={`home`}>Home</Link></button>
       </div>
     )
   }

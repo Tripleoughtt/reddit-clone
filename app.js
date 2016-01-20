@@ -42,6 +42,10 @@ app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
+
 app.use("/graphql", GraphQLHTTP({
   schema,
   graphiql: true
