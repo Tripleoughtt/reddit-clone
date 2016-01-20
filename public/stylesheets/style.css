@@ -1,3 +1,27 @@
 label {
   width: 100%;
 }
+
+
+.addPostTitle {
+  height: 10vh;
+}
+
+.addPostBody {
+  height: 30vh;
+
+}
+.addPostTags {
+  height: 10vh;
+
+}
+.addPostButtons {
+  height: 10vh;
+
+}
+
+.border {
+  border: 1px solid #000;
+  height: 100%;
+  margin-top: 1%;
+}
