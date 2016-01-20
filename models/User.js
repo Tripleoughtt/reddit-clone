@@ -24,12 +24,12 @@ userSchema.methods.token = function() {
 
 userSchema.statics.login = function(userInfo, cb) {
   // look for user in database
-  User.findOne({username: userInfo.username}, (err, foundUser) => {
-    if (err) return cb('server error');
-    if (!foundUser) return cb('incorrect email or password');
+  User.findOne({ username: userInfo.username }, (err, foundUser) => {
+    if(err) return cb('server error');
+    if(!foundUser) return cb('incorrect email or password');
     bcrypt.compare(userInfo.password, foundUser.password, (err, isGood) => {
-      if (err) return cb('server err');
-      if (isGood) {
+      if(err) return cb('server err');
+      if(isGood) {
         foundUser.password = null;
         return cb(null, foundUser.token());
       } else {
