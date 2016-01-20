@@ -21,7 +21,12 @@ label {
 }
 
 .border {
-  border: 1px solid #000;
   height: 100%;
   margin-top: 1%;
+}
+
+.border input, .border textarea {
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 3px #286090;
 }

@@ -15,7 +15,7 @@ class Home extends React.Component{
         <NavBarDefault />
         <SignUpForm />
         <PostFeed />
-        <button><Link to={`home`}>Home</Link></button>
+        <Link to={`home`}>Home</Link>
       </div>
     )
   }
