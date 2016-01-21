@@ -39,11 +39,11 @@ router.post('/login', (req, res) => {
   });
 });
 
-// Registering A User 
+// Registering A User
 router.post('/register', (req, res) => {
-  User.register(req.body, (err, token) => {
+  User.register(req.body, (err, token, userInfo) => {
     if(err) return res.status(400).send(err);
-    res.cookie("token", token).send();
+    res.status(200).cookie("token", token).send(userInfo);
   });
 });
 
@@ -57,7 +57,7 @@ router.put('/edit/:id', passChange, (req, res) => {
   });
 });
 
-// Delete A User 
+// Delete A User
 router.delete('/:id', (req, res) => {
   User.findByIdAndRemove(req.params.id, (err) => {
     res.status(err ? 400:200).send(err || 'user deleted');

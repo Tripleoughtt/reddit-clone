@@ -65,17 +65,15 @@ userSchema.statics.hashNewPassword = (userInfo, cb) => {
 }
 
 userSchema.statics.register = function(userInfo, cb) {
-  let email     = userInfo.email
-    , password  = userInfo.password
-    , password2 = userInfo.password2
-    , username = userInfo.username;
-  
+  let password = userInfo.password1;
+  let username = userInfo.username;
+
   console.log("at the start",userInfo)
   // create user model
   console.log('HERE BITCHES', userInfo)
   User.findOne({username: username}, (err, user) => {
     if (err || user) return cb('error registering user');
-    console.log('after user.findOne', user, CONFIG)
+    console.log('after user.findOne', CONFIG)
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
       console.log('in salt', salt, err)
       if (err) return cb(err);
@@ -83,7 +81,6 @@ userSchema.statics.register = function(userInfo, cb) {
         console.log('in pass hash', hashedPassword)
         if (err) return cb(err);
         let newUser = new User({
-          email: email,
           password: hashedPassword,
           username: username
         });
@@ -91,7 +88,7 @@ userSchema.statics.register = function(userInfo, cb) {
         newUser.save((err, savedUser) => {
           savedUser.password = null;
           console.log('savedUser: ', savedUser)
-          return cb(err, savedUser.token());
+          return cb(err, savedUser.token(), savedUser);
         })
       });
     });
@@ -100,4 +97,4 @@ userSchema.statics.register = function(userInfo, cb) {
 
 
 User = mongoose.model('User', userSchema);
-export default User; 
+export default User;
