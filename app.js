@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
-// Imports for GraphQL --> Uncomment when prepared to refractor or remove 
+// Imports for GraphQL --> Uncomment when prepared to refractor or remove
 // import schema from "./data/schema";
 // import GraphQLHTTP from "express-graphql";
 
@@ -40,6 +40,11 @@ app.use('/comments', commentRoutes);
 //  schema,
 //  graphiql: true
 // }));
+
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

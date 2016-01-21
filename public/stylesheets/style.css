@@ -1,8 +1,32 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+label {
+  width: 100%;
 }
 
-a {
-  color: #00B7FF;
+
+.addPostTitle {
+  height: 10vh;
+}
+
+.addPostBody {
+  height: 30vh;
+
+}
+.addPostTags {
+  height: 10vh;
+
+}
+.addPostButtons {
+  height: 10vh;
+
+}
+
+.border {
+  height: 100%;
+  margin-top: 1%;
+}
+
+.border input, .border textarea {
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 3px #286090;
 }
