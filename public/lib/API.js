@@ -4,7 +4,6 @@ import ServerActions from './actions/ServerActions';
 
 let API = {
   fetchAllPosts() {
-    console.log('2 - in API: fetch all posts');
     get('/posts').done(data => ServerActions.receivePosts(data));
   },
   createNewPost(postInfo) {
@@ -18,6 +17,7 @@ let API = {
   },
   loginUser(user) {
     post('/users/login', user).done(data => {
+      console.log('in api', data);
       ServerActions.receiveNewUser(data)
     });
   }

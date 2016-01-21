@@ -1,8 +1,8 @@
 import React from "react";
 import Post from './Post'
 
-import PostActions from '../actions/PostActions';
-import PostStore from '../stores/PostStore';
+import PostActions from '../../actions/PostActions';
+import PostStore from '../../stores/PostStore';
 
 
 class PostFeed extends React.Component{

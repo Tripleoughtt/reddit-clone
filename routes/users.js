@@ -33,9 +33,9 @@ router.get('/comments/:id', (req, res) => {
 
 // Logging In
 router.post('/login', (req, res) => {
-  User.login(req.body, (err, token) => {
+  User.login(req.body, (err, token, userInfo) => {
     if(err) return res.status(400).send(err);
-    res.status(200).cookie("token", token).send();
+    res.status(200).cookie("token", token).send(userInfo);
   });
 });
 

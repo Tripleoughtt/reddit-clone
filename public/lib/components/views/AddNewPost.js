@@ -1,11 +1,12 @@
 import React from "react";
 import {Link, browserHistory} from 'react-router';
 
-import PostActions from '../actions/PostActions';
-import PostStore from '../stores/PostStore';
-import NavBarUser from './NavBarUser';
+import LoggedInNav from '../general/LoggedInNav';
 
-class AddPostPage extends React.Component{
+import PostActions from '../../actions/PostActions';
+import PostStore from '../../stores/PostStore';
+
+class AddNewPost extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
@@ -79,4 +80,4 @@ class AddPostPage extends React.Component{
   }
 }
 
-export default AddPostPage
+export default AddNewPost

@@ -1,6 +1,6 @@
 import React from "react";
 
-import UserActions from '../actions/UserActions';
+import UserActions from '../../actions/UserActions';
 
 class SignUpForm extends React.Component{
   constructor(props){

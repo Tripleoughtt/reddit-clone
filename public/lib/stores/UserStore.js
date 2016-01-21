@@ -10,8 +10,9 @@ class UserStore extends EventEmitter {
     AppDispatcher.register(action => {
       switch (action.actionType) {
         case 'RECEIVE_NEW_USER':
+          console.log('in user store, action.user', action.user)
           _user = action.user;
-          this.emit('USER_CHANGE');
+          this.emit('CHANGE');
           break;
       }
     });
@@ -22,11 +23,11 @@ class UserStore extends EventEmitter {
   }
 
   startListening(cb){
-    this.on('USER_CHANGE', cb);
+    this.on('CHANGE', cb);
   }
 
   stopListening(cb){
-    this.removeListener('USER_CHANGE', cb);
+    this.removeListener('CHANGE', cb);
   }
 }
 

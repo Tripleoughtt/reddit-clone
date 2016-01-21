@@ -4,7 +4,7 @@ let UserActions = {
   createNewUser(newUser) {
     API.createNewUser(newUser);
   },
-  
+
   loginUser(user) {
     API.loginUser(user);
   }

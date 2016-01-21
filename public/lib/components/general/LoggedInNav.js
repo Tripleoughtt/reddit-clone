@@ -1,6 +1,6 @@
 import React from "react";
 
-class NavBarUser extends React.Component{
+class LoggedInNav extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
@@ -31,4 +31,4 @@ class NavBarUser extends React.Component{
   }
 }
 
-export default NavBarUser;
+export default LoggedInNav;

@@ -23,7 +23,6 @@ userSchema.methods.token = function() {
 };
 
 userSchema.statics.login = function(userInfo, cb) {
-  // look for user in database
   User.findOne({ username: userInfo.username }, (err, foundUser) => {
     if(err) return cb('server error');
     if(!foundUser) return cb('incorrect email or password');
@@ -31,7 +30,7 @@ userSchema.statics.login = function(userInfo, cb) {
       if(err) return cb('server err');
       if(isGood) {
         foundUser.password = null;
-        return cb(null, foundUser.token());
+        return cb(null, foundUser.token(), foundUser);
       } else {
         return cb('incorrect email or password');
       }

@@ -1,15 +1,15 @@
 import React from "react";
 import {Link, browserHistory} from 'react-router';
 
-import NavBarUser from "../components/NavBarUser";
-import SignUpForm from "../components/SignUpForm";
-import PostFeed from "../components/PostFeed";
+import LoggedInNav from "../general/LoggedInNav";
+import SignUpForm from "../general/SignUpForm";
+import PostFeed from "../general/PostFeed";
 
-import UserStore from '../stores/UserStore';
-import UserActions from '../actions/UserActions';
+import UserStore from '../../stores/UserStore';
+import UserActions from '../../actions/UserActions';
 
-import PostActions from '../actions/PostActions';
-import PostStore from '../stores/PostStore';
+import PostActions from '../../actions/PostActions';
+import PostStore from '../../stores/PostStore';
 
 let _getAppState = () => {
   return {
@@ -18,7 +18,7 @@ let _getAppState = () => {
   }
 }
 
-class UserHome extends React.Component{
+class LoggedInHome extends React.Component{
   constructor(props){
     super(props);
     this.state = _getAppState();
@@ -29,7 +29,6 @@ class UserHome extends React.Component{
     PostActions.getAllPosts();
     PostStore.startListening(this._onChange);
 
-    // UserActions.getUserInfo();
     UserStore.startListening(this._onChange);
   }
 
@@ -51,7 +50,7 @@ class UserHome extends React.Component{
   render(){
     return(
       <div className="UserHomeComponent">
-        <NavBarUser />
+        <LoggedInNav />
         <PostFeed posts={this.state.posts} />
         <Link to="addpost" className="btn btn-primary btn-lg">Add A New Post</Link>
       </div>
@@ -59,4 +58,4 @@ class UserHome extends React.Component{
   }
 }
 
-export default UserHome
+export default LoggedInHome

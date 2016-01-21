@@ -1,8 +1,8 @@
 import React from "react";
 
-import UserActions from '../actions/UserActions';
+import UserActions from '../../actions/UserActions';
 
-class NavBarDefault extends React.Component{
+class NotLoggedInNav extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
@@ -77,4 +77,4 @@ class NavBarDefault extends React.Component{
   }
 }
 
-export default NavBarDefault;
+export default NotLoggedInNav;
