@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "setup": "npm i && jspm i",
+    "postinstall": "jspm i && jspm bundle lib/main --inject",
     "start": "./node_modules/.bin/babel-node --presets es2015 app.js"
   },
   "dependencies": {
