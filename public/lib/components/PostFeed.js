@@ -4,36 +4,23 @@ import Post from './Post'
 import PostActions from '../actions/PostActions';
 import PostStore from '../stores/PostStore';
 
-let _getAppState = () => { posts: PostStore.getAllPosts() }
 
 class PostFeed extends React.Component{
   constructor(props){
     super(props);
-    this.state = _getAppState();
-    this._onChange = this._onChange.bind(this);
+    this.state = {};
   }
 
-  componentDidMount(){
-    PostActions.getAllPosts();
-    PostStore.startListening(this._onChange);
-  }
 
-  componentWillUnmount(){
-    PostStore.stopListening(this._onChange);
-  }
-
-  _onChange() {
-    console.log('5');
-    this.setState(_getAppState());
-  }
 
   render(){
-    // let posts = this.state.posts.map(post => {
-    //   return <Post data={postData} id={post._id} />
-    // })
+    console.log('in post feed butthole', this.props.posts);
+    let posts = this.props.posts.map(post => {
+      return <Post data={post} key={post._id} />
+    })
     return(
       <div className="col-xs-12 col-sm-9 postFeedComponent">
-        <p>postfeed</p>
+        {posts}
       </div>
     )
   }

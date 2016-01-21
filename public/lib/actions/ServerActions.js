@@ -8,6 +8,12 @@ let ServerActions = {
       posts
     });
   },
+  receiveNewPost(post) {
+    AppDispatcher.dispatch({
+      actionType: 'RECEIVE_ONE_POST',
+      post
+    });
+  },
   receiveNewUser(user) {
     AppDispatcher.dispatch({
       actionType: 'RECEIVE_NEW_USER',

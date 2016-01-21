@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 
 import PostActions from '../actions/PostActions';
 import PostStore from '../stores/PostStore';
@@ -9,6 +9,21 @@ class AddPostPage extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
+  }
+
+  componentDidMount(){
+    // UserActions.getUserInfo();
+    PostStore.startListening(this._onChange.bind(this));
+  }
+
+  componentWillUnmount(){
+    PostStore.stopListening(this._onChange.bind(this));
+  }
+
+  _onChange() {
+    if (PostStore.getNewPost()){
+      browserHistory.push('/home');
+    }
   }
 
   updateTitle(e){
@@ -23,6 +38,8 @@ class AddPostPage extends React.Component{
 
   submitNewPost(){
     console.log(this.state);
+    PostActions.createNewPost(this.state);
+
   }
 
   render(){

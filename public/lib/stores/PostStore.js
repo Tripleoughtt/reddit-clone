@@ -2,6 +2,7 @@ import {EventEmitter} from 'events';
 import AppDispatcher from '../AppDispatcher';
 
 let _posts = [];
+let _newPost;
 
 class PostStore extends EventEmitter {
   constructor(props){
@@ -14,12 +15,22 @@ class PostStore extends EventEmitter {
           _posts = action.posts;
           this.emit('CHANGE');
           break;
+        case 'RECEIVE_ONE_POST':
+          _posts.push(action.post);
+          _newPost = action.post;
+          this.emit('CHANGE');
+          break;
       }
     });
   }
 
   getAllPosts() {
+    console.log('in getAllPosts', _posts)
     return _posts;
+  }
+
+  getNewPost() {
+    return _newPost;
   }
 
   startListening(cb){

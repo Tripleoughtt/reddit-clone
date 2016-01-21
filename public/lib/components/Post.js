@@ -8,7 +8,9 @@ class Post extends React.Component{
   render(){
     return(
       <div className="postComponent">
-
+        <h1>{this.props.data.title}</h1>
+        <p>{this.props.data.body}</p>
+        <p>{this.props.data.tags}</p>
       </div>
     )
   }

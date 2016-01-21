@@ -1,10 +1,26 @@
 import React from "react";
 
+import UserActions from '../actions/UserActions';
+
 class NavBarDefault extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
   }
+
+  updateUsername(e){
+    this.setState({username: e.target.value})
+  }
+  updatePassword(e){
+    this.setState({password: e.target.value})
+  }
+
+  loginUser(e){
+    e.preventDefault();
+    console.log(this.state);
+    UserActions.loginUser(this.state);
+  }
+
   render(){
     return(
       <nav className="navbar navbar-default">
@@ -29,12 +45,12 @@ class NavBarDefault extends React.Component{
               <form className="navbar-form navbar-left" id="loginForm">
                 <label htmlFor="loginForm" className="navbar-form navbar-left">Login</label>
                 <div className="form-group">
-                  <input type="text" className="form-control" placeholder="username" />
+                  <input onChange={this.updateUsername.bind(this)} type="text" className="form-control" placeholder="username" />
                 </div>
                 <div className="form-group">
-                  <input type="password" className="form-control" placeholder="password" />
+                  <input onChange={this.updatePassword.bind(this)} type="password" className="form-control" placeholder="password" />
                 </div>
-                <button type="submit" className="btn btn-default">Submit</button>
+                <button onClick={this.loginUser.bind(this)} type="submit" className="btn btn-default">Submit</button>
               </form>
 
               <form className="navbar-form visible-xs-block">
