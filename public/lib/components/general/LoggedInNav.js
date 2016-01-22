@@ -1,10 +1,17 @@
 import React from "react";
+import {Link, hashHistory} from "react-router";
 
 class LoggedInNav extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
   }
+
+  componentDidMount(){
+    console.log('nav mounted', hashHistory);
+
+  }
+
   render(){
     return(
       <nav className="navbar navbar-default">
@@ -22,7 +29,8 @@ class LoggedInNav extends React.Component{
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li className="active"><a href="#">This is the user nav<span className="sr-only">(current)</span></a></li>
+              <li className="active"><Link to="home">Home<span className="sr-only">(current)</span></Link></li>
+              <li><Link to="profile">Profile</Link></li>
             </ul>
           </div>
         </div>
