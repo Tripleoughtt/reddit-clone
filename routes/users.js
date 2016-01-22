@@ -12,14 +12,12 @@ const router = express.Router();
 
 // Get authorization for blocked routes
 router.get('/authorize', (req, res) => {
-  console.log(req.cookies.token)
   let unAuthed = "Error with authentication, please try again!";
-  if(!req.cookies.token){
-    return res.status(401).send(unAuthed)
-  }
+  if(!req.cookies.token) return res.status(401).send(unAuthed); 
+  
   User.authenticate(req.cookies.token, (err, isAuthenticated) => {
     return res.status(err ? 400 : 200).send(isAuthenticated || unAuthed);
-  })
+  });
 });
 
 // Get All Posts For User
@@ -37,6 +35,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// Get Comments For Single User
 router.get('/comments/:id', (req, res) => {
   Comment.find({ author: req.params.id }, (err, comments) => {
     res.send(err ? 400:200).send(err || comments);

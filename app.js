@@ -42,21 +42,19 @@ app.use('/comments', commentRoutes);
 //  graphiql: true
 // }));
 
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
-// catch 404 and forward to error handler
+// Catch 404 And Forward To Error Handler
 app.use((req, res, next) => {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
+// Development Error Handler
+// Will Print Stacktrace
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
@@ -67,8 +65,8 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+// Production Error Handler
+// No Stacktraces Leaked To User
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
@@ -77,7 +75,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Setup portto listen and print confirmation when connected
+// Setup Portto Listen And Print Confirmation When Connected
 app.listen(PORT, () => {
-  ;
+  console.log(`Listening On Port ${PORT}`);
 });
