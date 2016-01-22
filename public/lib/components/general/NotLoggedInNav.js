@@ -17,7 +17,7 @@ class NotLoggedInNav extends React.Component{
 
   loginUser(e){
     e.preventDefault();
-    console.log(this.state);
+    ;
     UserActions.loginUser(this.state);
   }
 

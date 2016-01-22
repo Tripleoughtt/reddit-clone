@@ -9,6 +9,9 @@ let API = {
   createNewPost(postInfo) {
     post('/posts', postInfo).done(data => ServerActions.receiveNewPost(data));
   },
+  getPostInfo(postId){
+    get(`/posts/${postId}`).done(data => ServerActions.receivePost(data));
+  },
 
   createNewUser(newUser) {
     post('/users/register', newUser).done(data => {
@@ -17,7 +20,7 @@ let API = {
   },
   loginUser(user) {
     post('/users/login', user).done(data => {
-      console.log('in api', data);
+      ;
       ServerActions.receiveNewUser(data)
     });
   }

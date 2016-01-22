@@ -10,7 +10,7 @@ class UserStore extends EventEmitter {
     AppDispatcher.register(action => {
       switch (action.actionType) {
         case 'RECEIVE_NEW_USER':
-          console.log('in user store, action.user', action.user)
+
           _user = action.user;
           this.emit('CHANGE');
           break;

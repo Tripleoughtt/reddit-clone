@@ -40,7 +40,7 @@ class NotLoggedInHome extends React.Component{
 
   _onChange() {
     this.setState(_getAppState());
-    console.log('in on change', this.state)
+    
     if (this.state.user){
       browserHistory.push('/home');
     }

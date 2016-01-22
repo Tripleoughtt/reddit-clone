@@ -14,7 +14,7 @@ class PostFeed extends React.Component{
 
 
   render(){
-    console.log('in post feed butthole', this.props.posts);
+    ;
     let posts = this.props.posts.map(post => {
       return <Post data={post} key={post._id} />
     })

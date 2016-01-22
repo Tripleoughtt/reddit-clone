@@ -20,7 +20,7 @@ class SignUpForm extends React.Component{
 
   submitNewUser(e){
     e.preventDefault();
-    console.log(this.state);
+    ;
     if (this.state.password1 === this.state.password2){
       UserActions.createNewUser(this.state);
     }

@@ -40,18 +40,18 @@ userSchema.statics.login = function(userInfo, cb) {
 
 userSchema.statics.hashNewPassword = (userInfo, cb) => {
   User.findById(userInfo.params.id, (err, user) => {
-    console.log('finding user', err, user);
+    ;
     if (err) return cb(err);
 
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
-      console.log('salt gen', salt);
+      ;
       if (err) return cb(err);
       bcrypt.hash(userInfo.body.password, salt, (err, userInputHashedPassword) => {
-        console.log('hash old pass', err, userInputHashedPassword);
+        ;
         if (err) return cb(err);
-        console.log(user);
+        ;
         if (user.password === userInputHashedPassword){
-          console.log('checking new pass', user.password, userInputHashedPassword);
+          ;
           bcrypt.hash(userInfo.body.newPassword, salt, (err, hashedPassword) => {
             return cb(err, hashedPassword);
           })
@@ -67,26 +67,26 @@ userSchema.statics.register = function(userInfo, cb) {
   let password = userInfo.password1;
   let username = userInfo.username;
 
-  console.log("at the start",userInfo)
+
   // create user model
-  console.log('HERE BITCHES', userInfo)
+
   User.findOne({username: username}, (err, user) => {
     if (err || user) return cb('error registering user');
-    console.log('after user.findOne', CONFIG)
+
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
-      console.log('in salt', salt, err)
+
       if (err) return cb(err);
       bcrypt.hash(password, salt, (err, hashedPassword) => {
-        console.log('in pass hash', hashedPassword)
+
         if (err) return cb(err);
         let newUser = new User({
           password: hashedPassword,
           username: username
         });
-        console.log('AT NEWUSER!!!', newUser)
+
         newUser.save((err, savedUser) => {
           savedUser.password = null;
-          console.log('savedUser: ', savedUser)
+
           return cb(err, savedUser.token(), savedUser);
         })
       });

@@ -13,8 +13,14 @@ let ServerActions = {
       post
     });
   },
+  receivePost(post) {
+    AppDispatcher.dispatch({
+      actionType: 'RECEIVE_POST',
+      post
+    });
+  },
   receiveNewUser(user) {
-    console.log('server actions', user);
+    ;
     AppDispatcher.dispatch({
       actionType: 'RECEIVE_NEW_USER',
       user

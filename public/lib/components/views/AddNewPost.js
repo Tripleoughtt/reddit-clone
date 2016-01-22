@@ -9,16 +9,18 @@ import PostStore from '../../stores/PostStore';
 class AddNewPost extends React.Component{
   constructor(props){
     super(props);
-    this.state = {  }
+    this.state = {  };
+    this._onChange = this._onChange.bind(this);
+
   }
 
   componentDidMount(){
     // UserActions.getUserInfo();
-    PostStore.startListening(this._onChange.bind(this));
+    PostStore.startListening(this._onChange);
   }
 
   componentWillUnmount(){
-    PostStore.stopListening(this._onChange.bind(this));
+    PostStore.stopListening(this._onChange);
   }
 
   _onChange() {
@@ -38,7 +40,6 @@ class AddNewPost extends React.Component{
   }
 
   submitNewPost(){
-    console.log(this.state);
     PostActions.createNewPost(this.state);
 
   }
@@ -46,7 +47,7 @@ class AddNewPost extends React.Component{
   render(){
     return(
       <div className="addPostComponent">
-        <NavBarUser />
+        <LoggedInNav />
         <div className="container-fluid text-center">
           <div className="row addPostTitle">
             <div className="col-xs-12 col-sm-offset-2 col-sm-8 border">

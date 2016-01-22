@@ -36,10 +36,10 @@ class LoggedInHome extends React.Component{
     PostStore.stopListening(this._onChange);
 
     UserStore.stopListening(this._onChange);
+    console.log('home unmounting');
   }
 
   _onChange() {
-    console.log('5', this.state);
     this.setState(_getAppState());
 
       // if (this.state.user){

@@ -3,6 +3,7 @@ import AppDispatcher from '../AppDispatcher';
 
 let _posts = [];
 let _newPost;
+let _post;
 
 class PostStore extends EventEmitter {
   constructor(props){
@@ -11,7 +12,7 @@ class PostStore extends EventEmitter {
     AppDispatcher.register(action => {
       switch (action.actionType) {
         case 'RECEIVE_POSTS':
-          console.log('4 - store received posts, action:', action);
+          ;
           _posts = action.posts;
           this.emit('CHANGE');
           break;
@@ -20,17 +21,25 @@ class PostStore extends EventEmitter {
           _newPost = action.post;
           this.emit('CHANGE');
           break;
+        case 'RECEIVE_POST':
+          _post = action.post;
+          this.emit('CHANGE');
+          break;
       }
     });
   }
 
   getAllPosts() {
-    console.log('in getAllPosts', _posts)
+
     return _posts;
   }
 
   getNewPost() {
     return _newPost;
+  }
+
+  getPost() {
+    return _post;
   }
 
   startListening(cb){
