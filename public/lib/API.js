@@ -23,6 +23,11 @@ let API = {
       ;
       ServerActions.receiveNewUser(data)
     });
+  },
+  createNewCommentOnPost(commentData){
+    console.log('in createNewCommentOnPost', commentData)
+    post(`/posts/${commentData.postId}/newcomment`).done(data => {
+    });
   }
 }
 

@@ -7,6 +7,8 @@ import Comment from '../general/Comment';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
+import AddCommentOnPost from '../general/AddCommentOnPost'
+
 let _getComponentState = () => {
   return {
     post: PostStore.getPost()
@@ -71,6 +73,9 @@ class ViewPost extends React.Component{
                 {this.state.post.tags}
               </p>
             </div>
+          </div>
+          <div className="row">
+            <AddCommentOnPost id={this.state.post._id} />
           </div>
         </div>
 
