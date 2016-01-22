@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, browserHistory} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 
 import NotLoggedInNav from "../general/NotLoggedInNav";
 import SignUpForm from "../general/SignUpForm";
@@ -42,7 +42,7 @@ class NotLoggedInHome extends React.Component{
     this.setState(_getAppState());
     
     if (this.state.user){
-      browserHistory.push('/home');
+      hashHistory.push('/home');
     }
   }
   render(){

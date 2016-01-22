@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, browserHistory} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 
 import LoggedInNav from '../general/LoggedInNav';
 
@@ -25,7 +25,7 @@ class AddNewPost extends React.Component{
 
   _onChange() {
     if (PostStore.getNewPost()){
-      browserHistory.push('/home');
+      hashHistory.push('/home');
     }
   }
 
