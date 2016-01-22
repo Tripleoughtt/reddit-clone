@@ -20,7 +20,12 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Post.findById(req.params.id, (err, post) => {
     if(err) return res.status(400).send(err);
-    post.deepPopulate(`comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
+    var authorString = ['comments.author comments.comments.author comments.comments.comments.author']
+    for (var i=0; i< post.totalComments; i++){
+      authorString.push(`comments.${'comments'.repeat(i)}.author`);
+    }
+    post.populate('author').deepPopulate(`comments.author ${authorString.join(' ')} comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
+      console.log('inside post get', post);
       res.status(err ? 400:200).send(err || post);
     });
   });

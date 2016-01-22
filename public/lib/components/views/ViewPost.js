@@ -2,6 +2,7 @@ import React from "react";
 import {Link, browserHistory} from 'react-router';
 
 import LoggedInNav from '../general/LoggedInNav';
+import Comment from '../general/Comment';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
@@ -39,6 +40,12 @@ class ViewPost extends React.Component{
         <div></div>
       )
     }
+    let comments;
+    if (this.state.post.comments){
+      comments = this.state.post.comments.map(comment => {
+        return <Comment data={comment} key={comment._id} />
+      })
+    }
     return(
       <div className="addPostComponent">
         <LoggedInNav />
@@ -65,7 +72,9 @@ class ViewPost extends React.Component{
             </div>
           </div>
 
-
+          <div>
+            {comments}
+          </div>
 
         </div>
 
