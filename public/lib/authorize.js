@@ -1,18 +1,35 @@
 import {get} from 'jquery';
 import {hashHistory} from 'react-router';
 
+// async function authorize(){
+//   return (await function() {
+//     return get('/users/authorize').then((res) => {
+//       if (res === "Error with authentication, please try again!"){
+//         return false
+//       }
+//       return true
+//     }, (err) => {
+//       console.log(err)
+//       return false
+//
+//     })
+//   })()
+//
+// }
 
-const authorize = () => {
-  get('/users/authorize').then((res) => {
-    if (res === "Error with authentication, please try again!"){
+function authorize(){
+  var promise = new Promise(function(resolve, reject){
+    get('/users/authorize').then((res) => {
+      if (res === "Error with authentication, please try again!"){
+        return false
+      }
+      return true
+    }, (err) => {
+      console.log(err)
       return false
-    }
-    return true
-  }, (err) => {
-    console.log(err)
-    return false
-
+    })
   })
+
 }
 
 export default authorize;

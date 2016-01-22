@@ -1,8 +1,9 @@
 import React from "react";
-import {Link} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 
 import LoggedInNav from "../general/LoggedInNav";
 
+import {get} from 'jquery';
 
 class UserProfile extends React.Component{
   constructor(props){
@@ -10,6 +11,20 @@ class UserProfile extends React.Component{
     this.state = {
       editing: false
     };
+  }
+
+  componentWillMount(){
+    (function authorize(){
+      get('/users/authorize').then((res) => {
+        if (res === "Error with authentication, please try again!"){
+          hashHistory.push('/');
+        }
+        return true
+      }, (err) => {
+        console.log(err)
+        hashHistory.push('/');
+      })
+    })()
   }
 
   uploadFile(e){

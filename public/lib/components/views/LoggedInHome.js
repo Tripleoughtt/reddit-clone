@@ -10,7 +10,8 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
-import authorize from '../../authorize';
+// import authorize from '../../authorize';
+import {get} from 'jquery';
 
 let _getAppState = () => {
   return {
@@ -27,13 +28,27 @@ class LoggedInHome extends React.Component{
   }
 
   componentWillMount(){
-    console.log('before mount!',authorize)
-    if (!authorize()){
-      hashHistory.push('/');
-    }
+    // console.log('before mount!',authorize())
+    // if (!authorize()){
+    //   hashHistory.push('/');
+    // }
+
+    (function authorize(){
+      get('/users/authorize').then((res) => {
+        if (res === "Error with authentication, please try again!"){
+          hashHistory.push('/');
+        }
+        return true
+      }, (err) => {
+        console.log(err)
+        hashHistory.push('/');
+      })
+    })()
+
   }
 
   componentDidMount(){
+
 
     PostActions.getAllPosts();
     PostStore.startListening(this._onChange);
@@ -51,9 +66,6 @@ class LoggedInHome extends React.Component{
   _onChange() {
     this.setState(_getAppState());
 
-      // if (this.state.user){
-      //   browserHistory.push('/home');
-      // }
   }
 
   render(){

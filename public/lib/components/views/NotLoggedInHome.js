@@ -11,6 +11,8 @@ import UserActions from '../../actions/UserActions';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
+import {get} from 'jquery';
+
 let _getAppState = () => {
   return {
     posts: PostStore.getAllPosts(),
@@ -23,6 +25,20 @@ class NotLoggedInHome extends React.Component{
     super(props);
     this.state = _getAppState();
     this._onChange = this._onChange.bind(this);
+  }
+
+  componentWillMount(){
+    (function authorize(){
+      get('/users/authorize').then((res) => {
+        if (res === "Error with authentication, please try again!"){
+          hashHistory.push('/');
+        }
+        hashHistory.push('home');
+      }, (err) => {
+        console.log(err)
+        hashHistory.push('/');
+      })
+    })()
   }
 
   componentDidMount(){
@@ -40,7 +56,7 @@ class NotLoggedInHome extends React.Component{
 
   _onChange() {
     this.setState(_getAppState());
-    
+
     if (this.state.user){
       hashHistory.push('/home');
     }
