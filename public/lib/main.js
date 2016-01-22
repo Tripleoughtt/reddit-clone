@@ -8,12 +8,14 @@ import LoggedInHome from "./components/views/LoggedInHome";
 import AddNewPost from './components/views/AddNewPost';
 import ViewPost from './components/views/ViewPost';
 import PostWrapper from './components/views/PostWrapper';
+import UserProfile from './components/views/UserProfile';
 
 ReactDOM.render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={AppController} >
       <IndexRoute component={NotLoggedInHome} />
       <Route path="home" component={LoggedInHome} />
+      <Route path="profile" component={UserProfile} />
       <Route path="addpost" component={AddNewPost} />
       <Route path="post" component={PostWrapper}>
         <Route path=":postId" component={ViewPost} />

@@ -48,11 +48,13 @@ class LoggedInHome extends React.Component{
   }
 
   render(){
+
     return(
       <div className="UserHomeComponent">
         <LoggedInNav />
         <PostFeed posts={this.state.posts} />
         <Link to="addpost" className="btn btn-primary btn-lg">Add A New Post</Link>
+        <Link to="profile" className="btn btn-primary btn-lg" >Profile</Link>
       </div>
     )
   }
