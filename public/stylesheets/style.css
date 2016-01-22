@@ -42,3 +42,12 @@ label {
 .viewPostBody p {
   padding: 10% 0;
 }
+
+.profileImageWrapper {
+  height: 50vh;
+}
+.profileImage {
+  height: 100%;
+  width: 90%;
+  position: absolute;
+}
