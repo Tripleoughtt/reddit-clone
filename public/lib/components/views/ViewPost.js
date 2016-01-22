@@ -71,7 +71,6 @@ class ViewPost extends React.Component{
               </p>
             </div>
           </div>
-
           <div>
             {comments}
           </div>
