@@ -71,8 +71,10 @@ class ViewPost extends React.Component{
               </p>
             </div>
           </div>
-          <div>
-            {comments}
+          <div className="row commentsArea">
+            <div className="col-xs-12 col-sm-offset-2 col-sm-10">
+              {comments}
+            </div>
           </div>
 
         </div>
