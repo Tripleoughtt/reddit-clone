@@ -7,7 +7,28 @@ import LoggedInNav from "../general/LoggedInNav";
 class UserProfile extends React.Component{
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      editing: false
+    };
+  }
+
+  uploadFile(e){
+    console.log('file', e.target.files);
+    var file = e.target.files[0];
+
+    if (file) {
+        var reader = new FileReader();
+        console.log('inside', reader);
+        reader.onload = function(readerEvt) {
+            var binaryString = readerEvt.target.result;
+            // send image to db
+
+
+            // update image after success
+            $('.img').attr('src', `data:image/jpeg;base64,${btoa(binaryString)}`);
+        };
+        reader.readAsBinaryString(file);
+    }
   }
 
   editDisplayName(e){
@@ -15,6 +36,10 @@ class UserProfile extends React.Component{
       var $currentName = $(e.target).closest('tr').find('td:nth-child(2)');
       var $editIcon = $(e.target).closest('tr').find('td:nth-child(3)');
       var currentNameText = $currentName.find('input').val();
+      // send new display name info to db
+
+
+      // update after success
       $currentName.empty();
       $editIcon.empty();
       $currentName.text(currentNameText);
@@ -85,7 +110,9 @@ class UserProfile extends React.Component{
         <div className="container-fluid">
           <div className="row">
             <div className="col-xs-12 col-sm-6 text-center">
-              <img className="img img-responsive" src="https://placehold.it/350x350" />
+              <div className="profileImageWrapper">
+                <img className="img img-responsive profileImage" src="https://placehold.it/350x350" />
+              </div>
             </div>
             <div className="col-xs-12 col-sm-6">
               <table className="table">
@@ -101,6 +128,10 @@ class UserProfile extends React.Component{
                   </tr>
                 </tbody>
               </table>
+              <form>
+                <label htmlFor="profileImage">Change Profile Picture</label>
+                <input type="file" name="profileImage" accept=".png, .gif, .jpg" placeholder="Upload A New Profile Image" onChange={this.uploadFile.bind(this)} />
+              </form>
             </div>
           </div>
           <div className="row">

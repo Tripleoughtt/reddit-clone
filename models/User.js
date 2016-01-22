@@ -8,9 +8,13 @@ let Schema = mongoose.Schema;
 let User;
 
 let userSchema = mongoose.Schema({
+  username: {type: String, required:true, unique: true},
+  password: {type: String, required: true},
   email: {type: String},
-  password: {type: String},
-  username: {type: String, unique: true}
+  name: {type: String},
+  phone: {type: String},
+  address: {type: String},
+  profilePic: {type: String},
 });
 
 userSchema.methods.token = function() {
