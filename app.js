@@ -43,15 +43,7 @@ app.use('/comments', commentRoutes);
 // }));
 
 app.get('*', function (request, response){
-  console.log('inside get', __dirname)
-
-  response.redirect('/');
-
-  // Router.run(routes, req.path, function (Handler, state) {
-  //   var element = React.createElement(Handler);
-  //   var html = React.renderToString(element);
-  //   res.render('main', { content: html });
-  // });
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 })
 
 // catch 404 and forward to error handler
