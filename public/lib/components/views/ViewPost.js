@@ -47,36 +47,39 @@ class ViewPost extends React.Component{
       })
     }
     return(
-      <div className="addPostComponent">
+      <div className="viewPostComponent">
         <LoggedInNav />
-        <div className="container-fluid text-center">
-          <div className="row addPostTitle">
-            <div className="col-xs-12 col-sm-offset-2 col-sm-8 border">
+
+        <div className="container-fluid text-left postArea">
+          <div className="row">
+            <div className="col-xs-12 col-sm-offset-1 col-sm-11 viewPostTitle">
               <h1>
                 {this.state.post.title}
               </h1>
             </div>
           </div>
-          <div className="row addPostBody">
-            <div className="col-xs-12  col-sm-offset-2 col-sm-8 border">
+          <div className="row">
+            <div className="col-xs-12 col-sm-offset-1 col-sm-11 viewPostBody">
               <p>
                 {this.state.post.body}
               </p>
             </div>
           </div>
-          <div className="row addPostTags">
-            <div className="col-xs-12 col-sm-offset-2 col-sm-8 border">
+          <div className="row viewTags">
+            <div className="col-xs-12 col-sm-offset-1 col-sm-11 border">
               <p>
                 {this.state.post.tags}
               </p>
             </div>
           </div>
-          <div className="row commentsArea">
+        </div>
+
+        <div className="container-fluid commentsArea">
+          <div className="row">
             <div className="col-xs-12 col-sm-offset-2 col-sm-10">
               {comments}
             </div>
           </div>
-
         </div>
 
       </div>

@@ -31,19 +31,14 @@ label {
   box-shadow: 0 0 3px #286090;
 }
 
-.commentComponent {
-  text-align: left;
-
-}
-
-.subcomments {
-
-}
-
 .hide {
   display: none;
 }
 
-.show {
-  display: block
+.postArea {
+  border: 1px solid black;
+}
+
+.viewPostBody p {
+  padding: 10% 0;
 }
