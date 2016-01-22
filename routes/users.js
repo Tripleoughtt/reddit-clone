@@ -10,6 +10,18 @@ import { authenticate, passChange } from '../util/authMiddleware';
 
 const router = express.Router();
 
+// Get authorization for blocked routes
+router.get('/authorize', (req, res) => {
+  console.log(req.cookies.token)
+  let unAuthed = "Error with authentication, please try again!";
+  if(!req.cookies.token){
+    res.status(401).send(unAuthed)
+  }
+  User.authenticate(req.cookies.token, (err, isAuthenticated) => {
+    return res.status(err ? 400 : 200).send(isAuthenticated || unAuthed);
+  })
+});
+
 // Get All Posts For User
 router.get('/:id/posts', (req, res) => {
   Post.find({ author: req.params.id }, (err, posts) => {

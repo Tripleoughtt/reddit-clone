@@ -6,12 +6,21 @@ import LoggedInNav from '../general/LoggedInNav';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
+import authorize from '../../authorize';
+
 class AddNewPost extends React.Component{
   constructor(props){
     super(props);
     this.state = {  };
     this._onChange = this._onChange.bind(this);
 
+  }
+
+  componentWillMount(){
+    console.log('before mount!',authorize)
+    if (!authorize()){
+      hashHistory.push('/');
+    }
   }
 
   componentDidMount(){

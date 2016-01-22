@@ -253,7 +253,7 @@ System.register("lib/components/general/NotLoggedInNav.js", ["npm:babel-runtime@
   };
 });
 System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.3", "npm:react-router@2.0.0-rc5", "lib/components/general/NotLoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js"], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, NotLoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, _getAppState, NotLoggedInHome;
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, NotLoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, _getAppState, NotLoggedInHome;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -268,7 +268,7 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
       React = _npmReact0143["default"];
     }, function (_npmReactRouter200Rc5) {
       Link = _npmReactRouter200Rc5.Link;
-      browserHistory = _npmReactRouter200Rc5.browserHistory;
+      hashHistory = _npmReactRouter200Rc5.hashHistory;
     }, function (_libComponentsGeneralNotLoggedInNavJs) {
       NotLoggedInNav = _libComponentsGeneralNotLoggedInNavJs["default"];
     }, function (_libComponentsGeneralSignUpFormJs) {
@@ -326,7 +326,7 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
             this.setState(_getAppState());
 
             if (this.state.user) {
-              browserHistory.push('/home');
+              hashHistory.push('/home');
             }
           }
         }, {
@@ -777,7 +777,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
   };
 });
 System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.3', 'npm:react-router@2.0.0-rc5', 'lib/components/general/LoggedInNav.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, LoggedInNav, PostActions, PostStore, AddNewPost;
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, PostActions, PostStore, AddNewPost;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -792,7 +792,7 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
       React = _npmReact0143['default'];
     }, function (_npmReactRouter200Rc5) {
       Link = _npmReactRouter200Rc5.Link;
-      browserHistory = _npmReactRouter200Rc5.browserHistory;
+      hashHistory = _npmReactRouter200Rc5.hashHistory;
     }, function (_libComponentsGeneralLoggedInNavJs) {
       LoggedInNav = _libComponentsGeneralLoggedInNavJs['default'];
     }, function (_libActionsPostActionsJs) {
@@ -829,7 +829,7 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
           key: '_onChange',
           value: function _onChange() {
             if (PostStore.getNewPost()) {
-              browserHistory.push('/home');
+              hashHistory.push('/home');
             }
           }
         }, {

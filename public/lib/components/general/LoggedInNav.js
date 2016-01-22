@@ -1,10 +1,17 @@
 import React from "react";
 
+import authorize from '../../authorize';
+
 class LoggedInNav extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
   }
+
+  //componentDidMount(){
+  //  authorize();
+  //}
+
   render(){
     return(
       <nav className="navbar navbar-default">

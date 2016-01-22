@@ -13,6 +13,16 @@ let userSchema = mongoose.Schema({
   username: {type: String, unique: true}
 });
 
+userSchema.statics.authenticate = (token, cb) => {
+  console.log('in user models', token)
+  var userInfo = jwt.decode(token, process.env.JWT_SECRET);
+  console.log(userInfo)
+  User.findById(userInfo.id, (err, foundUser) => {
+    if (err || !foundUser) return cb(null, false);
+    return cb(null, true)
+  })
+}
+
 userSchema.methods.token = function() {
   let payload = {
     id: this._id,

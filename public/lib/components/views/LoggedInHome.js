@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, browserHistory} from 'react-router';
+import {Link, hashHistory} from 'react-router';
 
 import LoggedInNav from "../general/LoggedInNav";
 import SignUpForm from "../general/SignUpForm";
@@ -10,6 +10,7 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
+import authorize from '../../authorize';
 
 let _getAppState = () => {
   return {
@@ -25,7 +26,15 @@ class LoggedInHome extends React.Component{
     this._onChange = this._onChange.bind(this);
   }
 
+  componentWillMount(){
+    console.log('before mount!',authorize)
+    if (!authorize()){
+      hashHistory.push('/');
+    }
+  }
+
   componentDidMount(){
+
     PostActions.getAllPosts();
     PostStore.startListening(this._onChange);
 
