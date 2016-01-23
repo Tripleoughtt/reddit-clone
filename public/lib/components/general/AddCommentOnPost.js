@@ -8,7 +8,7 @@ class AddCommentOnPost extends React.Component{
     super(props);
     this.state = {  }
   }
-  
+
   toggleCommentInput(){
     $(this.refs.hiddenInput).toggleClass('hideInput');
   }
@@ -23,7 +23,7 @@ class AddCommentOnPost extends React.Component{
   render(){
     return(
       <div className="addCommentComponent">
-        <button onClick={this.toggleCommentInput.bind(this)} >Add Comment!</button>
+        <button className="btn btn-primary" onClick={this.toggleCommentInput.bind(this)}>Add A Comment</button>
         <div ref="hiddenInput" className="hideInput">
           <textarea className="commentText" ref="commentText"  name="" rows="5"></textarea>
           <button className="submit" onClick={this.addComment.bind(this)} >Submit Comment!</button>

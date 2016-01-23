@@ -82,7 +82,7 @@ class ViewPost extends React.Component{
 
         <div className="container-fluid commentsArea">
           <div className="row">
-            <div className="col-xs-12 col-sm-offset-2 col-sm-10">
+            <div className="col-xs-12">
               {comments}
             </div>
           </div>

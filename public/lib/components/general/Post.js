@@ -9,11 +9,10 @@ class Post extends React.Component{
   render(){
     let params = 'post/' + this.props.data._id
     let snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
-    console.log(snippets);
     return(
       <div className="postComponent">
         <h1><Link to={params}>{this.props.data.title}</Link></h1>
-        <p>{snippets}...</p>
+        <p>{snippets}<Link to={params}>...</Link></p>
       </div>
     )
   }

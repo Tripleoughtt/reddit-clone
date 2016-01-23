@@ -19,15 +19,16 @@ class CommentOnComment extends React.Component{
         return <CommentOnComment postId={postId} data={comment} key={comment._id} />
       });
     }
-    console.log('COMMENTS BEFORE RENDER!!!',comments)
+
     return(
       <div className="col-xs-12 commentComponent">
-        <p>{this.props.data.body}</p>
-        <h5>- {this.props.data.author.username}</h5>
-        <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
-        <div className="row">
-          <div className="col-xs-offset-1 col-xs-11 subcomments">
-            {comments}
+        <div className="well well-sm">
+          <p>{this.props.data.body} - <em>{this.props.data.author.username}</em></p>
+          <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
+          <div className="row">
+            <div className="col-xs-offset-1 col-xs-11 subcomments">
+              {comments}
+            </div>
           </div>
         </div>
       </div>

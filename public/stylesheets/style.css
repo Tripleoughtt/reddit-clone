@@ -209,3 +209,9 @@ hr {
   width: 90%;
   position: absolute;
 }
+
+/* Comment */
+.commentComponent {
+  /*border-left: 2px dashed blue;
+  border-top: 2px dashed blue;*/
+}
