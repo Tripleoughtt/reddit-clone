@@ -8,7 +8,7 @@ import CONFIG from './authConfig';
 // Import User To Interact With Mongo
 import User from '../models/User';
 
-let tokenParts = function(token) {
+let tokenParts = function(token, res) {
   try {
     return jwt.decode(token, process.env.JWT_SECRET);
   } catch(err) {

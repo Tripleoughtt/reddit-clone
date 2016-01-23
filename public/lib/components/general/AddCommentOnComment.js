@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import $ from 'jquery';
 import CommentActions from '../../actions/CommentActions';
 
-class AddCommentOnPost extends React.Component{
+class AddCommentOnComment extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
@@ -15,8 +15,8 @@ class AddCommentOnPost extends React.Component{
 
   addComment(){
     let commentText = this.refs.commentText.value;
-    var data = {postId: this.props.id, body: commentText};
-    CommentActions.createNewCommentOnPost(data)
+    let data = {postId: this.props.postId, commentId: this.props.commentId, body: commentText};
+    CommentActions.createNewCommentOnComment(data);
   }
 
   render(){
@@ -32,4 +32,4 @@ class AddCommentOnPost extends React.Component{
   }
 }
 
-export default AddCommentOnPost
+export default AddCommentOnComment

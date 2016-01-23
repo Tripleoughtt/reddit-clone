@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from 'react-router';
 import $ from 'jquery';
 import CommentOnComment from './CommentOnComment';
+import AddCommentOnComment from './AddCommentOnComment';
 
 class Comment extends React.Component{
   constructor(props){
@@ -9,17 +10,14 @@ class Comment extends React.Component{
     this.state = {  }
   }
 
-  toggleComments(e){
-    $(e.target).closest('.row').find('.subcomments').toggleClass('hide');
-  }
 
   render(){
     let comments;
     let commentId = this.props.data._id
     if (this.props.data.comments){
+      let postId = this.props.postId;
       comments = this.props.data.comments.map(comment => {
-        console.log('inside comment map loop', comment)
-        return <CommentOnComment data={comment} key={comment._id} />
+        return <CommentOnComment postId={postId} data={comment} key={comment._id} />
       });
     }
     return(
@@ -27,10 +25,8 @@ class Comment extends React.Component{
         <p>{this.props.data.body}</p>
         <h5>- {this.props.data.author.username}</h5>
         <div className="row">
-          <div onClick={this.toggleComments.bind(this)} className="pull-right">
-            <p>Show comments <span className="caret"></span></p>
-          </div>
-          <div className="col-xs-offset-1 col-xs-11 subcomments hide">
+        <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
+          <div className="col-xs-offset-1 col-xs-11 subcomments">
             {comments}
           </div>
         </div>

@@ -4,8 +4,9 @@ import express from 'express';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
 
+
 // Import Middleware For Authentication --> Uncomment When Needed
-// import { authenticate, passChange } from '../util/authMiddleware';
+import { authenticate, passChange } from '../util/authMiddleware';
 
 const router = express.Router();
 
@@ -40,16 +41,24 @@ router.post('/', (req, res) => {
 });
 
 // Create Comment and Add Comment To Post
-router.post('/:id/newcomment', (req, res) => {
-  Comment.create(req.body, (err, comment) => {
+router.post('/:id/newcomment', authenticate, (req, res) => {
+  let comment = new Comment (req.body);
+  comment.author = req.decodedToken.id;
+  comment.save((err, savedComment) => {
     if(err) return res.status(400).send(err);
     Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment }}, (err) => {
       if(err) return res.status(400).send(err);
       Post.findById(req.params.id, (err, post) => {
-        res.status(err ? 400:200).send(err || post);
+        var authorString = []
+        for(var i = 0; i < post.totalComments; i++){
+          authorString.push(`comments${'.comments'.repeat(i)}.author`);
+        }
+        post.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
+          return res.status(err ? 400:200).send(err || post);
+        });
       });
     });
-  });
+  })
 });
 
 // Update An Indivual Post

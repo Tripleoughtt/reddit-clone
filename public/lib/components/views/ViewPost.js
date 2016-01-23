@@ -33,6 +33,7 @@ class ViewPost extends React.Component{
 
   _onChange() {
     this.setState(_getComponentState());
+    console.log(this.state)
   }
 
 
@@ -44,8 +45,9 @@ class ViewPost extends React.Component{
     }
     let comments;
     if (this.state.post.comments){
+      let postId = this.state.post._id;
       comments = this.state.post.comments.map(comment => {
-        return <Comment data={comment} key={comment._id} />
+        return <Comment  postId={postId} data={comment} key={comment._id} />
       })
     }
     return(

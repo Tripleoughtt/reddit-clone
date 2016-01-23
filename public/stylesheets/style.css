@@ -7,6 +7,10 @@ label {
   height: 10vh;
 }
 
+.hideInput {
+  display: none;
+}
+
 .addPostBody {
   height: 30vh;
 
@@ -31,7 +35,7 @@ label {
   box-shadow: 0 0 3px #286090;
 }
 
-.hide {
+.hideComment {
   display: none;
 }
 

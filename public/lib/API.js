@@ -20,14 +20,19 @@ let API = {
   },
   loginUser(user) {
     post('/users/login', user).done(data => {
-      ;
       ServerActions.receiveNewUser(data)
     });
   },
   createNewCommentOnPost(commentData){
-    console.log('in createNewCommentOnPost', commentData)
-    post(`/posts/${commentData.postId}/newcomment`).done(data => {
+    post(`/posts/${commentData.postId}/newcomment`, {body: commentData.body}).done(data => {
+      ServerActions.receivePost(data);
     });
+  },
+  createNewCommentOnComment(commentData){
+    let data = {postId: commentData.postId, body: commentData.body};
+    post(`/comments/${commentData.commentId}/newcomment`, data).done(data => {
+      ServerActions.receivePost(data);
+    })
   }
 }
 
