@@ -16,6 +16,7 @@ class AddCommentOnPost extends React.Component{
   addComment(){
     let commentText = this.refs.commentText.value;
     var data = {postId: this.props.id, body: commentText};
+    this.toggleCommentInput();
     CommentActions.createNewCommentOnPost(data)
   }
 
