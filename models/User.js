@@ -8,23 +8,21 @@ let Schema = mongoose.Schema;
 let User;
 
 let userSchema = mongoose.Schema({
-  username: {type: String, required:true, unique: true},
-  password: {type: String, required: true},
-  email: {type: String},
-  name: {type: String},
-  phone: {type: String},
-  address: {type: String},
-  profilePic: {type: String},
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  email: { type: String },
+  name: { type: String },
+  phone: { type: String },
+  address: { type: String },
+  profilePic: { type: String },
 });
 
 userSchema.statics.authenticate = (token, cb) => {
-  console.log('in user models', token)
-  var userInfo = jwt.decode(token, process.env.JWT_SECRET);
-  console.log(userInfo)
+  let userInfo = jwt.decode(token, process.env.JWT_SECRET);
   User.findById(userInfo.id, (err, foundUser) => {
-    if (err || !foundUser) return cb(null, false);
-    return cb(null, true)
-  })
+    if(err || !foundUser) return cb(null, false);
+    return cb(null, true);
+  });
 }
 
 userSchema.methods.token = function() {
@@ -53,22 +51,17 @@ userSchema.statics.login = function(userInfo, cb) {
 }
 
 userSchema.statics.hashNewPassword = (userInfo, cb) => {
+  // Update User Password
   User.findById(userInfo.params.id, (err, user) => {
-    ;
-    if (err) return cb(err);
-
+    if(err) return cb(err);
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
-      ;
-      if (err) return cb(err);
+      if(err) return cb(err);
       bcrypt.hash(userInfo.body.password, salt, (err, userInputHashedPassword) => {
-        ;
-        if (err) return cb(err);
-        ;
-        if (user.password === userInputHashedPassword){
-          ;
+        if(err) return cb(err);
+        if(user.password === userInputHashedPassword) {
           bcrypt.hash(userInfo.body.newPassword, salt, (err, hashedPassword) => {
             return cb(err, hashedPassword);
-          })
+          });
         } else {
           return cb(err, user.password);
         }
@@ -81,33 +74,22 @@ userSchema.statics.register = function(userInfo, cb) {
   let password = userInfo.password1;
   let username = userInfo.username;
 
-
-  // create user model
-
+  // Create A User Model
   User.findOne({username: username}, (err, user) => {
     if (err || user) return cb('error registering user');
-
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
-
       if (err) return cb(err);
       bcrypt.hash(password, salt, (err, hashedPassword) => {
-
         if (err) return cb(err);
-        let newUser = new User({
-          password: hashedPassword,
-          username: username
-        });
-
+        let newUser = new User({ password: hashedPassword, username: username });
         newUser.save((err, savedUser) => {
           savedUser.password = null;
-
           return cb(err, savedUser.token(), savedUser);
-        })
+        });
       });
     });
   });
 };
-
 
 User = mongoose.model('User', userSchema);
 export default User;

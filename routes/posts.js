@@ -22,12 +22,11 @@ router.get('/:id', (req, res) => {
     if(err) return res.status(400).send(err);
 
     var authorString = []
-    for (var i=0; i< post.totalComments; i++){
+    for(var i = 0; i < post.totalComments; i++){
       authorString.push(`comments${'.comments'.repeat(i)}.author`);
     }
 
     post.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
-      console.log('inside post get', post);
       res.status(err ? 400:200).send(err || post);
     });
   });
@@ -63,6 +62,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
+// Delete A Single User
 router.delete('/:id', (req, res) => {
   Post.findByIdAndRemove(req.params.id, (err) => {
     res.status(err ? 400:200).send(err || 'Post Deleted');

@@ -8,7 +8,7 @@ import { authenticate, passChange } from '../util/authMiddleware';
 
 const router = express.Router();
 
-// Create Comment And To A Another Comment
+// Create Comment And Add To A Another Comment
 router.post('/:id/newcomment', (req, res) => {
   Comment.create(req.body, (err, newComment) => {
     if(err) return res.status(400).send(err);
