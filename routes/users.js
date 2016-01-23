@@ -13,25 +13,35 @@ const router = express.Router();
 // Get authorization for blocked routes
 router.get('/authorize', (req, res) => {
   let unAuthed = "Error with authentication, please try again!";
-  if(!req.cookies.token) return res.status(401).send(unAuthed); 
-  
+  if(!req.cookies.token) return res.status(401).send(unAuthed);
+
   User.authenticate(req.cookies.token, (err, isAuthenticated) => {
     return res.status(err ? 400 : 200).send(isAuthenticated || unAuthed);
   });
 });
 
 // Get All Posts For User
-router.get('/:id/posts', (req, res) => {
-  Post.find({ author: req.params.id }, (err, posts) => {
+router.get('/myposts', authenticate, (req, res) => {
+  Post.find({ author: req.decodedToken.id }, (err, posts) => {
     res.status(err ? 400:200).send(err || posts);
   }).populate('comments');
 });
 
 // Get Single User
-router.get('/:id', (req, res) => {
-  User.findById(req.params.id, (err, user) => {
+// router.get('/:id', (req, res) => {
+//   User.findById(req.params.id, (err, user) => {
+//     user.password = null;
+//     res.status(err ? 400:200).send(err || user);
+//   });
+// });
+
+// Get Logged In User
+router.get('/myinfo', authenticate, (req, res) => {
+  console.log('req.decodedToken', req.decodedToken);
+  User.findById(req.decodedToken.id, (err, user) => {
+    if (err) return res.status(400).send(err);
     user.password = null;
-    res.status(err ? 400:200).send(err || user);
+    res.status(200).send(user);
   });
 });
 
@@ -58,11 +68,21 @@ router.post('/register', (req, res) => {
   });
 });
 
+// // Edit User Info
+// router.put('/edit/:id', passChange, (req, res) => {
+//   User.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, user) => {
+//     if(err) return res.status(400).send('error', err);
+//     User.findById(req.params.id, (err, updatedUser) => {
+//       res.status(err ? 400:200).send(err || updatedUser);
+//     });
+//   });
+// });
+
 // Edit User Info
-router.put('/edit/:id', passChange, (req, res) => {
-  User.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, user) => {
+router.post('/edit', authenticate, (req, res) => {
+  User.findByIdAndUpdate(req.decodedToken.id, { $set: req.body }, (err, user) => {
     if(err) return res.status(400).send('error', err);
-    User.findById(req.params.id, (err, updatedUser) => {
+    User.findById(req.decodedToken.id, (err, updatedUser) => {
       res.status(err ? 400:200).send(err || updatedUser);
     });
   });

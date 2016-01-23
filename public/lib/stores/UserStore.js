@@ -2,6 +2,8 @@ import {EventEmitter} from 'events';
 import AppDispatcher from '../AppDispatcher';
 
 let _user;
+let _myInfo;
+let _myPosts;
 
 class UserStore extends EventEmitter {
   constructor(props){
@@ -14,12 +16,28 @@ class UserStore extends EventEmitter {
           _user = action.user;
           this.emit('CHANGE');
           break;
+        case 'RECEIVE_USER_INFO':
+          _myInfo = action.user;
+          this.emit('CHANGE');
+          break;
+        case 'RECEIVE_USER_POSTS':
+          _myPosts = action.posts;
+          this.emit('CHANGE');
+          break;
       }
     });
   }
 
   getUserInfo() {
     return _user;
+  }
+
+  getUserPosts() {
+    return _myPosts;
+  }
+
+  getUserProfile() {
+    return _myInfo;
   }
 
   startListening(cb){

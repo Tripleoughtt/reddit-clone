@@ -3,14 +3,21 @@ import {Link, hashHistory} from 'react-router';
 
 import LoggedInNav from "../general/LoggedInNav";
 
+import UserStore from '../../stores/UserStore';
+import UserActions from '../../actions/UserActions';
+
 import {get} from 'jquery';
+
 
 class UserProfile extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      editing: false
+      editing: false,
+      user: UserStore.getUserProfile(),
+      posts: UserStore.getUserPosts()
     };
+    this._onChange = this._onChange.bind(this);
   }
 
   componentWillMount(){
@@ -27,6 +34,23 @@ class UserProfile extends React.Component{
     })()
   }
 
+  componentDidMount(){
+    UserActions.fetchUserInfo();
+    UserActions.fetchUserPosts();
+    UserStore.startListening(this._onChange);
+  }
+
+  componentWillUnmount(){
+    UserStore.stopListening(this._onChange);
+  }
+
+  _onChange() {
+    this.setState({
+      user: UserStore.getUserProfile(),
+      posts: UserStore.getUserPosts()
+    });
+  }
+
   uploadFile(e){
     console.log('file', e.target.files);
     var file = e.target.files[0];
@@ -37,7 +61,7 @@ class UserProfile extends React.Component{
         reader.onload = function(readerEvt) {
             var binaryString = readerEvt.target.result;
             // send image to db
-
+            UserActions.updateUserInfo({profilePic: `data:image/jpeg;base64,${btoa(binaryString)}`})
 
             // update image after success
             $('.img').attr('src', `data:image/jpeg;base64,${btoa(binaryString)}`);
@@ -52,7 +76,7 @@ class UserProfile extends React.Component{
       var $editIcon = $(e.target).closest('tr').find('td:nth-child(3)');
       var currentNameText = $currentName.find('input').val();
       // send new display name info to db
-
+      UserActions.updateUserInfo({name: currentNameText})
 
       // update after success
       $currentName.empty();
@@ -73,51 +97,26 @@ class UserProfile extends React.Component{
   }
 
   render(){
-    // example API call to users/:id/posts
-    let exampleCall =
-    [
-      {
-        "_id": "56a1ae5ea4faed201adfea98",
-        "title": "Robbie's post",
-        "body": "Robbie was here",
-        "author": "56a1ae04a4faed201adfea97",
-        "__v": 0,
-        "totalComments": 6,
-        "comments": [
-          {
-            "_id": "56a1b76c52bfbce11d8051c0",
-            "author": "56a1ae27a4faed201adfea95",
-            "body": "This is Rich",
-            "__v": 0,
-            "comments": [
-              "56a1b8d4462059891e2b15dd"
-            ]
-          },
-          {
-            "_id": "56a1c4a61744c53222828183",
-            "author": "56a1ae27a4faed201adfea95",
-            "body": "This isn't Rich, sorry",
-            "__v": 0,
-            "comments": [
-              "56a1c4b61744c53222828184"
-            ]
-          }
-        ],
-        "tags": [
-          "Robbie"
-        ]
-      }
-    ]
+    let username = this.state.user ? this.state.user.username : 'username';
+    let name;
+    let profilePic;
+    if (this.state.user){
+      name = this.state.user.name ? this.state.user.name : "DevCamp Fire";
+      profilePic = this.state.user.profilePic ? this.state.user.profilePic : "https://placehold.it/350x350";
+    }
 
-
-    let links = exampleCall.map(post => {
-      let params = 'post/' + post._id
-      return (
-        <li key={post._id}>
-          <Link to={params}>{post.title}</Link> - {post.totalComments} comments
-        </li>
-      )
-    })
+    let links;
+    if (this.state.posts){
+      links = this.state.posts.map(post => {
+        let params = 'post/' + post._id
+        let comments = `${post.totalComments} ${post.totalComments === 1 ? "comment" : "comments"}`
+        return (
+          <li key={post._id}>
+            <Link to={params}>{post.title}</Link> - {comments}
+          </li>
+        )
+      })
+    }
 
     return(
       <div>
@@ -126,7 +125,7 @@ class UserProfile extends React.Component{
           <div className="row">
             <div className="col-xs-12 col-sm-6 text-center">
               <div className="profileImageWrapper">
-                <img className="img img-responsive profileImage" src="https://placehold.it/350x350" />
+                <img className="img img-responsive profileImage" src={profilePic} />
               </div>
             </div>
             <div className="col-xs-12 col-sm-6">
@@ -134,11 +133,11 @@ class UserProfile extends React.Component{
                 <tbody>
                   <tr>
                     <td>Username:</td>
-                    <td>myusername</td>
+                    <td>{username}</td>
                   </tr>
                   <tr>
                     <td>Display Name:</td>
-                    <td>My Name</td>
+                    <td>{name}</td>
                     <td onClick={this.editDisplayName.bind(this)}><i className="fa fa-pencil-square-o"></i></td>
                   </tr>
                 </tbody>

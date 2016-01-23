@@ -34,7 +34,8 @@ router.get('/:id', (req, res) => {
 });
 
 // Create New Post
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
+  req.body.author = req.decodedToken.id;
   Post.create(req.body, (err, post) => {
     res.status(err ? 400:200).send(err || post);
   });
@@ -71,7 +72,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
-// Delete A Single User
+// Delete A Single Post
 router.delete('/:id', (req, res) => {
   Post.findByIdAndRemove(req.params.id, (err) => {
     res.status(err ? 400:200).send(err || 'Post Deleted');

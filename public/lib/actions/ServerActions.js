@@ -20,10 +20,21 @@ let ServerActions = {
     });
   },
   receiveNewUser(user) {
-    ;
     AppDispatcher.dispatch({
       actionType: 'RECEIVE_NEW_USER',
       user
+    });
+  },
+  receiveUserInfo(user) {
+    AppDispatcher.dispatch({
+      actionType: 'RECEIVE_USER_INFO',
+      user
+    });
+  },
+  receiveUserPosts(posts) {
+    AppDispatcher.dispatch({
+      actionType: 'RECEIVE_USER_POSTS',
+      posts
     });
   }
 }

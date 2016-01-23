@@ -1,4 +1,4 @@
-import {get, post} from 'jquery';
+import {get, post, ajax} from 'jquery';
 
 import ServerActions from './actions/ServerActions';
 
@@ -23,6 +23,25 @@ let API = {
       ServerActions.receiveNewUser(data)
     });
   },
+
+  fetchUserInfo(){
+    get('/users/myinfo').done(data => {
+      ServerActions.receiveUserInfo(data)
+    });
+  },
+  fetchUserPosts(){
+    get('/users/myposts').done(data => {
+      ServerActions.receiveUserPosts(data)
+    });
+  },
+
+  updateUserInfo(info){
+    post('/users/edit', info).done(data => {
+      ServerActions.receiveUserInfo(data)
+    });
+  },
+
+
   createNewCommentOnPost(commentData){
     post(`/posts/${commentData.postId}/newcomment`, {body: commentData.body}).done(data => {
       ServerActions.receivePost(data);

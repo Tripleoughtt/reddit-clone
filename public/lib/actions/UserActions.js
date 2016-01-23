@@ -7,6 +7,17 @@ let UserActions = {
 
   loginUser(user) {
     API.loginUser(user);
+  },
+
+  fetchUserInfo(){
+    API.fetchUserInfo();
+  },
+  fetchUserPosts(){
+    API.fetchUserPosts();
+  },
+
+  updateUserInfo(info){
+    API.updateUserInfo(info);
   }
 
 }
