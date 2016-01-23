@@ -1,5 +1,82 @@
+/* Global Styles */
+
+.app {
+  font-family: 'Roboto', sans-serif;
+  background-color: #F6F1ED;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
 label {
   width: 100%;
+}
+
+/* Home Page */
+.homeComponent {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.homeComponent .navbar{
+  background-color: #30231D;
+  border: none;
+  border-radius: 0px;
+}
+
+.navbar-brand>img {
+  height: 100%;
+  display: inline-block;
+}
+
+.navbar-form {
+  color: #F6F1ED;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.logoImage {
+  font-family: 'Roboto Slab', serif;
+  display: inline;
+  vertical-align: middle;
+  color: #F6F1ED;
+}
+
+.navbar-collapse.in .navbar-form {
+  background-color: #30231D;
+  color: #F6F1ED;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  border: none;
+}
+
+.greeting {
+  color:  #F6F1ED;
+  font-weight: 800;
+  height: 100vh;
+  background: linear-gradient( rgba(48, 35, 29, 0.5), rgba(48, 35, 29, 0.5) ), url('https://images.unsplash.com/photo-1437376576540-236661ddb41f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=63a9ff11faa1b85fa838f3df68ebca2e') center center no-repeat;
+  background-size: cover;
+}
+
+.greetingText {
+  padding-top: 20%;
+}
+
+/* Sign Up Form */
+.signUpFormComponent {
+  background-color: #6A5750;
+  height: 100%;
+  color: #F6F1ED;
+  padding-top: 2%;
+}
+
+/* Post Feed */
+.postFeedComponent {
+
 }
 
 

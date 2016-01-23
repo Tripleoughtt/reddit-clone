@@ -1,5 +1,6 @@
 // Basic imports for express
 import express from 'express';
+import favicon from 'serve-favicon';
 import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/reddit-clone")
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

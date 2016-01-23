@@ -65,6 +65,14 @@ class NotLoggedInHome extends React.Component{
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
+        <div className='container-fluid greeting'>
+          <div className="row">
+            <div className="col-xs-12 col-sm-offset-2 col-sm-8 text-center greetingText">
+              <h1>Welcome to Dev Camp Fire</h1>
+              <h4>A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions</h4>
+            </div>
+          </div>
+        </div>
         <SignUpForm />
         <PostFeed posts={this.state.posts} />
       </div>
