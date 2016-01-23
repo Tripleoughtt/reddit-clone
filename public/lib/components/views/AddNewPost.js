@@ -63,10 +63,12 @@ class AddNewPost extends React.Component{
 
   render(){
     return(
-      <div className="addPostComponent">
+      <div>
         <LoggedInNav />
-        <div className="container-fluid text-center">
+        <div className="container-fluid text-center addPostComponent">
           <div className="row addPostTitle">
+            <h1>What do you want to talk about?</h1>
+            <h4>Complete the fields below, then click "Submit" to make a new discussion topic</h4>
             <div className="col-xs-12 col-sm-offset-2 col-sm-8 border">
               <input onChange={this.updateTitle.bind(this)} type="text" placeholder="Title" />
             </div>

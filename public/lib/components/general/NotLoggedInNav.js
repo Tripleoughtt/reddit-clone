@@ -17,7 +17,6 @@ class NotLoggedInNav extends React.Component{
 
   loginUser(e){
     e.preventDefault();
-    ;
     UserActions.loginUser(this.state);
   }
 
@@ -33,17 +32,18 @@ class NotLoggedInNav extends React.Component{
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href="#">Logo</a>
+            <a className="navbar-brand" href="#">
+              <img src="lib/logo.png" />
+              <p className="logoImage"> DCF</p>
+            </a>
+
           </div>
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav">
-              <li className="active"><a href="#">Login With Facebook <span className="sr-only">(current)</span></a></li>
-            </ul>
 
             <ul className="nav navbar-nav navbar-right">
               <form className="navbar-form navbar-left" id="loginForm">
-                <label htmlFor="loginForm" className="navbar-form navbar-left">Login</label>
+                <label htmlFor="loginForm" className="navbar-form navbar-left">LOGIN</label>
                 <div className="form-group">
                   <input onChange={this.updateUsername.bind(this)} type="text" className="form-control" placeholder="username" />
                 </div>
@@ -54,7 +54,7 @@ class NotLoggedInNav extends React.Component{
               </form>
 
               <form className="navbar-form visible-xs-block">
-                <label htmlFor="signUpForm" className="navbar-form navbar-left">Sign Up</label>
+                <label htmlFor="signUpForm" className="navbar-form navbar-left">SIGN UP</label>
                 <div className="form-group">
                   <label htmlFor="username">Choose a username</label>
                   <input type="text" className="form-control" id="username" placeholder="username" />

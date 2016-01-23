@@ -20,6 +20,7 @@ System.config({
     "events": "github:jspm/nodelibs-events@0.1.1",
     "flux": "npm:flux@2.1.1",
     "jquery": "npm:jquery@2.2.0",
+    "marked": "npm:marked@0.3.5",
     "react": "npm:react@0.14.6",
     "react-dom": "npm:react-dom@0.14.3",
     "react-relay": "npm:react-relay@0.6.0",
