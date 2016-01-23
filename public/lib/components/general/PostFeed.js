@@ -11,8 +11,6 @@ class PostFeed extends React.Component{
     this.state = {};
   }
 
-
-
   render(){
     let posts = this.props.posts.map(post => {
       return <Post data={post} key={post._id} />

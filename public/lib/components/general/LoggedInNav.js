@@ -26,12 +26,15 @@ class LoggedInNav extends React.Component{
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href="#">Logo</a>
+            <a className="navbar-brand" href="#">
+              <img src="lib/logo.png" />
+              <p className="logoImage"> DCF</p>
+            </a>
           </div>
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li className="active"><Link to="home">Home<span className="sr-only">(current)</span></Link></li>
+              <li><Link to="home">Home</Link></li>
               <li><Link to="profile">Profile</Link></li>
             </ul>
           </div>

@@ -120,9 +120,9 @@ class UserProfile extends React.Component{
     })
 
     return(
-      <div className="userProfileComponent">
+      <div>
         <LoggedInNav />
-        <div className="container-fluid">
+        <div className="container-fluid userProfileComponent">
           <div className="row">
             <div className="col-xs-12 col-sm-6 text-center">
               <div className="profileImageWrapper">

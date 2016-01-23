@@ -7,6 +7,8 @@ import Comment from '../general/Comment';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
+import marked from 'marked';
+
 let _getComponentState = () => {
   return {
     post: PostStore.getPost()
@@ -33,6 +35,9 @@ class ViewPost extends React.Component{
     this.setState(_getComponentState());
   }
 
+  rawMarkup() {
+    return { __html: marked(this.state.post.body, {sanitize: true}) };
+  }
 
   render(){
     if (!this.state.post){
@@ -52,24 +57,19 @@ class ViewPost extends React.Component{
 
         <div className="container-fluid text-left postArea">
           <div className="row">
-            <div className="col-xs-12 col-sm-offset-1 col-sm-11 viewPostTitle">
-              <h1>
-                {this.state.post.title}
-              </h1>
+            <div className="col-xs-12 col-sm-11 viewPostTitle">
+              <h1>{this.state.post.title}</h1>
+              <hr />
             </div>
           </div>
-          <div className="row">
-            <div className="col-xs-12 col-sm-offset-1 col-sm-11 viewPostBody">
-              <p>
-                {this.state.post.body}
-              </p>
+          <div className="row viewPostBody">
+            <div className="col-xs-12 col-sm-11">
+              <div dangerouslySetInnerHTML={this.rawMarkup()}></div>
+              <hr />
             </div>
           </div>
           <div className="row viewTags">
-            <div className="col-xs-12 col-sm-offset-1 col-sm-11 border">
-              <p>
-                {this.state.post.tags}
-              </p>
+            <div className="col-xs-12 col-sm-11">
             </div>
           </div>
         </div>

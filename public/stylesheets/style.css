@@ -1,17 +1,46 @@
 /* Global Styles */
-
 .app {
   font-family: 'Roboto', sans-serif;
   background-color: #F6F1ED;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+  width: 100vw;
+  height: 100vh;
 }
 
 label {
   width: 100%;
 }
 
-/* Home Page */
+hr {
+  border-top: 2px solid #30231D;
+}
+
+.btn-primary {
+  color: #F6F1ED;
+  background-color: #30231D;
+  border-color: #F6F1ED;
+}
+
+.btn-primary:hover, .btn-primary:active:hover {
+  color: #30231D;
+  background-color: #F6F1ED;
+}
+
+.btn-danger {
+  color: #F6F1ED;
+  background-color: #AF1D13;
+  border-color: #F6F1ED;
+}
+
+.btn-danger:hover, .btn-danger:active:hover {
+  color: #AF1D13;
+  background-color: #F6F1ED;
+}
+
+
+
+/* Not Logged In Home Page */
 .homeComponent {
   position: absolute;
   height: 100%;
@@ -19,7 +48,21 @@ label {
   overflow: scroll;
 }
 
-.homeComponent .navbar{
+.greeting {
+  color:  #F6F1ED;
+  font-weight: 800;
+  height: 100vh;
+  background: linear-gradient( rgba(48, 35, 29, 0.5), rgba(48, 35, 29, 0.5) ), url('https://images.unsplash.com/photo-1437376576540-236661ddb41f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=63a9ff11faa1b85fa838f3df68ebca2e') center center no-repeat;
+  background-size: cover;
+}
+
+.greetingText {
+  padding-top: 20%;
+}
+
+
+/* Nav Bar */
+.navbar{
   background-color: #30231D;
   border: none;
   border-radius: 0px;
@@ -54,16 +97,29 @@ label {
   border: none;
 }
 
-.greeting {
-  color:  #F6F1ED;
-  font-weight: 800;
-  height: 100vh;
-  background: linear-gradient( rgba(48, 35, 29, 0.5), rgba(48, 35, 29, 0.5) ), url('https://images.unsplash.com/photo-1437376576540-236661ddb41f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=63a9ff11faa1b85fa838f3df68ebca2e') center center no-repeat;
-  background-size: cover;
+.navbar-default .navbar-nav>li>a {
+  color: #F6F1ED;
+}
+.nav>li:hover {
+  color: #30231D;
+  background-color: #F6F1ED;
 }
 
-.greetingText {
-  padding-top: 20%;
+/* Logged In Home Page */
+.loggedInHomeComponent {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  background-color: #F6F1ED;
+}
+
+.sidebar {
+  background-color: #B5A397;
+  height: 100%;
+  color: #F6F1ED;
+  padding: 2%;
+
 }
 
 /* Sign Up Form */
@@ -79,6 +135,15 @@ label {
 
 }
 
+
+/* Add Post Component */
+.addPostComponent {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  background-color: #F6F1ED;
+}
 
 .addPostTitle {
   height: 10vh;
@@ -112,14 +177,26 @@ label {
   display: none;
 }
 
+/* View Post Page */
 .postArea {
-  border: 1px solid black;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  /*background-color: #F6F1ED;*/
+}
+.viewPostBody {
+  /*border: 5px solid #30231D;*/
 }
 
-.viewPostBody p {
-  padding: 10% 0;
-}
 
+/* Profile Page */
+.userProfileComponent {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  background-color: #F6F1ED;
+}
 .profileImageWrapper {
   height: 50vh;
 }
