@@ -41,7 +41,10 @@ class LoggedInNav extends React.Component{
             <ul className="nav navbar-nav">
               <li><Link to="home">Home</Link></li>
               <li><Link to="profile">Profile</Link></li>
-              <li><button onClick={this.logout.bind(this)}>Logout</button></li>
+            </ul>
+            <ul className="nav navbar-nav navbar-right">
+              <li role="separator" className="divider"></li>
+              <li><a className="btn btn-link" onClick={this.logout.bind(this)}>Logout</a></li>
             </ul>
           </div>
         </div>

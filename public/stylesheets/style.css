@@ -100,10 +100,17 @@ hr {
 
 .navbar-default .navbar-nav>li>a {
   color: #F6F1ED;
+  text-align: left;
 }
 .nav>li:hover {
   color: #30231D;
   background-color: #F6F1ED;
+}
+.divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
 }
 
 /* Logged In Home Page */
