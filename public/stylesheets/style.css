@@ -28,6 +28,11 @@ hr {
   background-color: #F6F1ED;
 }
 
+.btn-primary.focus, .btn-primary:focus {
+  color: #30231D;
+  background-color: #F6F1ED;
+}
+
 .btn-danger {
   color: #F6F1ED;
   background-color: #AF1D13;
@@ -224,4 +229,8 @@ hr {
 .commentComponent {
   /*border-left: 2px dashed blue;
   border-top: 2px dashed blue;*/
+}
+
+.commentText {
+  width: 100%;
 }
