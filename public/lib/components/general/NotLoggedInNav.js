@@ -15,6 +15,18 @@ class NotLoggedInNav extends React.Component{
     this.setState({password: e.target.value})
   }
 
+  submitRegistration(e){
+    e.preventDefault();
+    let newUserInfo = {};
+    newUserInfo.password1 = this.refs.pass1.value;
+    newUserInfo.password2 = this.refs.pass2.value;
+    newUserInfo.username = this.refs.username.value;
+    if (newUserInfo.password1 === newUserInfo.password2){
+      console.log('in registration function!!!', newUserInfo)
+      UserActions.createNewUser(newUserInfo);
+    } 
+  }
+
   loginUser(e){
     e.preventDefault();
     UserActions.loginUser(this.state);
@@ -57,17 +69,17 @@ class NotLoggedInNav extends React.Component{
                 <label htmlFor="signUpForm" className="navbar-form navbar-left">SIGN UP</label>
                 <div className="form-group">
                   <label htmlFor="username">Choose a username</label>
-                  <input type="text" className="form-control" id="username" placeholder="username" />
+                  <input type="text" className="form-control" ref="username" id="username" placeholder="username" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="pass1">Password</label>
-                  <input type="password" className="form-control" id="pass1" placeholder="Password" />
+                  <input type="password" className="form-control" id="pass1" ref="pass1"  placeholder="Password" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="pass2">Confirm Password</label>
-                  <input type="password" className="form-control" id="pass2" placeholder="Re-enter password" />
+                  <input type="password" className="form-control" id="pass2" ref="pass2" placeholder="Re-enter password" />
                 </div>
-                <button type="submit" className="btn btn-default">Submit</button>
+                <button type="submit" className="btn btn-default" onClick={this.submitRegistration.bind(this)} >Submit</button>
               </form>
             </ul>
           </div>
