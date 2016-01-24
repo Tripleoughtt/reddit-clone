@@ -10,13 +10,15 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
+import {swal} from 'sweetalert'
 
 import {get} from 'jquery';
 
 let _getAppState = () => {
   return {
     posts: PostStore.getAllPosts(),
-    user: UserStore.getUserInfo()
+    user: UserStore.getUserInfo(),
+    error: UserStore.getLoginError()
   }
 }
 
@@ -59,6 +61,8 @@ class NotLoggedInHome extends React.Component{
 
     if (this.state.user){
       hashHistory.push('/home');
+    } else if (this.state.error){
+      console.log('IN HOME PAGE W/ ERROR', this.state.error)
     }
   }
   render(){

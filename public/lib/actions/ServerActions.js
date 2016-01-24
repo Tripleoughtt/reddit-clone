@@ -36,6 +36,12 @@ let ServerActions = {
       actionType: 'RECEIVE_USER_POSTS',
       posts
     });
+  },
+  receiveLoginError(err){
+    AppDispatcher.dispatch({
+      actionType: 'RECEIVE_LOGIN_ERROR',
+      err
+    });
   }
 }
 

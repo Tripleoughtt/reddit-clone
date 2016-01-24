@@ -25,6 +25,7 @@ System.config({
     "react-dom": "npm:react-dom@0.14.3",
     "react-relay": "npm:react-relay@0.6.0",
     "react-router": "npm:react-router@2.0.0-rc5",
+    "sweetalert": "npm:sweetalert@1.1.3",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -395,6 +396,9 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:sweetalert@1.1.3": {
+      "path": "github:jspm/nodelibs-path@0.1.0"
     },
     "npm:ua-parser-js@0.7.10": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"

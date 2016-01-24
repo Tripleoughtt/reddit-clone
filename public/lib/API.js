@@ -21,7 +21,10 @@ let API = {
   loginUser(user) {
     post('/users/login', user).done(data => {
       ServerActions.receiveNewUser(data)
-    });
+    }).fail(err => {
+      console.log("error catching on login", err)
+      ServerActions.receiveLoginError(err);
+    })
   },
 
   fetchUserInfo(){
@@ -36,7 +39,7 @@ let API = {
   },
 
   updateUserInfo(info){
-    post('/users/edit', info).done(data => {
+    post('/users/edit', info).then(data => {
       ServerActions.receiveUserInfo(data)
     });
   },

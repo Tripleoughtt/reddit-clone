@@ -4,6 +4,7 @@ import AppDispatcher from '../AppDispatcher';
 let _user;
 let _myInfo;
 let _myPosts;
+let _loginErr;
 
 class UserStore extends EventEmitter {
   constructor(props){
@@ -24,6 +25,10 @@ class UserStore extends EventEmitter {
           _myPosts = action.posts;
           this.emit('CHANGE');
           break;
+        case 'RECEIVE_LOGIN_ERROR':
+          _loginErr = action.err;
+          this.emit('CHANGE');
+          break;
       }
     });
   }
@@ -38,6 +43,10 @@ class UserStore extends EventEmitter {
 
   getUserProfile() {
     return _myInfo;
+  }
+
+  getLoginError() {
+    return _loginErr;
   }
 
   startListening(cb){

@@ -37,14 +37,14 @@ userSchema.methods.token = function() {
 userSchema.statics.login = function(userInfo, cb) {
   User.findOne({ username: userInfo.username }, (err, foundUser) => {
     if(err) return cb('server error');
-    if(!foundUser) return cb('incorrect email or password');
+    if(!foundUser) return cb('Incorrect Username or Password, please try again!');
     bcrypt.compare(userInfo.password, foundUser.password, (err, isGood) => {
       if(err) return cb('server err');
       if(isGood) {
         foundUser.password = null;
         return cb(null, foundUser.token(), foundUser);
       } else {
-        return cb('incorrect email or password');
+        return cb('Incorrect Username or Password, please try again!');
       }
     });
   });
