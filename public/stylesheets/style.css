@@ -14,6 +14,7 @@ label {
 
 hr {
   border-top: 2px solid #30231D;
+  width: 100%;
 }
 
 .btn-primary {
@@ -118,7 +119,10 @@ hr {
   background-color: #B5A397;
   height: 100%;
   padding: 2%;
+}
 
+.filterPostsInput {
+  margin: 5%;
 }
 
 /* Sign Up Form */

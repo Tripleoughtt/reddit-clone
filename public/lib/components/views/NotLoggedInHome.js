@@ -74,7 +74,9 @@ class NotLoggedInHome extends React.Component{
           </div>
         </div>
         <SignUpForm />
-        <PostFeed posts={this.state.posts} />
+        <div className="col-xs-12 col-sm-9">
+          <PostFeed posts={this.state.posts} />
+        </div>
       </div>
     )
   }

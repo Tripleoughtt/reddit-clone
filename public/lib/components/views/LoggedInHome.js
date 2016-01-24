@@ -85,11 +85,19 @@ class LoggedInHome extends React.Component{
         <LoggedInNav />
         <div className="container-fluid loggedInHome">
           <div className="row">
-            <div className="col-xs-12 text-center sidebar">
-              <input onChange={this.filterPosts.bind(this)} type="text" placeholder="Search posts..." />
-              <Link to="addpost" className="btn btn-primary btn-lg">Add A New Post</Link>
+            <div className="col-xs-12 col-sm-3 pull-right text-center sidebar">
+              <div className="row">
+                <div className="col-xs-6 col-sm-12">
+                  <input onChange={this.filterPosts.bind(this)} type="text" placeholder="Search posts..." className="filterPostsInput" />
+                </div>
+                <div className="col-xs-6 col-sm-12">
+                  <Link to="addpost" className="btn btn-primary btn-lg">Add A New Post</Link>
+                </div>
+              </div>
             </div>
-            <PostFeed posts={posts} />
+            <div className="col-xs-12 col-sm-9">
+              <PostFeed posts={posts} />
+            </div>
           </div>
         </div>
       </div>
