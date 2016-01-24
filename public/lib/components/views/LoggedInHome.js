@@ -68,17 +68,28 @@ class LoggedInHome extends React.Component{
 
   }
 
-  render(){
+  filterPosts(e){
+    this.setState({ filter: e.target.value });
+  }
 
+  render(){
+    let posts = this.state.posts;
+    if (this.state.filter){
+      let regex = new RegExp(this.state.filter, 'gi');
+      posts = posts.filter(post => {
+        return post.title.match(regex) || post.body.match(regex);
+      })
+    }
     return(
       <div className="loggedInHomeComponent">
         <LoggedInNav />
         <div className="container-fluid loggedInHome">
           <div className="row">
             <div className="col-xs-12 text-center sidebar">
+              <input onChange={this.filterPosts.bind(this)} type="text" placeholder="Search posts..." />
               <Link to="addpost" className="btn btn-primary btn-lg">Add A New Post</Link>
             </div>
-            <PostFeed posts={this.state.posts} />
+            <PostFeed posts={posts} />
           </div>
         </div>
       </div>
