@@ -47,7 +47,7 @@ router.post('/:id/newcomment', authenticate, (req, res) => {
   comment.author = req.decodedToken.id;
   comment.save((err, savedComment) => {
     if(err) return res.status(400).send(err);
-    Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment }}, (err) => {
+    Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment }, $inc: {totalComments: 1}}, (err) => {
       if(err) return res.status(400).send(err);
       Post.findById(req.params.id, (err, post) => {
         var authorString = []

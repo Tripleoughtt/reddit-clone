@@ -9,6 +9,11 @@ class LoggedInNav extends React.Component{
     this.state = {  }
   }
 
+  logout(){
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    window.location = '/';
+  }
+
 
   //componentDidMount(){
   //  authorize();
@@ -36,6 +41,7 @@ class LoggedInNav extends React.Component{
             <ul className="nav navbar-nav">
               <li><Link to="home">Home</Link></li>
               <li><Link to="profile">Profile</Link></li>
+              <li><button onClick={this.logout.bind(this)}>Logout</button></li>
             </ul>
           </div>
         </div>
