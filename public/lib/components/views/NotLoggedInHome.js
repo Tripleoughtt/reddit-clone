@@ -10,7 +10,7 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
-import {swal} from 'sweetalert'
+import SweetAlert from 'sweetalert'
 
 import {get} from 'jquery';
 
@@ -62,7 +62,8 @@ class NotLoggedInHome extends React.Component{
     if (this.state.user){
       hashHistory.push('/home');
     } else if (this.state.error){
-      console.log('IN HOME PAGE W/ ERROR', this.state.error)
+      let errorMessage = this.state.error.responseText;
+      swal('Sorry!', errorMessage, "error")
     }
   }
   render(){
