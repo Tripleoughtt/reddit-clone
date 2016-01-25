@@ -20,10 +20,18 @@ class Comment extends React.Component{
         return <CommentOnComment postId={postId} data={comment} key={comment._id} />
       });
     }
+    let authorDisplayName = this.props.data.author.name;
+    let author;
+    console.log(authorDisplayName)
+    if(authorDisplayName){
+      author = authorDisplayName;
+    } else {
+      author = this.props.data.author.username;
+    }
     return(
       <div className="col-xs-12 commentComponent">
         <div className='well well-sm'>
-          <p>{this.props.data.body} - <em>{this.props.data.author.username}</em></p>
+          <p>{this.props.data.body} - <em>{author}</em></p>
           <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
           <div className="row">
             <div className="col-xs-offset-1 col-xs-11 subcomments">
