@@ -11,7 +11,7 @@ class Comment extends React.Component{
   }
 
   displayAddButton() {
-    if(this.props.user) return (<AddCommentOnComment commentId={commentId} postId={this.props.postId} />);
+    if(this.props.user) return (<AddCommentOnComment commentId={this.props.data._id} postId={this.props.postId} />);
   }
 
   render() {
@@ -38,6 +38,7 @@ class Comment extends React.Component{
             <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
             <span> - <em>{author}</em></span>
           </div>
+          {this.displayAddButton()}
           <div className="row">
             <div className="col-xs-offset-1 col-xs-11 subcomments">
               {comments}
