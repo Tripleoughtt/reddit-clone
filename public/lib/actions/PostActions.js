@@ -11,7 +11,7 @@ let PostActions = {
     API.getPostInfo(postId);
   }, 
   updatePost(edit, id) {
-    API.updatePostInfo(edit, id);
+    API.updatePostInfo(edit , id);
   }
 }
 

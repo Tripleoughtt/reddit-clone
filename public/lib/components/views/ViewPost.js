@@ -56,9 +56,11 @@ class ViewPost extends React.Component{
       let $currentTitle = $('.viewPostTitle h1');
       let title = $currentTitle.find('input').val();
 
-      PostActions.updatePost({ title: title }, this.state.post._id);
+      let body = $('.viewPostBody textarea').val();
+      $('.viewPostBody div div').empty();
 
-      console.log('title', title);
+      PostActions.updatePost({ title: title, body: body }, this.state.post._id);
+
       $currentTitle.empty();
       $currentTitle.text(title);
       $('.edit-btn').text('Edit Post');
@@ -67,6 +69,11 @@ class ViewPost extends React.Component{
     } else {
       let $currentTitle = $('.viewPostTitle h1');
       let title = $currentTitle.text();
+
+      let $body = $('.viewPostBody div div');
+      $body.empty();
+
+      $body.append($('<textarea style="margin-left: 10px; height: 250px; width: 90%;">').text(this.state.post.body));
 
       $currentTitle.empty();
       $currentTitle.append($(`<input type='text' value=${title} />`));
