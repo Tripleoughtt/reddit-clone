@@ -23,7 +23,9 @@ let API = {
   createNewUser(newUser) {
     post('/users/register', newUser).done(data => {
       ServerActions.receiveNewUser(data)
-    });
+    }).fail(err => {
+      ServerActions.receiveLoginError(err);
+    })
   },
   loginUser(user) {
     post('/users/login', user).done(data => {

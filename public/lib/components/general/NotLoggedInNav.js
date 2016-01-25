@@ -21,15 +21,28 @@ class NotLoggedInNav extends React.Component{
     newUserInfo.password1 = this.refs.pass1.value;
     newUserInfo.password2 = this.refs.pass2.value;
     newUserInfo.username = this.refs.username.value;
-    if (newUserInfo.password1 === newUserInfo.password2){
-      
+
+    if (!newUserInfo.username){
+      swal('Oops!', "Please enter a new username.", "error")
+    } else if (!newUserInfo.password1 || !newUserInfo.password2){
+      swal('Oops!', "Please enter a new password", "error")
+    } else if (newUserInfo.password1 !== newUserInfo.password2){
+      swal('Oops!', "Passwords must match.", "error")
+    } else {
       UserActions.createNewUser(newUserInfo);
-    } 
+    }
+
   }
 
   loginUser(e){
     e.preventDefault();
-    UserActions.loginUser(this.state);
+    if (!this.state.username){
+      swal('Oops!', "Please enter your username.", "error")
+    } else if (!this.state.password){
+      swal('Oops!', "Please enter your password", "error")
+    } else {
+      UserActions.loginUser(this.state);
+    }
   }
 
   render(){

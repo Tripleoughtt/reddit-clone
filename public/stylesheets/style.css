@@ -49,6 +49,12 @@ hr {
   height: 20px;
 }
 
+.highlight {
+  color: #337ab7;
+}
+.noUser {
+  display: none;
+}
 
 
 /* Not Logged In Home Page */

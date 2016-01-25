@@ -20,8 +20,13 @@ class SignUpForm extends React.Component{
 
   submitNewUser(e){
     e.preventDefault();
-    ;
-    if (this.state.password1 === this.state.password2){
+    if (!this.state.username){
+      swal('Oops!', "Please enter a new username.", "error")
+    } else if (!this.state.password1 || !this.state.password2){
+      swal('Oops!', "Please enter a new password", "error")
+    } else if (this.state.password1 !== this.state.password2){
+      swal('Oops!', "Passwords must match.", "error")
+    } else {
       UserActions.createNewUser(this.state);
     }
   }

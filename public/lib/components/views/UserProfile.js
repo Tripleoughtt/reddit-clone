@@ -28,7 +28,7 @@ class UserProfile extends React.Component{
         }
         return true
       }, (err) => {
-        
+
         hashHistory.push('/');
       })
     })()
@@ -52,12 +52,12 @@ class UserProfile extends React.Component{
   }
 
   uploadFile(e){
-    
+
     var file = e.target.files[0];
 
     if (file) {
         var reader = new FileReader();
-        
+
         reader.onload = function(readerEvt) {
             var binaryString = readerEvt.target.result;
             // send image to db
@@ -101,8 +101,8 @@ class UserProfile extends React.Component{
     let name;
     let profilePic;
     if (this.state.user){
-      name = this.state.user.name ? this.state.user.name : "DevCamp Fire";
-      profilePic = this.state.user.profilePic ? this.state.user.profilePic : "https://placehold.it/350x350";
+      name = this.state.user.name ? this.state.user.name : "";
+      profilePic = this.state.user.profilePic ? this.state.user.profilePic : "./lib/logo.png";
     }
 
     let links;

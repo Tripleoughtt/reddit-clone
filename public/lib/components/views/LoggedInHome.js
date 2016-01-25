@@ -16,7 +16,7 @@ import {get} from 'jquery';
 let _getAppState = () => {
   return {
     posts: PostStore.getAllPosts(),
-    user: UserStore.getUserInfo()
+    user: UserStore.getUserProfile()
   }
 }
 
@@ -50,7 +50,7 @@ class LoggedInHome extends React.Component{
   componentDidMount(){
     PostActions.getAllPosts();
     PostStore.startListening(this._onChange);
-
+    UserActions.fetchUserInfo();
     UserStore.startListening(this._onChange);
   }
 
@@ -94,7 +94,7 @@ class LoggedInHome extends React.Component{
               </div>
             </div>
             <div className="col-xs-12 col-sm-9">
-              <PostFeed posts={posts} />
+              <PostFeed posts={posts} user={this.state.user} />
             </div>
           </div>
         </div>
