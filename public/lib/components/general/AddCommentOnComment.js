@@ -21,6 +21,10 @@ class AddCommentOnComment extends React.Component{
     CommentActions.createNewCommentOnComment(data);
   }
 
+  displayAddButton() {
+
+  }
+
   render(){
     return(
       <div className="addCommentComponent">

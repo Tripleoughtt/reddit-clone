@@ -6,8 +6,8 @@ import LoggedInNav from '../general/LoggedInNav';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
-// import authorize from '../../authorize';
 import {get} from 'jquery';
+import SweetAlert from 'sweetalert';
 
 class AddNewPost extends React.Component{
   constructor(props){
@@ -25,7 +25,6 @@ class AddNewPost extends React.Component{
         }
         return true
       }, (err) => {
-        
         hashHistory.push('/');
       })
     })()
@@ -49,16 +48,21 @@ class AddNewPost extends React.Component{
   updateTitle(e){
     this.setState({title: e.target.value})
   }
+
   updateBody(e){
     this.setState({body: e.target.value})
   }
+
   updateTags(e){
     this.setState({tags: e.target.value})
   }
 
   submitNewPost(){
-    PostActions.createNewPost(this.state);
-
+    if(this.state.body && this.state.title) {
+      PostActions.createNewPost(this.state);
+    } else {
+      swal('Sorry!', 'Please Enter In All Fields', 'error');
+    }
   }
 
   render(){

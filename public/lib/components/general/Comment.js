@@ -19,6 +19,9 @@ class Comment extends React.Component{
     CommentActions.downVote(this.props.data._id, this.props.postId);
   }
 
+  displayAddButton() {
+    if(this.props.user) return (<AddCommentOnComment commentId={commentId} postId={this.props.postId} />);
+  }
 
   render(){
     console.log(this.props.user)
@@ -73,7 +76,6 @@ class Comment extends React.Component{
                 <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
                 <span> - <em>{author}</em></span>
               </div>
-              <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
             </div>
             <div className="row">
               <div className="col-xs-offset-1 col-xs-11 subcomments">
@@ -87,4 +89,4 @@ class Comment extends React.Component{
   }
 }
 
-export default Comment
+export default Comment;
