@@ -69,25 +69,25 @@ System.register("lib/components/AppController.js", ["npm:babel-runtime@5.8.34/he
     }
   };
 });
-System.register("lib/components/general/NotLoggedInNav.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "lib/actions/UserActions.js"], function (_export) {
+System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
   var _get, _inherits, _createClass, _classCallCheck, React, UserActions, NotLoggedInNav;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet["default"];
+      _get = _npmBabelRuntime5834HelpersGet['default'];
     }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
     }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
     }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
     }, function (_npmReact0146) {
-      React = _npmReact0146["default"];
+      React = _npmReact0146['default'];
     }, function (_libActionsUserActionsJs) {
-      UserActions = _libActionsUserActionsJs["default"];
+      UserActions = _libActionsUserActionsJs['default'];
     }],
     execute: function () {
-      "use strict";
+      'use strict';
 
       NotLoggedInNav = (function (_React$Component) {
         _inherits(NotLoggedInNav, _React$Component);
@@ -95,133 +95,158 @@ System.register("lib/components/general/NotLoggedInNav.js", ["npm:babel-runtime@
         function NotLoggedInNav(props) {
           _classCallCheck(this, NotLoggedInNav);
 
-          _get(Object.getPrototypeOf(NotLoggedInNav.prototype), "constructor", this).call(this, props);
+          _get(Object.getPrototypeOf(NotLoggedInNav.prototype), 'constructor', this).call(this, props);
           this.state = {};
         }
 
         _createClass(NotLoggedInNav, [{
-          key: "updateUsername",
+          key: 'updateUsername',
           value: function updateUsername(e) {
             this.setState({ username: e.target.value });
           }
         }, {
-          key: "updatePassword",
+          key: 'updatePassword',
           value: function updatePassword(e) {
             this.setState({ password: e.target.value });
           }
         }, {
-          key: "loginUser",
-          value: function loginUser(e) {
+          key: 'submitRegistration',
+          value: function submitRegistration(e) {
             e.preventDefault();
-            UserActions.loginUser(this.state);
+            var newUserInfo = {};
+            newUserInfo.password1 = this.refs.pass1.value;
+            newUserInfo.password2 = this.refs.pass2.value;
+            newUserInfo.username = this.refs.username.value;
+
+            if (!newUserInfo.username) {
+              swal('Oops!', "Please enter a new username.", "error");
+            } else if (!newUserInfo.password1 || !newUserInfo.password2) {
+              swal('Oops!', "Please enter a new password", "error");
+            } else if (newUserInfo.password1 !== newUserInfo.password2) {
+              swal('Oops!', "Passwords must match.", "error");
+            } else {
+              UserActions.createNewUser(newUserInfo);
+            }
           }
         }, {
-          key: "render",
+          key: 'loginUser',
+          value: function loginUser(e) {
+            e.preventDefault();
+            if (!this.state.username) {
+              swal('Oops!', "Please enter your username.", "error");
+            } else if (!this.state.password) {
+              swal('Oops!', "Please enter your password", "error");
+            } else {
+              UserActions.loginUser(this.state);
+            }
+          }
+        }, {
+          key: 'render',
           value: function render() {
             return React.createElement(
-              "nav",
-              { className: "navbar navbar-default" },
+              'nav',
+              { className: 'navbar navbar-default' },
               React.createElement(
-                "div",
-                { className: "container-fluid" },
+                'div',
+                { className: 'container-fluid' },
                 React.createElement(
-                  "div",
-                  { className: "navbar-header" },
+                  'div',
+                  { className: 'navbar-header' },
                   React.createElement(
-                    "button",
-                    { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1", "aria-expanded": "false" },
+                    'button',
+                    { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
                     React.createElement(
-                      "span",
-                      { className: "sr-only" },
-                      "Toggle navigation"
+                      'span',
+                      { className: 'sr-only' },
+                      'Toggle navigation'
                     ),
-                    React.createElement("span", { className: "icon-bar" }),
-                    React.createElement("span", { className: "icon-bar" }),
-                    React.createElement("span", { className: "icon-bar" })
+                    React.createElement('span', { className: 'icon-bar' }),
+                    React.createElement('span', { className: 'icon-bar' }),
+                    React.createElement('span', { className: 'icon-bar' })
                   ),
                   React.createElement(
-                    "a",
-                    { className: "navbar-brand", href: "#" },
-                    React.createElement("img", { src: "lib/logo.png" }),
+                    'a',
+                    { className: 'navbar-brand', href: '#' },
+                    React.createElement('img', { src: 'lib/logo.png' }),
                     React.createElement(
-                      "p",
-                      { className: "logoImage" },
-                      " DCF"
+                      'p',
+                      { className: 'logoImage' },
+                      ' DCF'
                     )
                   )
                 ),
                 React.createElement(
-                  "div",
-                  { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+                  'div',
+                  { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
                   React.createElement(
-                    "ul",
-                    { className: "nav navbar-nav navbar-right" },
+                    'ul',
+                    { className: 'nav navbar-nav navbar-right' },
                     React.createElement(
-                      "form",
-                      { className: "navbar-form navbar-left", id: "loginForm" },
+                      'form',
+                      { className: 'navbar-form navbar-left', id: 'loginForm' },
                       React.createElement(
-                        "label",
-                        { htmlFor: "loginForm", className: "navbar-form navbar-left" },
-                        "LOGIN"
+                        'label',
+                        { htmlFor: 'loginForm', className: 'navbar-form navbar-left' },
+                        'LOGIN'
                       ),
                       React.createElement(
-                        "div",
-                        { className: "form-group" },
-                        React.createElement("input", { onChange: this.updateUsername.bind(this), type: "text", className: "form-control", placeholder: "username" })
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', placeholder: 'username' })
                       ),
                       React.createElement(
-                        "div",
-                        { className: "form-group" },
-                        React.createElement("input", { onChange: this.updatePassword.bind(this), type: "password", className: "form-control", placeholder: "password" })
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement('input', { onChange: this.updatePassword.bind(this), type: 'password', className: 'form-control', placeholder: 'password' })
                       ),
                       React.createElement(
-                        "button",
-                        { onClick: this.loginUser.bind(this), type: "submit", className: "btn btn-default" },
-                        "Submit"
+                        'button',
+                        { onClick: this.loginUser.bind(this), type: 'submit', className: 'btn btn-default' },
+                        'Submit'
                       )
                     ),
                     React.createElement(
-                      "form",
-                      { className: "navbar-form visible-xs-block" },
+                      'form',
+                      { className: 'navbar-form visible-xs-block' },
                       React.createElement(
-                        "label",
-                        { htmlFor: "signUpForm", className: "navbar-form navbar-left" },
-                        "SIGN UP"
+                        'label',
+                        { htmlFor: 'signUpForm', className: 'navbar-form navbar-left' },
+                        'SIGN UP'
                       ),
                       React.createElement(
-                        "div",
-                        { className: "form-group" },
+                        'div',
+                        { className: 'form-group' },
                         React.createElement(
-                          "label",
-                          { htmlFor: "username" },
-                          "Choose a username"
+                          'label',
+                          { htmlFor: 'username' },
+                          'Choose a username'
                         ),
-                        React.createElement("input", { type: "text", className: "form-control", id: "username", placeholder: "username" })
+                        React.createElement('input', { type: 'text', className: 'form-control', ref: 'username', id: 'username', placeholder: 'username' })
                       ),
                       React.createElement(
-                        "div",
-                        { className: "form-group" },
+                        'div',
+                        { className: 'form-group' },
                         React.createElement(
-                          "label",
-                          { htmlFor: "pass1" },
-                          "Password"
+                          'label',
+                          { htmlFor: 'pass1' },
+                          'Password'
                         ),
-                        React.createElement("input", { type: "password", className: "form-control", id: "pass1", placeholder: "Password" })
+                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass1', ref: 'pass1', placeholder: 'Password' })
                       ),
                       React.createElement(
-                        "div",
-                        { className: "form-group" },
+                        'div',
+                        { className: 'form-group' },
                         React.createElement(
-                          "label",
-                          { htmlFor: "pass2" },
-                          "Confirm Password"
+                          'label',
+                          { htmlFor: 'pass2' },
+                          'Confirm Password'
                         ),
-                        React.createElement("input", { type: "password", className: "form-control", id: "pass2", placeholder: "Re-enter password" })
+                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass2', ref: 'pass2', placeholder: 'Re-enter password' })
                       ),
                       React.createElement(
-                        "button",
-                        { type: "submit", className: "btn btn-default" },
-                        "Submit"
+                        'button',
+                        { type: 'submit', className: 'btn btn-default', onClick: this.submitRegistration.bind(this) },
+                        'Submit'
                       )
                     )
                   )
@@ -234,12 +259,899 @@ System.register("lib/components/general/NotLoggedInNav.js", ["npm:babel-runtime@
         return NotLoggedInNav;
       })(React.Component);
 
-      _export("default", NotLoggedInNav);
+      _export('default', NotLoggedInNav);
     }
   };
 });
-System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/NotLoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:jquery@2.2.0"], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, NotLoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, get, _getAppState, NotLoggedInHome;
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/handle-click", ["npm:sweetalert@1.1.3/lib/modules/utils", "npm:sweetalert@1.1.3/lib/modules/handle-swal-dom", "npm:sweetalert@1.1.3/lib/modules/handle-dom"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var _colorLuminance = $__require('npm:sweetalert@1.1.3/lib/modules/utils');
+  var _getModal = $__require('npm:sweetalert@1.1.3/lib/modules/handle-swal-dom');
+  var _hasClass$isDescendant = $__require('npm:sweetalert@1.1.3/lib/modules/handle-dom');
+  var handleButton = function handleButton(event, params, modal) {
+    var e = event || window.event;
+    var target = e.target || e.srcElement;
+    var targetedConfirm = target.className.indexOf('confirm') !== -1;
+    var targetedOverlay = target.className.indexOf('sweet-overlay') !== -1;
+    var modalIsVisible = _hasClass$isDescendant.hasClass(modal, 'visible');
+    var doneFunctionExists = params.doneFunction && modal.getAttribute('data-has-done-function') === 'true';
+    var normalColor,
+        hoverColor,
+        activeColor;
+    if (targetedConfirm && params.confirmButtonColor) {
+      normalColor = params.confirmButtonColor;
+      hoverColor = _colorLuminance.colorLuminance(normalColor, -0.04);
+      activeColor = _colorLuminance.colorLuminance(normalColor, -0.14);
+    }
+    function shouldSetConfirmButtonColor(color) {
+      if (targetedConfirm && params.confirmButtonColor) {
+        target.style.backgroundColor = color;
+      }
+    }
+    switch (e.type) {
+      case 'mouseover':
+        shouldSetConfirmButtonColor(hoverColor);
+        break;
+      case 'mouseout':
+        shouldSetConfirmButtonColor(normalColor);
+        break;
+      case 'mousedown':
+        shouldSetConfirmButtonColor(activeColor);
+        break;
+      case 'mouseup':
+        shouldSetConfirmButtonColor(hoverColor);
+        break;
+      case 'focus':
+        var $confirmButton = modal.querySelector('button.confirm');
+        var $cancelButton = modal.querySelector('button.cancel');
+        if (targetedConfirm) {
+          $cancelButton.style.boxShadow = 'none';
+        } else {
+          $confirmButton.style.boxShadow = 'none';
+        }
+        break;
+      case 'click':
+        var clickedOnModal = modal === target;
+        var clickedOnModalChild = _hasClass$isDescendant.isDescendant(modal, target);
+        if (!clickedOnModal && !clickedOnModalChild && modalIsVisible && !params.allowOutsideClick) {
+          break;
+        }
+        if (targetedConfirm && doneFunctionExists && modalIsVisible) {
+          handleConfirm(modal, params);
+        } else if (doneFunctionExists && modalIsVisible || targetedOverlay) {
+          handleCancel(modal, params);
+        } else if (_hasClass$isDescendant.isDescendant(modal, target) && target.tagName === 'BUTTON') {
+          sweetAlert.close();
+        }
+        break;
+    }
+  };
+  var handleConfirm = function handleConfirm(modal, params) {
+    var callbackValue = true;
+    if (_hasClass$isDescendant.hasClass(modal, 'show-input')) {
+      callbackValue = modal.querySelector('input').value;
+      if (!callbackValue) {
+        callbackValue = '';
+      }
+    }
+    params.doneFunction(callbackValue);
+    if (params.closeOnConfirm) {
+      sweetAlert.close();
+    }
+    if (params.showLoaderOnConfirm) {
+      sweetAlert.disableButtons();
+    }
+  };
+  var handleCancel = function handleCancel(modal, params) {
+    var functionAsStr = String(params.doneFunction).replace(/\s/g, '');
+    var functionHandlesCancel = functionAsStr.substring(0, 9) === 'function(' && functionAsStr.substring(9, 10) !== ')';
+    if (functionHandlesCancel) {
+      params.doneFunction(false);
+    }
+    if (params.closeOnCancel) {
+      sweetAlert.close();
+    }
+  };
+  exports['default'] = {
+    handleButton: handleButton,
+    handleConfirm: handleConfirm,
+    handleCancel: handleCancel
+  };
+  module.exports = exports['default'];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/handle-key", ["npm:sweetalert@1.1.3/lib/modules/handle-dom", "npm:sweetalert@1.1.3/lib/modules/handle-swal-dom"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var _stopEventPropagation$fireClick = $__require('npm:sweetalert@1.1.3/lib/modules/handle-dom');
+  var _setFocusStyle = $__require('npm:sweetalert@1.1.3/lib/modules/handle-swal-dom');
+  var handleKeyDown = function handleKeyDown(event, params, modal) {
+    var e = event || window.event;
+    var keyCode = e.keyCode || e.which;
+    var $okButton = modal.querySelector('button.confirm');
+    var $cancelButton = modal.querySelector('button.cancel');
+    var $modalButtons = modal.querySelectorAll('button[tabindex]');
+    if ([9, 13, 32, 27].indexOf(keyCode) === -1) {
+      return;
+    }
+    var $targetElement = e.target || e.srcElement;
+    var btnIndex = -1;
+    for (var i = 0; i < $modalButtons.length; i++) {
+      if ($targetElement === $modalButtons[i]) {
+        btnIndex = i;
+        break;
+      }
+    }
+    if (keyCode === 9) {
+      if (btnIndex === -1) {
+        $targetElement = $okButton;
+      } else {
+        if (btnIndex === $modalButtons.length - 1) {
+          $targetElement = $modalButtons[0];
+        } else {
+          $targetElement = $modalButtons[btnIndex + 1];
+        }
+      }
+      _stopEventPropagation$fireClick.stopEventPropagation(e);
+      $targetElement.focus();
+      if (params.confirmButtonColor) {
+        _setFocusStyle.setFocusStyle($targetElement, params.confirmButtonColor);
+      }
+    } else {
+      if (keyCode === 13) {
+        if ($targetElement.tagName === 'INPUT') {
+          $targetElement = $okButton;
+          $okButton.focus();
+        }
+        if (btnIndex === -1) {
+          $targetElement = $okButton;
+        } else {
+          $targetElement = undefined;
+        }
+      } else if (keyCode === 27 && params.allowEscapeKey === true) {
+        $targetElement = $cancelButton;
+        _stopEventPropagation$fireClick.fireClick($targetElement, e);
+      } else {
+        $targetElement = undefined;
+      }
+    }
+  };
+  exports['default'] = handleKeyDown;
+  module.exports = exports['default'];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/utils", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var extend = function extend(a, b) {
+    for (var key in b) {
+      if (b.hasOwnProperty(key)) {
+        a[key] = b[key];
+      }
+    }
+    return a;
+  };
+  var hexToRgb = function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) : null;
+  };
+  var isIE8 = function isIE8() {
+    return window.attachEvent && !window.addEventListener;
+  };
+  var logStr = function logStr(string) {
+    if (window.console) {
+      window.console.log('SweetAlert: ' + string);
+    }
+  };
+  var colorLuminance = function colorLuminance(hex, lum) {
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    lum = lum || 0;
+    var rgb = '#';
+    var c;
+    var i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i * 2, 2), 16);
+      c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+      rgb += ('00' + c).substr(c.length);
+    }
+    return rgb;
+  };
+  exports.extend = extend;
+  exports.hexToRgb = hexToRgb;
+  exports.isIE8 = isIE8;
+  exports.logStr = logStr;
+  exports.colorLuminance = colorLuminance;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/default-params", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var defaultParams = {
+    title: '',
+    text: '',
+    type: null,
+    allowOutsideClick: false,
+    showConfirmButton: true,
+    showCancelButton: false,
+    closeOnConfirm: true,
+    closeOnCancel: true,
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#8CD4F5',
+    cancelButtonText: 'Cancel',
+    imageUrl: null,
+    imageSize: null,
+    timer: null,
+    customClass: '',
+    html: false,
+    animation: true,
+    allowEscapeKey: true,
+    inputType: 'text',
+    inputPlaceholder: '',
+    inputValue: '',
+    showLoaderOnConfirm: false
+  };
+  exports['default'] = defaultParams;
+  module.exports = exports['default'];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/injected-html", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, "__esModule", {value: true});
+  var injectedHTML = "<div class=\"sweet-overlay\" tabIndex=\"-1\"></div>" + "<div class=\"sweet-alert\">" + "<div class=\"sa-icon sa-error\">\n      <span class=\"sa-x-mark\">\n        <span class=\"sa-line sa-left\"></span>\n        <span class=\"sa-line sa-right\"></span>\n      </span>\n    </div>" + "<div class=\"sa-icon sa-warning\">\n      <span class=\"sa-body\"></span>\n      <span class=\"sa-dot\"></span>\n    </div>" + "<div class=\"sa-icon sa-info\"></div>" + "<div class=\"sa-icon sa-success\">\n      <span class=\"sa-line sa-tip\"></span>\n      <span class=\"sa-line sa-long\"></span>\n\n      <div class=\"sa-placeholder\"></div>\n      <div class=\"sa-fix\"></div>\n    </div>" + "<div class=\"sa-icon sa-custom\"></div>" + "<h2>Title</h2>\n    <p>Text</p>\n    <fieldset>\n      <input type=\"text\" tabIndex=\"3\" />\n      <div class=\"sa-input-error\"></div>\n    </fieldset>" + "<div class=\"sa-error-container\">\n      <div class=\"icon\">!</div>\n      <p>Not valid!</p>\n    </div>" + "<div class=\"sa-button-container\">\n      <button class=\"cancel\" tabIndex=\"2\">Cancel</button>\n      <div class=\"sa-confirm-button-container\">\n        <button class=\"confirm\" tabIndex=\"1\">OK</button>" + "<div class=\"la-ball-fall\">\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>\n    </div>" + "</div>";
+  exports["default"] = injectedHTML;
+  module.exports = exports["default"];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/handle-swal-dom", ["npm:sweetalert@1.1.3/lib/modules/utils", "npm:sweetalert@1.1.3/lib/modules/handle-dom", "npm:sweetalert@1.1.3/lib/modules/default-params", "npm:sweetalert@1.1.3/lib/modules/injected-html"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _interopRequireWildcard = function(obj) {
+    return obj && obj.__esModule ? obj : {'default': obj};
+  };
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var _hexToRgb = $__require('npm:sweetalert@1.1.3/lib/modules/utils');
+  var _removeClass$getTopMargin$fadeIn$show$addClass = $__require('npm:sweetalert@1.1.3/lib/modules/handle-dom');
+  var _defaultParams = $__require('npm:sweetalert@1.1.3/lib/modules/default-params');
+  var _defaultParams2 = _interopRequireWildcard(_defaultParams);
+  var _injectedHTML = $__require('npm:sweetalert@1.1.3/lib/modules/injected-html');
+  var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
+  var modalClass = '.sweet-alert';
+  var overlayClass = '.sweet-overlay';
+  var sweetAlertInitialize = function sweetAlertInitialize() {
+    var sweetWrap = document.createElement('div');
+    sweetWrap.innerHTML = _injectedHTML2['default'];
+    while (sweetWrap.firstChild) {
+      document.body.appendChild(sweetWrap.firstChild);
+    }
+  };
+  var getModal = (function(_getModal) {
+    function getModal() {
+      return _getModal.apply(this, arguments);
+    }
+    getModal.toString = function() {
+      return _getModal.toString();
+    };
+    return getModal;
+  })(function() {
+    var $modal = document.querySelector(modalClass);
+    if (!$modal) {
+      sweetAlertInitialize();
+      $modal = getModal();
+    }
+    return $modal;
+  });
+  var getInput = function getInput() {
+    var $modal = getModal();
+    if ($modal) {
+      return $modal.querySelector('input');
+    }
+  };
+  var getOverlay = function getOverlay() {
+    return document.querySelector(overlayClass);
+  };
+  var setFocusStyle = function setFocusStyle($button, bgColor) {
+    var rgbColor = _hexToRgb.hexToRgb(bgColor);
+    $button.style.boxShadow = '0 0 2px rgba(' + rgbColor + ', 0.8), inset 0 0 0 1px rgba(0, 0, 0, 0.05)';
+  };
+  var openModal = function openModal(callback) {
+    var $modal = getModal();
+    _removeClass$getTopMargin$fadeIn$show$addClass.fadeIn(getOverlay(), 10);
+    _removeClass$getTopMargin$fadeIn$show$addClass.show($modal);
+    _removeClass$getTopMargin$fadeIn$show$addClass.addClass($modal, 'showSweetAlert');
+    _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($modal, 'hideSweetAlert');
+    window.previousActiveElement = document.activeElement;
+    var $okButton = $modal.querySelector('button.confirm');
+    $okButton.focus();
+    setTimeout(function() {
+      _removeClass$getTopMargin$fadeIn$show$addClass.addClass($modal, 'visible');
+    }, 500);
+    var timer = $modal.getAttribute('data-timer');
+    if (timer !== 'null' && timer !== '') {
+      var timerCallback = callback;
+      $modal.timeout = setTimeout(function() {
+        var doneFunctionExists = (timerCallback || null) && $modal.getAttribute('data-has-done-function') === 'true';
+        if (doneFunctionExists) {
+          timerCallback(null);
+        } else {
+          sweetAlert.close();
+        }
+      }, timer);
+    }
+  };
+  var resetInput = function resetInput() {
+    var $modal = getModal();
+    var $input = getInput();
+    _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($modal, 'show-input');
+    $input.value = _defaultParams2['default'].inputValue;
+    $input.setAttribute('type', _defaultParams2['default'].inputType);
+    $input.setAttribute('placeholder', _defaultParams2['default'].inputPlaceholder);
+    resetInputError();
+  };
+  var resetInputError = function resetInputError(event) {
+    if (event && event.keyCode === 13) {
+      return false;
+    }
+    var $modal = getModal();
+    var $errorIcon = $modal.querySelector('.sa-input-error');
+    _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($errorIcon, 'show');
+    var $errorContainer = $modal.querySelector('.sa-error-container');
+    _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($errorContainer, 'show');
+  };
+  var fixVerticalPosition = function fixVerticalPosition() {
+    var $modal = getModal();
+    $modal.style.marginTop = _removeClass$getTopMargin$fadeIn$show$addClass.getTopMargin(getModal());
+  };
+  exports.sweetAlertInitialize = sweetAlertInitialize;
+  exports.getModal = getModal;
+  exports.getOverlay = getOverlay;
+  exports.getInput = getInput;
+  exports.setFocusStyle = setFocusStyle;
+  exports.openModal = openModal;
+  exports.resetInput = resetInput;
+  exports.resetInputError = resetInputError;
+  exports.fixVerticalPosition = fixVerticalPosition;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/handle-dom", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var hasClass = function hasClass(elem, className) {
+    return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+  };
+  var addClass = function addClass(elem, className) {
+    if (!hasClass(elem, className)) {
+      elem.className += ' ' + className;
+    }
+  };
+  var removeClass = function removeClass(elem, className) {
+    var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
+    if (hasClass(elem, className)) {
+      while (newClass.indexOf(' ' + className + ' ') >= 0) {
+        newClass = newClass.replace(' ' + className + ' ', ' ');
+      }
+      elem.className = newClass.replace(/^\s+|\s+$/g, '');
+    }
+  };
+  var escapeHtml = function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  };
+  var _show = function _show(elem) {
+    elem.style.opacity = '';
+    elem.style.display = 'block';
+  };
+  var show = function show(elems) {
+    if (elems && !elems.length) {
+      return _show(elems);
+    }
+    for (var i = 0; i < elems.length; ++i) {
+      _show(elems[i]);
+    }
+  };
+  var _hide = function _hide(elem) {
+    elem.style.opacity = '';
+    elem.style.display = 'none';
+  };
+  var hide = function hide(elems) {
+    if (elems && !elems.length) {
+      return _hide(elems);
+    }
+    for (var i = 0; i < elems.length; ++i) {
+      _hide(elems[i]);
+    }
+  };
+  var isDescendant = function isDescendant(parent, child) {
+    var node = child.parentNode;
+    while (node !== null) {
+      if (node === parent) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
+  };
+  var getTopMargin = function getTopMargin(elem) {
+    elem.style.left = '-9999px';
+    elem.style.display = 'block';
+    var height = elem.clientHeight,
+        padding;
+    if (typeof getComputedStyle !== 'undefined') {
+      padding = parseInt(getComputedStyle(elem).getPropertyValue('padding-top'), 10);
+    } else {
+      padding = parseInt(elem.currentStyle.padding);
+    }
+    elem.style.left = '';
+    elem.style.display = 'none';
+    return '-' + parseInt((height + padding) / 2) + 'px';
+  };
+  var fadeIn = function fadeIn(elem, interval) {
+    if (+elem.style.opacity < 1) {
+      interval = interval || 16;
+      elem.style.opacity = 0;
+      elem.style.display = 'block';
+      var last = +new Date();
+      var tick = (function(_tick) {
+        function tick() {
+          return _tick.apply(this, arguments);
+        }
+        tick.toString = function() {
+          return _tick.toString();
+        };
+        return tick;
+      })(function() {
+        elem.style.opacity = +elem.style.opacity + (new Date() - last) / 100;
+        last = +new Date();
+        if (+elem.style.opacity < 1) {
+          setTimeout(tick, interval);
+        }
+      });
+      tick();
+    }
+    elem.style.display = 'block';
+  };
+  var fadeOut = function fadeOut(elem, interval) {
+    interval = interval || 16;
+    elem.style.opacity = 1;
+    var last = +new Date();
+    var tick = (function(_tick2) {
+      function tick() {
+        return _tick2.apply(this, arguments);
+      }
+      tick.toString = function() {
+        return _tick2.toString();
+      };
+      return tick;
+    })(function() {
+      elem.style.opacity = +elem.style.opacity - (new Date() - last) / 100;
+      last = +new Date();
+      if (+elem.style.opacity > 0) {
+        setTimeout(tick, interval);
+      } else {
+        elem.style.display = 'none';
+      }
+    });
+    tick();
+  };
+  var fireClick = function fireClick(node) {
+    if (typeof MouseEvent === 'function') {
+      var mevt = new MouseEvent('click', {
+        view: window,
+        bubbles: false,
+        cancelable: true
+      });
+      node.dispatchEvent(mevt);
+    } else if (document.createEvent) {
+      var evt = document.createEvent('MouseEvents');
+      evt.initEvent('click', false, false);
+      node.dispatchEvent(evt);
+    } else if (document.createEventObject) {
+      node.fireEvent('onclick');
+    } else if (typeof node.onclick === 'function') {
+      node.onclick();
+    }
+  };
+  var stopEventPropagation = function stopEventPropagation(e) {
+    if (typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+      e.preventDefault();
+    } else if (window.event && window.event.hasOwnProperty('cancelBubble')) {
+      window.event.cancelBubble = true;
+    }
+  };
+  exports.hasClass = hasClass;
+  exports.addClass = addClass;
+  exports.removeClass = removeClass;
+  exports.escapeHtml = escapeHtml;
+  exports._show = _show;
+  exports.show = show;
+  exports._hide = _hide;
+  exports.hide = hide;
+  exports.isDescendant = isDescendant;
+  exports.getTopMargin = getTopMargin;
+  exports.fadeIn = fadeIn;
+  exports.fadeOut = fadeOut;
+  exports.fireClick = fireClick;
+  exports.stopEventPropagation = stopEventPropagation;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/set-params", ["npm:sweetalert@1.1.3/lib/modules/utils", "npm:sweetalert@1.1.3/lib/modules/handle-swal-dom", "npm:sweetalert@1.1.3/lib/modules/handle-dom"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var _isIE8 = $__require('npm:sweetalert@1.1.3/lib/modules/utils');
+  var _getModal$getInput$setFocusStyle = $__require('npm:sweetalert@1.1.3/lib/modules/handle-swal-dom');
+  var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = $__require('npm:sweetalert@1.1.3/lib/modules/handle-dom');
+  var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
+  var setParameters = function setParameters(params) {
+    var modal = _getModal$getInput$setFocusStyle.getModal();
+    var $title = modal.querySelector('h2');
+    var $text = modal.querySelector('p');
+    var $cancelBtn = modal.querySelector('button.cancel');
+    var $confirmBtn = modal.querySelector('button.confirm');
+    $title.innerHTML = params.html ? params.title : _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.title).split('\n').join('<br>');
+    $text.innerHTML = params.html ? params.text : _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.text || '').split('\n').join('<br>');
+    if (params.text)
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($text);
+    if (params.customClass) {
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass(modal, params.customClass);
+      modal.setAttribute('data-custom-class', params.customClass);
+    } else {
+      var customClass = modal.getAttribute('data-custom-class');
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.removeClass(modal, customClass);
+      modal.setAttribute('data-custom-class', '');
+    }
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide(modal.querySelectorAll('.sa-icon'));
+    if (params.type && !_isIE8.isIE8()) {
+      var _ret = (function() {
+        var validType = false;
+        for (var i = 0; i < alertTypes.length; i++) {
+          if (params.type === alertTypes[i]) {
+            validType = true;
+            break;
+          }
+        }
+        if (!validType) {
+          logStr('Unknown alert type: ' + params.type);
+          return {v: false};
+        }
+        var typesWithIcons = ['success', 'error', 'warning', 'info'];
+        var $icon = undefined;
+        if (typesWithIcons.indexOf(params.type) !== -1) {
+          $icon = modal.querySelector('.sa-icon.' + 'sa-' + params.type);
+          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($icon);
+        }
+        var $input = _getModal$getInput$setFocusStyle.getInput();
+        switch (params.type) {
+          case 'success':
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'animate');
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-tip'), 'animateSuccessTip');
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-long'), 'animateSuccessLong');
+            break;
+          case 'error':
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'animateErrorIcon');
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-x-mark'), 'animateXMark');
+            break;
+          case 'warning':
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'pulseWarning');
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-body'), 'pulseWarningIns');
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-dot'), 'pulseWarningIns');
+            break;
+          case 'input':
+          case 'prompt':
+            $input.setAttribute('type', params.inputType);
+            $input.value = params.inputValue;
+            $input.setAttribute('placeholder', params.inputPlaceholder);
+            _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass(modal, 'show-input');
+            setTimeout(function() {
+              $input.focus();
+              $input.addEventListener('keyup', swal.resetInputError);
+            }, 400);
+            break;
+        }
+      })();
+      if (typeof _ret === 'object') {
+        return _ret.v;
+      }
+    }
+    if (params.imageUrl) {
+      var $customIcon = modal.querySelector('.sa-icon.sa-custom');
+      $customIcon.style.backgroundImage = 'url(' + params.imageUrl + ')';
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($customIcon);
+      var _imgWidth = 80;
+      var _imgHeight = 80;
+      if (params.imageSize) {
+        var dimensions = params.imageSize.toString().split('x');
+        var imgWidth = dimensions[0];
+        var imgHeight = dimensions[1];
+        if (!imgWidth || !imgHeight) {
+          logStr('Parameter imageSize expects value with format WIDTHxHEIGHT, got ' + params.imageSize);
+        } else {
+          _imgWidth = imgWidth;
+          _imgHeight = imgHeight;
+        }
+      }
+      $customIcon.setAttribute('style', $customIcon.getAttribute('style') + 'width:' + _imgWidth + 'px; height:' + _imgHeight + 'px');
+    }
+    modal.setAttribute('data-has-cancel-button', params.showCancelButton);
+    if (params.showCancelButton) {
+      $cancelBtn.style.display = 'inline-block';
+    } else {
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide($cancelBtn);
+    }
+    modal.setAttribute('data-has-confirm-button', params.showConfirmButton);
+    if (params.showConfirmButton) {
+      $confirmBtn.style.display = 'inline-block';
+    } else {
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide($confirmBtn);
+    }
+    if (params.cancelButtonText) {
+      $cancelBtn.innerHTML = _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.cancelButtonText);
+    }
+    if (params.confirmButtonText) {
+      $confirmBtn.innerHTML = _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.confirmButtonText);
+    }
+    if (params.confirmButtonColor) {
+      $confirmBtn.style.backgroundColor = params.confirmButtonColor;
+      $confirmBtn.style.borderLeftColor = params.confirmLoadingButtonColor;
+      $confirmBtn.style.borderRightColor = params.confirmLoadingButtonColor;
+      _getModal$getInput$setFocusStyle.setFocusStyle($confirmBtn, params.confirmButtonColor);
+    }
+    modal.setAttribute('data-allow-outside-click', params.allowOutsideClick);
+    var hasDoneFunction = params.doneFunction ? true : false;
+    modal.setAttribute('data-has-done-function', hasDoneFunction);
+    if (!params.animation) {
+      modal.setAttribute('data-animation', 'none');
+    } else if (typeof params.animation === 'string') {
+      modal.setAttribute('data-animation', params.animation);
+    } else {
+      modal.setAttribute('data-animation', 'pop');
+    }
+    modal.setAttribute('data-timer', params.timer);
+  };
+  exports['default'] = setParameters;
+  module.exports = exports['default'];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3/lib/sweetalert", ["npm:sweetalert@1.1.3/lib/modules/handle-dom", "npm:sweetalert@1.1.3/lib/modules/utils", "npm:sweetalert@1.1.3/lib/modules/handle-swal-dom", "npm:sweetalert@1.1.3/lib/modules/handle-click", "npm:sweetalert@1.1.3/lib/modules/handle-key", "npm:sweetalert@1.1.3/lib/modules/default-params", "npm:sweetalert@1.1.3/lib/modules/set-params"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _interopRequireWildcard = function(obj) {
+    return obj && obj.__esModule ? obj : {'default': obj};
+  };
+  Object.defineProperty(exports, '__esModule', {value: true});
+  var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = $__require('npm:sweetalert@1.1.3/lib/modules/handle-dom');
+  var _extend$hexToRgb$isIE8$logStr$colorLuminance = $__require('npm:sweetalert@1.1.3/lib/modules/utils');
+  var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = $__require('npm:sweetalert@1.1.3/lib/modules/handle-swal-dom');
+  var _handleButton$handleConfirm$handleCancel = $__require('npm:sweetalert@1.1.3/lib/modules/handle-click');
+  var _handleKeyDown = $__require('npm:sweetalert@1.1.3/lib/modules/handle-key');
+  var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
+  var _defaultParams = $__require('npm:sweetalert@1.1.3/lib/modules/default-params');
+  var _defaultParams2 = _interopRequireWildcard(_defaultParams);
+  var _setParameters = $__require('npm:sweetalert@1.1.3/lib/modules/set-params');
+  var _setParameters2 = _interopRequireWildcard(_setParameters);
+  var previousWindowKeyDown;
+  var lastFocusedButton;
+  var sweetAlert,
+      swal;
+  exports['default'] = sweetAlert = swal = function() {
+    var customizations = arguments[0];
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass(document.body, 'stop-scrolling');
+    _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.resetInput();
+    function argumentOrDefault(key) {
+      var args = customizations;
+      return args[key] === undefined ? _defaultParams2['default'][key] : args[key];
+    }
+    if (customizations === undefined) {
+      _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('SweetAlert expects at least 1 attribute!');
+      return false;
+    }
+    var params = _extend$hexToRgb$isIE8$logStr$colorLuminance.extend({}, _defaultParams2['default']);
+    switch (typeof customizations) {
+      case 'string':
+        params.title = customizations;
+        params.text = arguments[1] || '';
+        params.type = arguments[2] || '';
+        break;
+      case 'object':
+        if (customizations.title === undefined) {
+          _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('Missing "title" argument!');
+          return false;
+        }
+        params.title = customizations.title;
+        for (var customName in _defaultParams2['default']) {
+          params[customName] = argumentOrDefault(customName);
+        }
+        params.confirmButtonText = params.showCancelButton ? 'Confirm' : _defaultParams2['default'].confirmButtonText;
+        params.confirmButtonText = argumentOrDefault('confirmButtonText');
+        params.doneFunction = arguments[1] || null;
+        break;
+      default:
+        _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('Unexpected type of argument! Expected "string" or "object", got ' + typeof customizations);
+        return false;
+    }
+    _setParameters2['default'](params);
+    _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.fixVerticalPosition();
+    _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.openModal(arguments[1]);
+    var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    var $buttons = modal.querySelectorAll('button');
+    var buttonEvents = ['onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'onfocus'];
+    var onButtonEvent = function onButtonEvent(e) {
+      return _handleButton$handleConfirm$handleCancel.handleButton(e, params, modal);
+    };
+    for (var btnIndex = 0; btnIndex < $buttons.length; btnIndex++) {
+      for (var evtIndex = 0; evtIndex < buttonEvents.length; evtIndex++) {
+        var btnEvt = buttonEvents[evtIndex];
+        $buttons[btnIndex][btnEvt] = onButtonEvent;
+      }
+    }
+    _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getOverlay().onclick = onButtonEvent;
+    previousWindowKeyDown = window.onkeydown;
+    var onKeyEvent = function onKeyEvent(e) {
+      return _handleKeyDown2['default'](e, params, modal);
+    };
+    window.onkeydown = onKeyEvent;
+    window.onfocus = function() {
+      setTimeout(function() {
+        if (lastFocusedButton !== undefined) {
+          lastFocusedButton.focus();
+          lastFocusedButton = undefined;
+        }
+      }, 0);
+    };
+    swal.enableButtons();
+  };
+  sweetAlert.setDefaults = swal.setDefaults = function(userParams) {
+    if (!userParams) {
+      throw new Error('userParams is required');
+    }
+    if (typeof userParams !== 'object') {
+      throw new Error('userParams has to be a object');
+    }
+    _extend$hexToRgb$isIE8$logStr$colorLuminance.extend(_defaultParams2['default'], userParams);
+  };
+  sweetAlert.close = swal.close = function() {
+    var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.fadeOut(_sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getOverlay(), 5);
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.fadeOut(modal, 5);
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, 'showSweetAlert');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass(modal, 'hideSweetAlert');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, 'visible');
+    var $successIcon = modal.querySelector('.sa-icon.sa-success');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon, 'animate');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon.querySelector('.sa-tip'), 'animateSuccessTip');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon.querySelector('.sa-long'), 'animateSuccessLong');
+    var $errorIcon = modal.querySelector('.sa-icon.sa-error');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon, 'animateErrorIcon');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon.querySelector('.sa-x-mark'), 'animateXMark');
+    var $warningIcon = modal.querySelector('.sa-icon.sa-warning');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon, 'pulseWarning');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon.querySelector('.sa-body'), 'pulseWarningIns');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon.querySelector('.sa-dot'), 'pulseWarningIns');
+    setTimeout(function() {
+      var customClass = modal.getAttribute('data-custom-class');
+      _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, customClass);
+    }, 300);
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(document.body, 'stop-scrolling');
+    window.onkeydown = previousWindowKeyDown;
+    if (window.previousActiveElement) {
+      window.previousActiveElement.focus();
+    }
+    lastFocusedButton = undefined;
+    clearTimeout(modal.timeout);
+    return true;
+  };
+  sweetAlert.showInputError = swal.showInputError = function(errorMessage) {
+    var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    var $errorIcon = modal.querySelector('.sa-input-error');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass($errorIcon, 'show');
+    var $errorContainer = modal.querySelector('.sa-error-container');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass($errorContainer, 'show');
+    $errorContainer.querySelector('p').innerHTML = errorMessage;
+    setTimeout(function() {
+      sweetAlert.enableButtons();
+    }, 1);
+    modal.querySelector('input').focus();
+  };
+  sweetAlert.resetInputError = swal.resetInputError = function(event) {
+    if (event && event.keyCode === 13) {
+      return false;
+    }
+    var $modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    var $errorIcon = $modal.querySelector('.sa-input-error');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon, 'show');
+    var $errorContainer = $modal.querySelector('.sa-error-container');
+    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorContainer, 'show');
+  };
+  sweetAlert.disableButtons = swal.disableButtons = function(event) {
+    var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    var $confirmButton = modal.querySelector('button.confirm');
+    var $cancelButton = modal.querySelector('button.cancel');
+    $confirmButton.disabled = true;
+    $cancelButton.disabled = true;
+  };
+  sweetAlert.enableButtons = swal.enableButtons = function(event) {
+    var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+    var $confirmButton = modal.querySelector('button.confirm');
+    var $cancelButton = modal.querySelector('button.cancel');
+    $confirmButton.disabled = false;
+    $cancelButton.disabled = false;
+  };
+  if (typeof window !== 'undefined') {
+    window.sweetAlert = window.swal = sweetAlert;
+  } else {
+    _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('SweetAlert is a frontend module!');
+  }
+  module.exports = exports['default'];
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:sweetalert@1.1.3", ["npm:sweetalert@1.1.3/lib/sweetalert"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:sweetalert@1.1.3/lib/sweetalert');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/NotLoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:sweetalert@1.1.3", "npm:jquery@2.2.0"], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, NotLoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, SweetAlert, get, _getAppState, NotLoggedInHome;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -269,6 +1181,8 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
       PostActions = _libActionsPostActionsJs["default"];
     }, function (_libStoresPostStoreJs) {
       PostStore = _libStoresPostStoreJs["default"];
+    }, function (_npmSweetalert113) {
+      SweetAlert = _npmSweetalert113["default"];
     }, function (_npmJquery220) {
       get = _npmJquery220.get;
     }],
@@ -278,7 +1192,8 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
       _getAppState = function _getAppState() {
         return {
           posts: PostStore.getAllPosts(),
-          user: UserStore.getUserInfo()
+          user: UserStore.getUserInfo(),
+          error: UserStore.getLoginError()
         };
       };
 
@@ -303,7 +1218,7 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
                 }
                 hashHistory.push('home');
               }, function (err) {
-                
+
                 hashHistory.push('/');
               });
             })();
@@ -330,6 +1245,9 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
 
             if (this.state.user) {
               hashHistory.push('/home');
+            } else if (this.state.error) {
+              var errorMessage = this.state.error.responseText;
+              swal('Sorry!', errorMessage, "error");
             }
           }
         }, {
@@ -359,10 +1277,19 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
                       "A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions"
                     )
                   )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "homePageArrow" },
+                  React.createElement("image", { src: "./lib/arrow-down.png" })
                 )
               ),
               React.createElement(SignUpForm, null),
-              React.createElement(PostFeed, { posts: this.state.posts })
+              React.createElement(
+                "div",
+                { className: "col-xs-12 col-sm-9", id: "feed" },
+                React.createElement(PostFeed, { posts: this.state.posts })
+              )
             );
           }
         }]);
@@ -374,25 +1301,25 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
     }
   };
 });
-System.register("lib/components/general/SignUpForm.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "lib/actions/UserActions.js"], function (_export) {
+System.register('lib/components/general/SignUpForm.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
   var _get, _inherits, _createClass, _classCallCheck, React, UserActions, SignUpForm;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet["default"];
+      _get = _npmBabelRuntime5834HelpersGet['default'];
     }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
     }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
     }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
     }, function (_npmReact0146) {
-      React = _npmReact0146["default"];
+      React = _npmReact0146['default'];
     }, function (_libActionsUserActionsJs) {
-      UserActions = _libActionsUserActionsJs["default"];
+      UserActions = _libActionsUserActionsJs['default'];
     }],
     execute: function () {
-      "use strict";
+      'use strict';
 
       SignUpForm = (function (_React$Component) {
         _inherits(SignUpForm, _React$Component);
@@ -400,77 +1327,82 @@ System.register("lib/components/general/SignUpForm.js", ["npm:babel-runtime@5.8.
         function SignUpForm(props) {
           _classCallCheck(this, SignUpForm);
 
-          _get(Object.getPrototypeOf(SignUpForm.prototype), "constructor", this).call(this, props);
+          _get(Object.getPrototypeOf(SignUpForm.prototype), 'constructor', this).call(this, props);
           this.state = {};
         }
 
         _createClass(SignUpForm, [{
-          key: "updateUsername",
+          key: 'updateUsername',
           value: function updateUsername(e) {
             this.setState({ username: e.target.value });
           }
         }, {
-          key: "updatePassword1",
+          key: 'updatePassword1',
           value: function updatePassword1(e) {
             this.setState({ password1: e.target.value });
           }
         }, {
-          key: "updatePassword2",
+          key: 'updatePassword2',
           value: function updatePassword2(e) {
             this.setState({ password2: e.target.value });
           }
         }, {
-          key: "submitNewUser",
+          key: 'submitNewUser',
           value: function submitNewUser(e) {
             e.preventDefault();
-            ;
-            if (this.state.password1 === this.state.password2) {
+            if (!this.state.username) {
+              swal('Oops!', "Please enter a new username.", "error");
+            } else if (!this.state.password1 || !this.state.password2) {
+              swal('Oops!', "Please enter a new password", "error");
+            } else if (this.state.password1 !== this.state.password2) {
+              swal('Oops!', "Passwords must match.", "error");
+            } else {
               UserActions.createNewUser(this.state);
             }
           }
         }, {
-          key: "render",
+          key: 'render',
           value: function render() {
             return React.createElement(
-              "div",
-              { className: "hidden-xs col-sm-3 signUpFormComponent" },
+              'div',
+              { className: 'hidden-xs col-sm-3 signUpFormComponent' },
               React.createElement(
-                "form",
+                'form',
                 null,
                 React.createElement(
-                  "div",
-                  { className: "form-group" },
+                  'div',
+                  { className: 'form-group' },
                   React.createElement(
-                    "label",
-                    { htmlFor: "username" },
-                    "Choose a username"
+                    'label',
+                    { htmlFor: 'username' },
+                    'Choose a username'
                   ),
-                  React.createElement("input", { onChange: this.updateUsername.bind(this), type: "text", className: "form-control", id: "username", placeholder: "username" })
+                  React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', id: 'username', placeholder: 'username' })
                 ),
                 React.createElement(
-                  "div",
-                  { className: "form-group" },
+                  'div',
+                  { className: 'form-group' },
                   React.createElement(
-                    "label",
-                    { htmlFor: "pass1" },
-                    "Password"
+                    'label',
+                    { htmlFor: 'pass1' },
+                    'Password'
                   ),
-                  React.createElement("input", { onChange: this.updatePassword1.bind(this), type: "password", className: "form-control", id: "pass1", placeholder: "Password" })
+                  React.createElement('input', { onChange: this.updatePassword1.bind(this), type: 'password', className: 'form-control', id: 'pass1', placeholder: 'Password' })
                 ),
                 React.createElement(
-                  "div",
-                  { className: "form-group" },
+                  'div',
+                  { className: 'form-group' },
                   React.createElement(
-                    "label",
-                    { htmlFor: "pass2" },
-                    "Confirm Password"
+                    'label',
+                    { htmlFor: 'pass2' },
+                    'Confirm Password'
                   ),
-                  React.createElement("input", { onChange: this.updatePassword2.bind(this), type: "password", className: "form-control", id: "pass2", placeholder: "Re-enter password" })
+                  React.createElement('input', { onChange: this.updatePassword2.bind(this), type: 'password', className: 'form-control', id: 'pass2', placeholder: 'Re-enter password' })
                 ),
                 React.createElement(
-                  "button",
-                  { onClick: this.submitNewUser.bind(this), type: "submit", className: "btn btn-default" },
-                  "Submit"
+                  'button',
+                  { onClick: this.submitNewUser.bind(this), type: 'submit', className: 'btn btn-default' },
+                  'Submit'
                 )
               )
             );
@@ -480,12 +1412,66 @@ System.register("lib/components/general/SignUpForm.js", ["npm:babel-runtime@5.8.
         return SignUpForm;
       })(React.Component);
 
-      _export("default", SignUpForm);
+      _export('default', SignUpForm);
     }
   };
 });
-System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, Post;
+System.registerDynamic("npm:classnames@2.2.3/index", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function() {
+    'use strict';
+    var hasOwn = {}.hasOwnProperty;
+    function classNames() {
+      var classes = [];
+      for (var i = 0; i < arguments.length; i++) {
+        var arg = arguments[i];
+        if (!arg)
+          continue;
+        var argType = typeof arg;
+        if (argType === 'string' || argType === 'number') {
+          classes.push(arg);
+        } else if (Array.isArray(arg)) {
+          classes.push(classNames.apply(null, arg));
+        } else if (argType === 'object') {
+          for (var key in arg) {
+            if (hasOwn.call(arg, key) && arg[key]) {
+              classes.push(key);
+            }
+          }
+        }
+      }
+      return classes.join(' ');
+    }
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = classNames;
+    } else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+      define('classnames', [], function() {
+        return classNames;
+      });
+    } else {
+      window.classNames = classNames;
+    }
+  }());
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:classnames@2.2.3", ["npm:classnames@2.2.3/index"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:classnames@2.2.3/index');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:classnames@2.2.3', 'lib/actions/PostActions.js', 'lib/stores/UserStore.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, classNames, PostActions, UserStore, Post;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -500,6 +1486,12 @@ System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/hel
       React = _npmReact0146['default'];
     }, function (_npmReactRouter200Rc5) {
       Link = _npmReactRouter200Rc5.Link;
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223['default'];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs['default'];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs['default'];
     }],
     execute: function () {
       'use strict';
@@ -515,30 +1507,109 @@ System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/hel
         }
 
         _createClass(Post, [{
+          key: 'upVote',
+          value: function upVote() {
+            PostActions.upVote(this.props.data._id);
+          }
+        }, {
+          key: 'downVote',
+          value: function downVote() {
+            PostActions.downVote(this.props.data._id);
+          }
+        }, {
           key: 'render',
           value: function render() {
             var params = 'post/' + this.props.data._id;
             var snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
+            var votes = this.props.data.votes.reduce(function (a, voteObj) {
+              return voteObj.vote ? a + 1 : a - 1;
+            }, 0) || 0;
+
+            var userId = this.props.user ? this.props.user._id : false;
+            var upColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && voteObj.vote;
+            });
+            var downColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && !voteObj.vote;
+            });
+
+            var upArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-up': true,
+              'highlight': upColor
+              // 'noUser': !userId
+            });
+            var downArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-down': true,
+              'highlight': downColor
+              // 'noUser': !userId
+            });
+            // let votesWord = classNames({
+            //   'noUser': userId
+            // })
+
+            var authorDisplayName = this.props.data.author.name;
+            var author = undefined;
+            if (authorDisplayName) {
+              author = authorDisplayName;
+            } else {
+              author = this.props.data.author.username;
+            }
+
             return React.createElement(
               'div',
-              { className: 'postComponent' },
+              { className: 'postComponent row' },
               React.createElement(
-                'h1',
-                null,
+                'div',
+                { className: 'voteArea col-xs-1' },
                 React.createElement(
-                  Link,
-                  { to: params },
-                  this.props.data.title
+                  'h3',
+                  null,
+                  React.createElement('span', { onClick: this.upVote.bind(this), className: upArrow, 'aria-hidden': 'true' }),
+                  React.createElement('br', null),
+                  ' ',
+                  votes,
+                  React.createElement('br', null),
+                  React.createElement('span', { onClick: this.downVote.bind(this), className: downArrow, 'aria-hidden': 'true' })
                 )
               ),
               React.createElement(
-                'p',
-                null,
-                snippets,
+                'div',
+                { className: 'col-xs-11' },
                 React.createElement(
-                  Link,
-                  { to: params },
-                  '...'
+                  'h1',
+                  null,
+                  React.createElement(
+                    Link,
+                    { to: params },
+                    this.props.data.title
+                  )
+                ),
+                React.createElement(
+                  'p',
+                  null,
+                  snippets,
+                  React.createElement(
+                    Link,
+                    { to: params },
+                    '...'
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
+                  React.createElement(
+                    'span',
+                    null,
+                    ' - ',
+                    React.createElement(
+                      'em',
+                      null,
+                      author
+                    )
+                  )
                 )
               )
             );
@@ -589,12 +1660,13 @@ System.register('lib/components/general/PostFeed.js', ['npm:babel-runtime@5.8.34
         _createClass(PostFeed, [{
           key: 'render',
           value: function render() {
+            var user = this.props.user;
             var posts = this.props.posts.map(function (post) {
-              return React.createElement(Post, { data: post, key: post._id });
+              return React.createElement(Post, { data: post, user: user, key: post._id });
             });
             return React.createElement(
               'div',
-              { className: 'col-xs-12 col-sm-9 postFeedComponent' },
+              { className: 'postFeedComponent' },
               posts
             );
           }
@@ -649,7 +1721,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
       _getAppState = function _getAppState() {
         return {
           posts: PostStore.getAllPosts(),
-          user: UserStore.getUserInfo()
+          user: UserStore.getUserProfile()
         };
       };
 
@@ -667,7 +1739,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
         _createClass(LoggedInHome, [{
           key: "componentWillMount",
           value: function componentWillMount() {
-            // 
+            //
             // if (!authorize()){
             //   hashHistory.push('/');
             // }
@@ -679,7 +1751,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
                 }
                 return true;
               }, function (err) {
-                
+
                 hashHistory.push('/');
               });
             })();
@@ -687,10 +1759,9 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
         }, {
           key: "componentDidMount",
           value: function componentDidMount() {
-
             PostActions.getAllPosts();
             PostStore.startListening(this._onChange);
-
+            UserActions.fetchUserInfo();
             UserStore.startListening(this._onChange);
           }
         }, {
@@ -699,7 +1770,6 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
             PostStore.stopListening(this._onChange);
 
             UserStore.stopListening(this._onChange);
-            
           }
         }, {
           key: "_onChange",
@@ -707,9 +1777,24 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
             this.setState(_getAppState());
           }
         }, {
+          key: "filterPosts",
+          value: function filterPosts(e) {
+            this.setState({ filter: e.target.value });
+          }
+        }, {
           key: "render",
           value: function render() {
+            var _this = this;
 
+            var posts = this.state.posts;
+            if (this.state.filter) {
+              (function () {
+                var regex = new RegExp(_this.state.filter, 'gi');
+                posts = posts.filter(function (post) {
+                  return post.title.match(regex) || post.body.match(regex);
+                });
+              })();
+            }
             return React.createElement(
               "div",
               { className: "loggedInHomeComponent" },
@@ -722,14 +1807,31 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
                   { className: "row" },
                   React.createElement(
                     "div",
-                    { className: "col-xs-12 text-center sidebar" },
+                    { className: "col-xs-12 col-sm-3 pull-right text-center sidebar" },
                     React.createElement(
-                      Link,
-                      { to: "addpost", className: "btn btn-primary btn-lg" },
-                      "Add A New Post"
+                      "div",
+                      { className: "row" },
+                      React.createElement(
+                        "div",
+                        { className: "col-xs-6 col-sm-12" },
+                        React.createElement("input", { onChange: this.filterPosts.bind(this), type: "text", placeholder: "Search posts...", className: "filterPostsInput" })
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "col-xs-6 col-sm-12" },
+                        React.createElement(
+                          Link,
+                          { to: "addpost", className: "btn btn-primary btn-lg" },
+                          "Add A New Post"
+                        )
+                      )
                     )
                   ),
-                  React.createElement(PostFeed, { posts: this.state.posts })
+                  React.createElement(
+                    "div",
+                    { className: "col-xs-12 col-sm-9" },
+                    React.createElement(PostFeed, { posts: posts, user: this.state.user })
+                  )
                 )
               )
             );
@@ -795,7 +1897,7 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
                 }
                 return true;
               }, function (err) {
-                
+
                 hashHistory.push('/');
               });
             })();
@@ -961,9 +2063,15 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
             var postId = this.props.postId;
             if (this.props.data.comments.length) {
               comments = this.props.data.comments.map(function (comment) {
-                
                 return React.createElement(CommentOnComment, { postId: postId, data: comment, key: comment._id });
               });
+            }
+            var authorDisplayName = this.props.data.author.name;
+            var author = undefined;
+            if (authorDisplayName) {
+              author = authorDisplayName;
+            } else {
+              author = this.props.data.author.username;
             }
 
             return React.createElement(
@@ -975,12 +2083,21 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
                 React.createElement(
                   'p',
                   null,
-                  this.props.data.body,
-                  ' - ',
+                  this.props.data.body
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
                   React.createElement(
-                    'em',
+                    'span',
                     null,
-                    this.props.data.author.username
+                    ' - ',
+                    React.createElement(
+                      'em',
+                      null,
+                      author
+                    )
                   )
                 ),
                 React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
@@ -1070,7 +2187,7 @@ System.register('lib/components/general/AddCommentOnComment.js', ['npm:babel-run
                 React.createElement('textarea', { className: 'commentText', ref: 'commentText', name: '', rows: '5' }),
                 React.createElement(
                   'button',
-                  { className: 'submit', onClick: this.addComment.bind(this) },
+                  { className: 'submit btn btn-primary', onClick: this.addComment.bind(this) },
                   'Submit Comment!'
                 )
               )
@@ -1136,21 +2253,51 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
                 });
               })();
             }
+            var authorDisplayName = this.props.data.author.name;
+            var author = undefined;
+            if (authorDisplayName) {
+              author = authorDisplayName;
+            } else {
+              author = this.props.data.author.username;
+            }
             return React.createElement(
               'div',
               { className: 'col-xs-12 commentComponent' },
               React.createElement(
                 'div',
-                { className: 'well well-sm' },
+                { className: 'voteArea col-xs-1' },
+                React.createElement(
+                  'h3',
+                  null,
+                  React.createElement('span', { onClick: this.upVote.bind(this), className: upArrow, 'aria-hidden': 'true' }),
+                  React.createElement('br', null),
+                  ' ',
+                  votes,
+                  React.createElement('br', null),
+                  React.createElement('span', { onClick: this.downVote.bind(this), className: downArrow, 'aria-hidden': 'true' })
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'col-xs-11 well well-sm' },
                 React.createElement(
                   'p',
                   null,
-                  this.props.data.body,
-                  ' - ',
+                  this.props.data.body
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
                   React.createElement(
-                    'em',
+                    'span',
                     null,
-                    this.props.data.author.username
+                    ' - ',
+                    React.createElement(
+                      'em',
+                      null,
+                      author
+                    )
                   )
                 ),
                 React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
@@ -1186,7 +2333,6 @@ System.register('lib/actions/PostActions.js', ['lib/API.js'], function (_export)
     execute: function () {
       PostActions = {
         getAllPosts: function getAllPosts() {
-
           API.fetchAllPosts();
         },
         createNewPost: function createNewPost(post) {
@@ -1194,6 +2340,16 @@ System.register('lib/actions/PostActions.js', ['lib/API.js'], function (_export)
         },
         getPostInfo: function getPostInfo(postId) {
           API.getPostInfo(postId);
+        },
+        updatePost: function updatePost(edit, id) {
+          API.updatePostInfo(edit, id);
+        },
+
+        upVote: function upVote(postId) {
+          API.vote(postId, 'up');
+        },
+        downVote: function downVote(postId) {
+          API.vote(postId, 'down');
         }
       };
 
@@ -1238,7 +2394,6 @@ System.register('lib/stores/PostStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
           AppDispatcher.register(function (action) {
             switch (action.actionType) {
               case 'RECEIVE_POSTS':
-                ;
                 _posts = action.posts;
                 _this.emit('CHANGE');
                 break;
@@ -1258,7 +2413,6 @@ System.register('lib/stores/PostStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
         _createClass(PostStore, [{
           key: 'getAllPosts',
           value: function getAllPosts() {
-
             return _posts;
           }
         }, {
@@ -1357,6 +2511,7 @@ System.register('lib/components/general/AddCommentOnPost.js', ['npm:babel-runtim
             var commentText = this.refs.commentText.value;
             var data = { postId: this.props.id, body: commentText };
             this.toggleCommentInput();
+            this.refs.commentText.value = '';
             CommentActions.createNewCommentOnPost(data);
           }
         }, {
@@ -1376,7 +2531,7 @@ System.register('lib/components/general/AddCommentOnPost.js', ['npm:babel-runtim
                 React.createElement('textarea', { className: 'commentText', ref: 'commentText', name: '', rows: '5' }),
                 React.createElement(
                   'button',
-                  { className: 'submit', onClick: this.addComment.bind(this) },
+                  { className: 'submit btn btn-primary', onClick: this.addComment.bind(this) },
                   'Submit Comment!'
                 )
               )
@@ -2228,8 +3383,8 @@ System.registerDynamic("npm:marked@0.3.5", ["npm:marked@0.3.5/lib/marked"], true
   return module.exports;
 });
 
-System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/LoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, $, LoggedInNav, Comment, PostActions, PostStore, AddCommentOnPost, marked, _getComponentState, ViewPost;
+System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/LoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/stores/UserStore.js', 'lib/actions/UserActions.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, $, LoggedInNav, Comment, PostActions, PostStore, UserStore, UserActions, AddCommentOnPost, marked, _getComponentState, ViewPost;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -2255,6 +3410,10 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
       PostActions = _libActionsPostActionsJs['default'];
     }, function (_libStoresPostStoreJs) {
       PostStore = _libStoresPostStoreJs['default'];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs['default'];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs['default'];
     }, function (_libComponentsGeneralAddCommentOnPostJs) {
       AddCommentOnPost = _libComponentsGeneralAddCommentOnPostJs['default'];
     }, function (_npmMarked035) {
@@ -2265,7 +3424,9 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
 
       _getComponentState = function _getComponentState() {
         return {
-          post: PostStore.getPost()
+          post: PostStore.getPost(),
+          user: UserStore.getUserProfile(),
+          editing: false
         };
       };
 
@@ -2285,22 +3446,73 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
           value: function componentDidMount() {
             PostActions.getPostInfo(this.props.params.postId);
             PostStore.startListening(this._onChange);
+
+            UserActions.fetchUserInfo();
+            UserStore.startListening(this._onChange);
           }
         }, {
           key: 'componentWillUnmount',
           value: function componentWillUnmount() {
             PostStore.stopListening(this._onChange);
+            UserStore.stopListening(this._onChange);
           }
         }, {
           key: '_onChange',
           value: function _onChange() {
             this.setState(_getComponentState());
-            
           }
         }, {
           key: 'rawMarkup',
           value: function rawMarkup() {
             return { __html: marked(this.state.post.body, { sanitize: true }) };
+          }
+        }, {
+          key: 'handleEditClick',
+          value: function handleEditClick() {
+            if (this.state.editing) {
+              var $currentTitle = $('.viewPostTitle h1');
+              var title = $currentTitle.find('input').val();
+
+              var body = $('.viewPostBody textarea').val();
+              $('.viewPostBody div div').empty();
+
+              PostActions.updatePost({ title: title, body: body }, this.state.post._id);
+
+              $currentTitle.empty();
+              $currentTitle.text(title);
+              $('.edit-btn').text('Edit Post');
+
+              this.setState({ editing: false });
+            } else {
+              var $currentTitle = $('.viewPostTitle h1');
+              var title = $currentTitle.text();
+
+              var $body = $('.viewPostBody div div');
+              $body.empty();
+
+              $body.append($('<textarea style="margin-left: 10px; height: 250px; width: 90%;">').text(this.state.post.body));
+
+              $currentTitle.empty();
+              $currentTitle.append($('<input type=\'text\' value=' + title + ' />'));
+              $('.edit-btn').text('Save Post');
+
+              this.setState({ editing: true });
+            }
+          }
+        }, {
+          key: 'displayEditButton',
+          value: function displayEditButton() {
+            if (this.state.user && this.state.user._id === this.state.post.author) {
+              return React.createElement(
+                'div',
+                { className: 'row' },
+                React.createElement(
+                  'button',
+                  { className: 'edit-btn btn btn-primary', onClick: this.handleEditClick.bind(this) },
+                  'Edit Post'
+                )
+              );
+            }
           }
         }, {
           key: 'render',
@@ -2351,15 +3563,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
                     React.createElement('hr', null)
                   )
                 ),
-                React.createElement(
-                  'div',
-                  { className: 'row edit' },
-                  React.createElement(
-                    'button',
-                    null,
-                    'Hello'
-                  )
-                ),
+                this.displayEditButton(),
                 React.createElement(
                   'div',
                   { className: 'row viewTags' },
@@ -12825,7 +14029,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
           'Instances': item.count
         };
       }));
-      
+      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
     },
     getMeasurementsSummaryMap: function(measurements) {
       var summary = ReactDefaultPerfAnalysis.getInclusiveSummary(measurements, true);
@@ -12840,7 +14044,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
     printWasted: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
       console.table(ReactDefaultPerf.getMeasurementsSummaryMap(measurements));
-      
+      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
     },
     printDOM: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
@@ -12852,7 +14056,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
         result.args = JSON.stringify(item.args);
         return result;
       }));
-      
+      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
     },
     _recordWrite: function(id, fnName, totalTime, args) {
       var writes = ReactDefaultPerf._allMeasurements[ReactDefaultPerf._allMeasurements.length - 1].writes;
@@ -19070,7 +20274,7 @@ System.register('lib/authorize.js', ['npm:babel-runtime@5.8.34/core-js/promise',
   //       }
   //       return true
   //     }, (err) => {
-  //       
+  //      
   //       return false
   //
   //     })
@@ -19086,7 +20290,7 @@ System.register('lib/authorize.js', ['npm:babel-runtime@5.8.34/core-js/promise',
         }
         return true;
       }, function (err) {
-        
+
         return false;
       });
     });
@@ -19209,13 +20413,18 @@ System.register("lib/components/general/LoggedInNav.js", ["npm:babel-runtime@5.8
                         { to: "profile" },
                         "Profile"
                       )
-                    ),
+                    )
+                  ),
+                  React.createElement(
+                    "ul",
+                    { className: "nav navbar-nav navbar-right" },
+                    React.createElement("li", { role: "separator", className: "divider" }),
                     React.createElement(
                       "li",
                       null,
                       React.createElement(
-                        "button",
-                        { onClick: this.logout.bind(this) },
+                        "a",
+                        { className: "btn btn-link", onClick: this.logout.bind(this) },
                         "Logout"
                       )
                     )
@@ -20029,7 +21238,7 @@ System.registerDynamic("github:jspm/nodelibs-events@0.1.1", ["github:jspm/nodeli
 });
 
 System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'github:jspm/nodelibs-events@0.1.1', 'lib/AppDispatcher.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, EventEmitter, AppDispatcher, _user, _myInfo, _myPosts, UserStore;
+  var _get, _inherits, _createClass, _classCallCheck, EventEmitter, AppDispatcher, _user, _myInfo, _myPosts, _loginErr, UserStore;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -20051,6 +21260,7 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
       _user = undefined;
       _myInfo = undefined;
       _myPosts = undefined;
+      _loginErr = undefined;
 
       UserStore = (function (_EventEmitter) {
         _inherits(UserStore, _EventEmitter);
@@ -20065,7 +21275,6 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
           AppDispatcher.register(function (action) {
             switch (action.actionType) {
               case 'RECEIVE_NEW_USER':
-
                 _user = action.user;
                 _this.emit('CHANGE');
                 break;
@@ -20075,6 +21284,10 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
                 break;
               case 'RECEIVE_USER_POSTS':
                 _myPosts = action.posts;
+                _this.emit('CHANGE');
+                break;
+              case 'RECEIVE_LOGIN_ERROR':
+                _loginErr = action.err;
                 _this.emit('CHANGE');
                 break;
             }
@@ -20095,6 +21308,11 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
           key: 'getUserProfile',
           value: function getUserProfile() {
             return _myInfo;
+          }
+        }, {
+          key: 'getLoginError',
+          value: function getLoginError() {
+            return _loginErr;
           }
         }, {
           key: 'startListening',
@@ -20436,6 +21654,12 @@ System.register('lib/actions/ServerActions.js', ['lib/AppDispatcher.js'], functi
             actionType: 'RECEIVE_USER_POSTS',
             posts: posts
           });
+        },
+        receiveLoginError: function receiveLoginError(err) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_LOGIN_ERROR',
+            err: err
+          });
         }
       };
 
@@ -20472,15 +21696,31 @@ System.register('lib/API.js', ['npm:jquery@2.2.0', 'lib/actions/ServerActions.js
             return ServerActions.receivePost(data);
           });
         },
+        updatePostInfo: function updatePostInfo(update, postId) {
+          post('posts/' + postId, update).done(function (data) {
+            return ServerActions.receivePost(data);
+          });
+        },
+
+        vote: function vote(postId, direction) {
+          post('posts/vote/' + postId, { direction: direction }).done(function (data) {
+            return ServerActions.receivePosts(data);
+          });
+        },
 
         createNewUser: function createNewUser(newUser) {
           post('/users/register', newUser).done(function (data) {
             ServerActions.receiveNewUser(data);
+          }).fail(function (err) {
+            ServerActions.receiveLoginError(err);
           });
         },
         loginUser: function loginUser(user) {
           post('/users/login', user).done(function (data) {
             ServerActions.receiveNewUser(data);
+          }).fail(function (err) {
+
+            ServerActions.receiveLoginError(err);
           });
         },
 
@@ -20496,7 +21736,7 @@ System.register('lib/API.js', ['npm:jquery@2.2.0', 'lib/actions/ServerActions.js
         },
 
         updateUserInfo: function updateUserInfo(info) {
-          post('/users/edit', info).done(function (data) {
+          post('/users/edit', info).then(function (data) {
             ServerActions.receiveUserInfo(data);
           });
         },
@@ -26634,7 +27874,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
                 }
                 return true;
               }, function (err) {
-                
+
                 hashHistory.push('/');
               });
             })();
@@ -26662,12 +27902,12 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
         }, {
           key: "uploadFile",
           value: function uploadFile(e) {
-            
+
             var file = e.target.files[0];
 
             if (file) {
               var reader = new FileReader();
-              
+
               reader.onload = function (readerEvt) {
                 var binaryString = readerEvt.target.result;
                 // send image to db
@@ -26713,8 +27953,8 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
             var name = undefined;
             var profilePic = undefined;
             if (this.state.user) {
-              name = this.state.user.name ? this.state.user.name : "DevCamp Fire";
-              profilePic = this.state.user.profilePic ? this.state.user.profilePic : "https://placehold.it/350x350";
+              name = this.state.user.name ? this.state.user.name : "";
+              profilePic = this.state.user.profilePic ? this.state.user.profilePic : "./lib/logo.png";
             }
 
             var links = undefined;
