@@ -66,6 +66,19 @@ hr {
   padding-top: 20%;
 }
 
+.homePageArrow {
+  position: absolute;
+  bottom: 0;
+  width: 10%;
+  left: 45%;
+}
+
+.homePageArrow img {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
 
 /* Nav Bar */
 .navbar{
