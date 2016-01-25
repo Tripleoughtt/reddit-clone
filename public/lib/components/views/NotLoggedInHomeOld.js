@@ -4,7 +4,6 @@ import {Link, hashHistory} from 'react-router';
 import NotLoggedInNav from "../general/NotLoggedInNav";
 import SignUpForm from "../general/SignUpForm";
 import PostFeed from "../general/PostFeed";
-import TagCloud from "../general/TagCloud";
 
 import UserStore from '../../stores/UserStore';
 import UserActions from '../../actions/UserActions';
@@ -68,27 +67,24 @@ class NotLoggedInHome extends React.Component{
     }
   }
 
-  filterByTag(tag){
-    this.setState({filterByTag: tag});
-  }
-
   render(){
-    let posts = this.state.posts;
-    if (this.state.filterByTag){
-      let regex = new RegExp(this.state.filterByTag, 'gi');
-      posts = posts.filter(post => {
-        return post.tags.some(tag => tag.match(regex));
-      });
-    }
-    console.log(posts);
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
-        <div className="hidden-xs col-sm-2">
-          <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} />
+        <div className='container-fluid greeting'>
+          <div className="row">
+            <div className="col-xs-12 col-sm-offset-2 col-sm-8 text-center greetingText">
+              <h1>Welcome to Dev Camp Fire</h1>
+              <h4>A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions</h4>
+            </div>
+          </div>
+          <div className="homePageArrow">
+            <image src="./lib/arrow-down.png" />
+          </div>
         </div>
-        <div className="col-xs-12 col-sm-10" id="feed">
-          <PostFeed posts={posts} />
+        <SignUpForm />
+        <div className="col-xs-12 col-sm-9" id="feed">
+          <PostFeed posts={this.state.posts} />
         </div>
       </div>
     )

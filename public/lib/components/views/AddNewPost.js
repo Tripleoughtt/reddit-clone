@@ -25,7 +25,7 @@ class AddNewPost extends React.Component{
         }
         return true
       }, (err) => {
-        
+
         hashHistory.push('/');
       })
     })()
@@ -57,7 +57,12 @@ class AddNewPost extends React.Component{
   }
 
   submitNewPost(){
-    PostActions.createNewPost(this.state);
+    let newPost = this.state;
+    if (newPost.tags.length){
+      newPost.tags = newPost.tags.replace(/,\s?/g, ' ').split(' ');
+    }
+    console.log(newPost)
+    PostActions.createNewPost(newPost);
 
   }
 
