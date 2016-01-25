@@ -518,7 +518,7 @@ System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/hel
           key: 'render',
           value: function render() {
             var params = 'post/' + this.props.data._id;
-
+            var snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
             return React.createElement(
               'div',
               { className: 'postComponent' },
@@ -534,12 +534,12 @@ System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/hel
               React.createElement(
                 'p',
                 null,
-                this.props.data.body
-              ),
-              React.createElement(
-                'p',
-                null,
-                this.props.data.tags
+                snippets,
+                React.createElement(
+                  Link,
+                  { to: params },
+                  '...'
+                )
               )
             );
           }
@@ -604,97 +604,6 @@ System.register('lib/components/general/PostFeed.js', ['npm:babel-runtime@5.8.34
       })(React.Component);
 
       _export('default', PostFeed);
-    }
-  };
-});
-System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'github:jspm/nodelibs-events@0.1.1', 'lib/AppDispatcher.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, EventEmitter, AppDispatcher, _user, UserStore;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet['default'];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
-    }, function (_githubJspmNodelibsEvents011) {
-      EventEmitter = _githubJspmNodelibsEvents011.EventEmitter;
-    }, function (_libAppDispatcherJs) {
-      AppDispatcher = _libAppDispatcherJs['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      _user = undefined;
-
-      UserStore = (function (_EventEmitter) {
-        _inherits(UserStore, _EventEmitter);
-
-        function UserStore(props) {
-          var _this = this;
-
-          _classCallCheck(this, UserStore);
-
-          _get(Object.getPrototypeOf(UserStore.prototype), 'constructor', this).call(this, props);
-
-          AppDispatcher.register(function (action) {
-            switch (action.actionType) {
-              case 'RECEIVE_NEW_USER':
-
-                _user = action.user;
-                _this.emit('CHANGE');
-                break;
-            }
-          });
-        }
-
-        _createClass(UserStore, [{
-          key: 'getUserInfo',
-          value: function getUserInfo() {
-            return _user;
-          }
-        }, {
-          key: 'startListening',
-          value: function startListening(cb) {
-            this.on('CHANGE', cb);
-          }
-        }, {
-          key: 'stopListening',
-          value: function stopListening(cb) {
-            this.removeListener('CHANGE', cb);
-          }
-        }]);
-
-        return UserStore;
-      })(EventEmitter);
-
-      _export('default', new UserStore());
-    }
-  };
-});
-System.register('lib/actions/UserActions.js', ['lib/API.js'], function (_export) {
-  'use strict';
-
-  var API, UserActions;
-  return {
-    setters: [function (_libAPIJs) {
-      API = _libAPIJs['default'];
-    }],
-    execute: function () {
-      UserActions = {
-        createNewUser: function createNewUser(newUser) {
-          API.createNewUser(newUser);
-        },
-
-        loginUser: function loginUser(user) {
-          API.loginUser(user);
-        }
-
-      };
-
-      _export('default', UserActions);
     }
   };
 });
@@ -1056,29 +965,33 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
                 return React.createElement(CommentOnComment, { postId: postId, data: comment, key: comment._id });
               });
             }
-            console.log('COMMENTS BEFORE RENDER!!!', comments);
+
             return React.createElement(
               'div',
               { className: 'col-xs-12 commentComponent' },
               React.createElement(
-                'p',
-                null,
-                this.props.data.body
-              ),
-              React.createElement(
-                'h5',
-                null,
-                '- ',
-                this.props.data.author.username
-              ),
-              React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
-              React.createElement(
                 'div',
-                { className: 'row' },
+                { className: 'well well-sm' },
+                React.createElement(
+                  'p',
+                  null,
+                  this.props.data.body,
+                  ' - ',
+                  React.createElement(
+                    'em',
+                    null,
+                    this.props.data.author.username
+                  )
+                ),
+                React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
                 React.createElement(
                   'div',
-                  { className: 'col-xs-offset-1 col-xs-11 subcomments' },
-                  comments
+                  { className: 'row' },
+                  React.createElement(
+                    'div',
+                    { className: 'col-xs-offset-1 col-xs-11 subcomments' },
+                    comments
+                  )
                 )
               )
             );
@@ -1136,6 +1049,8 @@ System.register('lib/components/general/AddCommentOnComment.js', ['npm:babel-run
           value: function addComment() {
             var commentText = this.refs.commentText.value;
             var data = { postId: this.props.postId, commentId: this.props.commentId, body: commentText };
+            this.toggleCommentInput();
+            this.refs.commentText.value = '';
             CommentActions.createNewCommentOnComment(data);
           }
         }, {
@@ -1147,7 +1062,7 @@ System.register('lib/components/general/AddCommentOnComment.js', ['npm:babel-run
               React.createElement(
                 'button',
                 { onClick: this.toggleCommentInput.bind(this) },
-                'Add Comment!'
+                React.createElement('i', { className: 'fa fa-plus' })
               ),
               React.createElement(
                 'div',
@@ -1225,24 +1140,28 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
               'div',
               { className: 'col-xs-12 commentComponent' },
               React.createElement(
-                'p',
-                null,
-                this.props.data.body
-              ),
-              React.createElement(
-                'h5',
-                null,
-                '- ',
-                this.props.data.author.username
-              ),
-              React.createElement(
                 'div',
-                { className: 'row' },
+                { className: 'well well-sm' },
+                React.createElement(
+                  'p',
+                  null,
+                  this.props.data.body,
+                  ' - ',
+                  React.createElement(
+                    'em',
+                    null,
+                    this.props.data.author.username
+                  )
+                ),
                 React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
                 React.createElement(
                   'div',
-                  { className: 'col-xs-offset-1 col-xs-11 subcomments' },
-                  comments
+                  { className: 'row' },
+                  React.createElement(
+                    'div',
+                    { className: 'col-xs-offset-1 col-xs-11 subcomments' },
+                    comments
+                  )
                 )
               )
             );
@@ -1282,258 +1201,6 @@ System.register('lib/actions/PostActions.js', ['lib/API.js'], function (_export)
     }
   };
 });
-System.registerDynamic("npm:events@1.0.2/events", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  function EventEmitter() {
-    this._events = this._events || {};
-    this._maxListeners = this._maxListeners || undefined;
-  }
-  module.exports = EventEmitter;
-  EventEmitter.EventEmitter = EventEmitter;
-  EventEmitter.prototype._events = undefined;
-  EventEmitter.prototype._maxListeners = undefined;
-  EventEmitter.defaultMaxListeners = 10;
-  EventEmitter.prototype.setMaxListeners = function(n) {
-    if (!isNumber(n) || n < 0 || isNaN(n))
-      throw TypeError('n must be a positive number');
-    this._maxListeners = n;
-    return this;
-  };
-  EventEmitter.prototype.emit = function(type) {
-    var er,
-        handler,
-        len,
-        args,
-        i,
-        listeners;
-    if (!this._events)
-      this._events = {};
-    if (type === 'error') {
-      if (!this._events.error || (isObject(this._events.error) && !this._events.error.length)) {
-        er = arguments[1];
-        if (er instanceof Error) {
-          throw er;
-        }
-        throw TypeError('Uncaught, unspecified "error" event.');
-      }
-    }
-    handler = this._events[type];
-    if (isUndefined(handler))
-      return false;
-    if (isFunction(handler)) {
-      switch (arguments.length) {
-        case 1:
-          handler.call(this);
-          break;
-        case 2:
-          handler.call(this, arguments[1]);
-          break;
-        case 3:
-          handler.call(this, arguments[1], arguments[2]);
-          break;
-        default:
-          len = arguments.length;
-          args = new Array(len - 1);
-          for (i = 1; i < len; i++)
-            args[i - 1] = arguments[i];
-          handler.apply(this, args);
-      }
-    } else if (isObject(handler)) {
-      len = arguments.length;
-      args = new Array(len - 1);
-      for (i = 1; i < len; i++)
-        args[i - 1] = arguments[i];
-      listeners = handler.slice();
-      len = listeners.length;
-      for (i = 0; i < len; i++)
-        listeners[i].apply(this, args);
-    }
-    return true;
-  };
-  EventEmitter.prototype.addListener = function(type, listener) {
-    var m;
-    if (!isFunction(listener))
-      throw TypeError('listener must be a function');
-    if (!this._events)
-      this._events = {};
-    if (this._events.newListener)
-      this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
-    if (!this._events[type])
-      this._events[type] = listener;
-    else if (isObject(this._events[type]))
-      this._events[type].push(listener);
-    else
-      this._events[type] = [this._events[type], listener];
-    if (isObject(this._events[type]) && !this._events[type].warned) {
-      var m;
-      if (!isUndefined(this._maxListeners)) {
-        m = this._maxListeners;
-      } else {
-        m = EventEmitter.defaultMaxListeners;
-      }
-      if (m && m > 0 && this._events[type].length > m) {
-        this._events[type].warned = true;
-        console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
-        if (typeof console.trace === 'function') {
-          console.trace();
-        }
-      }
-    }
-    return this;
-  };
-  EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-  EventEmitter.prototype.once = function(type, listener) {
-    if (!isFunction(listener))
-      throw TypeError('listener must be a function');
-    var fired = false;
-    function g() {
-      this.removeListener(type, g);
-      if (!fired) {
-        fired = true;
-        listener.apply(this, arguments);
-      }
-    }
-    g.listener = listener;
-    this.on(type, g);
-    return this;
-  };
-  EventEmitter.prototype.removeListener = function(type, listener) {
-    var list,
-        position,
-        length,
-        i;
-    if (!isFunction(listener))
-      throw TypeError('listener must be a function');
-    if (!this._events || !this._events[type])
-      return this;
-    list = this._events[type];
-    length = list.length;
-    position = -1;
-    if (list === listener || (isFunction(list.listener) && list.listener === listener)) {
-      delete this._events[type];
-      if (this._events.removeListener)
-        this.emit('removeListener', type, listener);
-    } else if (isObject(list)) {
-      for (i = length; i-- > 0; ) {
-        if (list[i] === listener || (list[i].listener && list[i].listener === listener)) {
-          position = i;
-          break;
-        }
-      }
-      if (position < 0)
-        return this;
-      if (list.length === 1) {
-        list.length = 0;
-        delete this._events[type];
-      } else {
-        list.splice(position, 1);
-      }
-      if (this._events.removeListener)
-        this.emit('removeListener', type, listener);
-    }
-    return this;
-  };
-  EventEmitter.prototype.removeAllListeners = function(type) {
-    var key,
-        listeners;
-    if (!this._events)
-      return this;
-    if (!this._events.removeListener) {
-      if (arguments.length === 0)
-        this._events = {};
-      else if (this._events[type])
-        delete this._events[type];
-      return this;
-    }
-    if (arguments.length === 0) {
-      for (key in this._events) {
-        if (key === 'removeListener')
-          continue;
-        this.removeAllListeners(key);
-      }
-      this.removeAllListeners('removeListener');
-      this._events = {};
-      return this;
-    }
-    listeners = this._events[type];
-    if (isFunction(listeners)) {
-      this.removeListener(type, listeners);
-    } else {
-      while (listeners.length)
-        this.removeListener(type, listeners[listeners.length - 1]);
-    }
-    delete this._events[type];
-    return this;
-  };
-  EventEmitter.prototype.listeners = function(type) {
-    var ret;
-    if (!this._events || !this._events[type])
-      ret = [];
-    else if (isFunction(this._events[type]))
-      ret = [this._events[type]];
-    else
-      ret = this._events[type].slice();
-    return ret;
-  };
-  EventEmitter.listenerCount = function(emitter, type) {
-    var ret;
-    if (!emitter._events || !emitter._events[type])
-      ret = 0;
-    else if (isFunction(emitter._events[type]))
-      ret = 1;
-    else
-      ret = emitter._events[type].length;
-    return ret;
-  };
-  function isFunction(arg) {
-    return typeof arg === 'function';
-  }
-  function isNumber(arg) {
-    return typeof arg === 'number';
-  }
-  function isObject(arg) {
-    return typeof arg === 'object' && arg !== null;
-  }
-  function isUndefined(arg) {
-    return arg === void 0;
-  }
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:events@1.0.2", ["npm:events@1.0.2/events"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('npm:events@1.0.2/events');
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("github:jspm/nodelibs-events@0.1.1/index", ["npm:events@1.0.2"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = System._nodeRequire ? System._nodeRequire('events') : $__require('npm:events@1.0.2');
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("github:jspm/nodelibs-events@0.1.1", ["github:jspm/nodelibs-events@0.1.1/index"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('github:jspm/nodelibs-events@0.1.1/index');
-  global.define = __define;
-  return module.exports;
-});
-
 System.register('lib/stores/PostStore.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'github:jspm/nodelibs-events@0.1.1', 'lib/AppDispatcher.js'], function (_export) {
   var _get, _inherits, _createClass, _classCallCheck, EventEmitter, AppDispatcher, _posts, _newPost, _post, PostStore;
 
@@ -1623,257 +1290,6 @@ System.register('lib/stores/PostStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
     }
   };
 });
-System.registerDynamic("npm:fbjs@0.1.0-alpha.7/lib/invariant", ["github:jspm/nodelibs-process@0.1.2"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    "use strict";
-    var invariant = function(condition, format, a, b, c, d, e, f) {
-      if ("production" !== 'production') {
-        if (format === undefined) {
-          throw new Error('invariant requires an error message argument');
-        }
-      }
-      if (!condition) {
-        var error;
-        if (format === undefined) {
-          error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-        } else {
-          var args = [a, b, c, d, e, f];
-          var argIndex = 0;
-          error = new Error('Invariant Violation: ' + format.replace(/%s/g, function() {
-            return args[argIndex++];
-          }));
-        }
-        error.framesToPop = 1;
-        throw error;
-      }
-    };
-    module.exports = invariant;
-  })($__require('github:jspm/nodelibs-process@0.1.2'));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:flux@2.1.1/lib/Dispatcher", ["npm:fbjs@0.1.0-alpha.7/lib/invariant", "github:jspm/nodelibs-process@0.1.2"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  (function(process) {
-    'use strict';
-    exports.__esModule = true;
-    function _classCallCheck(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError('Cannot call a class as a function');
-      }
-    }
-    var invariant = $__require('npm:fbjs@0.1.0-alpha.7/lib/invariant');
-    var _prefix = 'ID_';
-    var Dispatcher = (function() {
-      function Dispatcher() {
-        _classCallCheck(this, Dispatcher);
-        this._callbacks = {};
-        this._isDispatching = false;
-        this._isHandled = {};
-        this._isPending = {};
-        this._lastID = 1;
-      }
-      Dispatcher.prototype.register = function register(callback) {
-        var id = _prefix + this._lastID++;
-        this._callbacks[id] = callback;
-        return id;
-      };
-      Dispatcher.prototype.unregister = function unregister(id) {
-        !this._callbacks[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-        delete this._callbacks[id];
-      };
-      Dispatcher.prototype.waitFor = function waitFor(ids) {
-        !this._isDispatching ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-        for (var ii = 0; ii < ids.length; ii++) {
-          var id = ids[ii];
-          if (this._isPending[id]) {
-            !this._isHandled[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-            continue;
-          }
-          !this._callbacks[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-          this._invokeCallback(id);
-        }
-      };
-      Dispatcher.prototype.dispatch = function dispatch(payload) {
-        !!this._isDispatching ? "production" !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-        this._startDispatching(payload);
-        try {
-          for (var id in this._callbacks) {
-            if (this._isPending[id]) {
-              continue;
-            }
-            this._invokeCallback(id);
-          }
-        } finally {
-          this._stopDispatching();
-        }
-      };
-      Dispatcher.prototype.isDispatching = function isDispatching() {
-        return this._isDispatching;
-      };
-      Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-        this._isPending[id] = true;
-        this._callbacks[id](this._pendingPayload);
-        this._isHandled[id] = true;
-      };
-      Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-        for (var id in this._callbacks) {
-          this._isPending[id] = false;
-          this._isHandled[id] = false;
-        }
-        this._pendingPayload = payload;
-        this._isDispatching = true;
-      };
-      Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-        delete this._pendingPayload;
-        this._isDispatching = false;
-      };
-      return Dispatcher;
-    })();
-    module.exports = Dispatcher;
-  })($__require('github:jspm/nodelibs-process@0.1.2'));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:flux@2.1.1/index", ["npm:flux@2.1.1/lib/Dispatcher"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports.Dispatcher = $__require('npm:flux@2.1.1/lib/Dispatcher');
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:flux@2.1.1", ["npm:flux@2.1.1/index"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('npm:flux@2.1.1/index');
-  global.define = __define;
-  return module.exports;
-});
-
-System.register('lib/AppDispatcher.js', ['npm:flux@2.1.1'], function (_export) {
-  'use strict';
-
-  var Flux;
-  return {
-    setters: [function (_npmFlux211) {
-      Flux = _npmFlux211['default'];
-    }],
-    execute: function () {
-      _export('default', new Flux.Dispatcher());
-    }
-  };
-});
-System.register('lib/actions/ServerActions.js', ['lib/AppDispatcher.js'], function (_export) {
-  'use strict';
-
-  var AppDispatcher, ServerActions;
-  return {
-    setters: [function (_libAppDispatcherJs) {
-      AppDispatcher = _libAppDispatcherJs['default'];
-    }],
-    execute: function () {
-      ServerActions = {
-        receivePosts: function receivePosts(posts) {
-          AppDispatcher.dispatch({
-            actionType: 'RECEIVE_POSTS',
-            posts: posts
-          });
-        },
-        receiveNewPost: function receiveNewPost(post) {
-          AppDispatcher.dispatch({
-            actionType: 'RECEIVE_ONE_POST',
-            post: post
-          });
-        },
-        receivePost: function receivePost(post) {
-          AppDispatcher.dispatch({
-            actionType: 'RECEIVE_POST',
-            post: post
-          });
-        },
-        receiveNewUser: function receiveNewUser(user) {
-          ;
-          AppDispatcher.dispatch({
-            actionType: 'RECEIVE_NEW_USER',
-            user: user
-          });
-        }
-      };
-
-      _export('default', ServerActions);
-    }
-  };
-});
-System.register('lib/API.js', ['npm:jquery@2.2.0', 'lib/actions/ServerActions.js'], function (_export) {
-  'use strict';
-
-  var get, post, ServerActions, API;
-  return {
-    setters: [function (_npmJquery220) {
-      get = _npmJquery220.get;
-      post = _npmJquery220.post;
-    }, function (_libActionsServerActionsJs) {
-      ServerActions = _libActionsServerActionsJs['default'];
-    }],
-    execute: function () {
-      API = {
-        fetchAllPosts: function fetchAllPosts() {
-          get('/posts').done(function (data) {
-            return ServerActions.receivePosts(data);
-          });
-        },
-        createNewPost: function createNewPost(postInfo) {
-          post('/posts', postInfo).done(function (data) {
-            return ServerActions.receiveNewPost(data);
-          });
-        },
-        getPostInfo: function getPostInfo(postId) {
-          get('/posts/' + postId).done(function (data) {
-            return ServerActions.receivePost(data);
-          });
-        },
-
-        createNewUser: function createNewUser(newUser) {
-          post('/users/register', newUser).done(function (data) {
-            ServerActions.receiveNewUser(data);
-          });
-        },
-        loginUser: function loginUser(user) {
-          post('/users/login', user).done(function (data) {
-            ServerActions.receiveNewUser(data);
-          });
-        },
-        createNewCommentOnPost: function createNewCommentOnPost(commentData) {
-          post('/posts/' + commentData.postId + '/newcomment', { body: commentData.body }).done(function (data) {
-            ServerActions.receivePost(data);
-          });
-        },
-        createNewCommentOnComment: function createNewCommentOnComment(commentData) {
-          var data = { postId: commentData.postId, body: commentData.body };
-          post('/comments/' + commentData.commentId + '/newcomment', data).done(function (data) {
-            ServerActions.receivePost(data);
-          });
-        }
-      };
-
-      _export('default', API);
-    }
-  };
-});
 System.register('lib/actions/CommentActions.js', ['lib/API.js'], function (_export) {
   'use strict';
 
@@ -1940,6 +1356,7 @@ System.register('lib/components/general/AddCommentOnPost.js', ['npm:babel-runtim
           value: function addComment() {
             var commentText = this.refs.commentText.value;
             var data = { postId: this.props.id, body: commentText };
+            this.toggleCommentInput();
             CommentActions.createNewCommentOnPost(data);
           }
         }, {
@@ -1950,8 +1367,8 @@ System.register('lib/components/general/AddCommentOnPost.js', ['npm:babel-runtim
               { className: 'addCommentComponent' },
               React.createElement(
                 'button',
-                { onClick: this.toggleCommentInput.bind(this) },
-                'Add Comment!'
+                { className: 'btn btn-primary', onClick: this.toggleCommentInput.bind(this) },
+                'Add A Comment'
               ),
               React.createElement(
                 'div',
@@ -2811,8 +2228,8 @@ System.registerDynamic("npm:marked@0.3.5", ["npm:marked@0.3.5/lib/marked"], true
   return module.exports;
 });
 
-System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'lib/components/general/LoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, LoggedInNav, Comment, PostActions, PostStore, AddCommentOnPost, marked, _getComponentState, ViewPost;
+System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/LoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, $, LoggedInNav, Comment, PostActions, PostStore, AddCommentOnPost, marked, _getComponentState, ViewPost;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -2828,6 +2245,8 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
     }, function (_npmReactRouter200Rc5) {
       Link = _npmReactRouter200Rc5.Link;
       browserHistory = _npmReactRouter200Rc5.browserHistory;
+    }, function (_npmJquery220) {
+      $ = _npmJquery220['default'];
     }, function (_libComponentsGeneralLoggedInNavJs) {
       LoggedInNav = _libComponentsGeneralLoggedInNavJs['default'];
     }, function (_libComponentsGeneralCommentJs) {
@@ -2900,6 +2319,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
                 });
               })();
             }
+
             return React.createElement(
               'div',
               { className: 'viewPostComponent' },
@@ -2933,6 +2353,15 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
                 ),
                 React.createElement(
                   'div',
+                  { className: 'row edit' },
+                  React.createElement(
+                    'button',
+                    null,
+                    'Hello'
+                  )
+                ),
+                React.createElement(
+                  'div',
                   { className: 'row viewTags' },
                   React.createElement('div', { className: 'col-xs-12 col-sm-11' })
                 ),
@@ -2950,7 +2379,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
                   { className: 'row' },
                   React.createElement(
                     'div',
-                    { className: 'col-xs-12 col-sm-offset-2 col-sm-10' },
+                    { className: 'col-xs-12' },
                     comments
                   )
                 )
@@ -3015,273 +2444,6 @@ System.register("lib/components/views/PostWrapper.js", ["npm:babel-runtime@5.8.3
     }
   };
 });
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.object-sap", ["npm:core-js@1.2.6/library/modules/$.export", "npm:core-js@1.2.6/library/modules/$.core", "npm:core-js@1.2.6/library/modules/$.fails"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $export = $__require('npm:core-js@1.2.6/library/modules/$.export'),
-      core = $__require('npm:core-js@1.2.6/library/modules/$.core'),
-      fails = $__require('npm:core-js@1.2.6/library/modules/$.fails');
-  module.exports = function(KEY, exec) {
-    var fn = (core.Object || {})[KEY] || Object[KEY],
-        exp = {};
-    exp[KEY] = exec(fn);
-    $export($export.S + $export.F * fails(function() {
-      fn(1);
-    }), 'Object', exp);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor", ["npm:core-js@1.2.6/library/modules/$.to-iobject", "npm:core-js@1.2.6/library/modules/$.object-sap"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var toIObject = $__require('npm:core-js@1.2.6/library/modules/$.to-iobject');
-  $__require('npm:core-js@1.2.6/library/modules/$.object-sap')('getOwnPropertyDescriptor', function($getOwnPropertyDescriptor) {
-    return function getOwnPropertyDescriptor(it, key) {
-      return $getOwnPropertyDescriptor(toIObject(it), key);
-    };
-  });
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor", ["npm:core-js@1.2.6/library/modules/$", "npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
-  $__require('npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor');
-  module.exports = function getOwnPropertyDescriptor(it, key) {
-    return $.getDesc(it, key);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor", ["npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": $__require('npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor'),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/helpers/get", ["npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _Object$getOwnPropertyDescriptor = $__require('npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor')["default"];
-  exports["default"] = function get(_x, _x2, _x3) {
-    var _again = true;
-    _function: while (_again) {
-      var object = _x,
-          property = _x2,
-          receiver = _x3;
-      _again = false;
-      if (object === null)
-        object = Function.prototype;
-      var desc = _Object$getOwnPropertyDescriptor(object, property);
-      if (desc === undefined) {
-        var parent = Object.getPrototypeOf(object);
-        if (parent === null) {
-          return undefined;
-        } else {
-          _x = parent;
-          _x2 = property;
-          _x3 = receiver;
-          _again = true;
-          desc = parent = undefined;
-          continue _function;
-        }
-      } else if ("value" in desc) {
-        return desc.value;
-      } else {
-        var getter = desc.get;
-        if (getter === undefined) {
-          return undefined;
-        }
-        return getter.call(receiver);
-      }
-    }
-  };
-  exports.__esModule = true;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/fn/object/create", ["npm:core-js@1.2.6/library/modules/$"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
-  module.exports = function create(P, D) {
-    return $.create(P, D);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/create", ["npm:core-js@1.2.6/library/fn/object/create"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": $__require('npm:core-js@1.2.6/library/fn/object/create'),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of", ["npm:core-js@1.2.6/library/modules/$.export", "npm:core-js@1.2.6/library/modules/$.set-proto"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $export = $__require('npm:core-js@1.2.6/library/modules/$.export');
-  $export($export.S, 'Object', {setPrototypeOf: $__require('npm:core-js@1.2.6/library/modules/$.set-proto').set});
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/fn/object/set-prototype-of", ["npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of", "npm:core-js@1.2.6/library/modules/$.core"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  $__require('npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of');
-  module.exports = $__require('npm:core-js@1.2.6/library/modules/$.core').Object.setPrototypeOf;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/set-prototype-of", ["npm:core-js@1.2.6/library/fn/object/set-prototype-of"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": $__require('npm:core-js@1.2.6/library/fn/object/set-prototype-of'),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/helpers/inherits", ["npm:babel-runtime@5.8.34/core-js/object/create", "npm:babel-runtime@5.8.34/core-js/object/set-prototype-of"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _Object$create = $__require('npm:babel-runtime@5.8.34/core-js/object/create')["default"];
-  var _Object$setPrototypeOf = $__require('npm:babel-runtime@5.8.34/core-js/object/set-prototype-of')["default"];
-  exports["default"] = function(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-    subClass.prototype = _Object$create(superClass && superClass.prototype, {constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }});
-    if (superClass)
-      _Object$setPrototypeOf ? _Object$setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  };
-  exports.__esModule = true;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/fn/object/define-property", ["npm:core-js@1.2.6/library/modules/$"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
-  module.exports = function defineProperty(it, key, desc) {
-    return $.setDesc(it, key, desc);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/define-property", ["npm:core-js@1.2.6/library/fn/object/define-property"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": $__require('npm:core-js@1.2.6/library/fn/object/define-property'),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/helpers/create-class", ["npm:babel-runtime@5.8.34/core-js/object/define-property"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var _Object$defineProperty = $__require('npm:babel-runtime@5.8.34/core-js/object/define-property')["default"];
-  exports["default"] = (function() {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor)
-          descriptor.writable = true;
-        _Object$defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-    return function(Constructor, protoProps, staticProps) {
-      if (protoProps)
-        defineProperties(Constructor.prototype, protoProps);
-      if (staticProps)
-        defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  })();
-  exports.__esModule = true;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:babel-runtime@5.8.34/helpers/class-call-check", [], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  exports["default"] = function(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  };
-  exports.__esModule = true;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.to-string", [], true, function($__require, exports, module) {
   ;
   var global = this,
@@ -3366,47 +2528,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.iter-step", [], true
       value: value,
       done: !!done
     };
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.iobject", ["npm:core-js@1.2.6/library/modules/$.cof"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var cof = $__require('npm:core-js@1.2.6/library/modules/$.cof');
-  module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it) {
-    return cof(it) == 'String' ? it.split('') : Object(it);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.defined", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(it) {
-    if (it == undefined)
-      throw TypeError("Can't call method on  " + it);
-    return it;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.to-iobject", ["npm:core-js@1.2.6/library/modules/$.iobject", "npm:core-js@1.2.6/library/modules/$.defined"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var IObject = $__require('npm:core-js@1.2.6/library/modules/$.iobject'),
-      defined = $__require('npm:core-js@1.2.6/library/modules/$.defined');
-  module.exports = function(it) {
-    return IObject(defined(it));
   };
   global.define = __define;
   return module.exports;
@@ -3578,56 +2699,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.library", [], true, 
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.export", ["npm:core-js@1.2.6/library/modules/$.global", "npm:core-js@1.2.6/library/modules/$.core", "npm:core-js@1.2.6/library/modules/$.ctx"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var global = $__require('npm:core-js@1.2.6/library/modules/$.global'),
-      core = $__require('npm:core-js@1.2.6/library/modules/$.core'),
-      ctx = $__require('npm:core-js@1.2.6/library/modules/$.ctx'),
-      PROTOTYPE = 'prototype';
-  var $export = function(type, name, source) {
-    var IS_FORCED = type & $export.F,
-        IS_GLOBAL = type & $export.G,
-        IS_STATIC = type & $export.S,
-        IS_PROTO = type & $export.P,
-        IS_BIND = type & $export.B,
-        IS_WRAP = type & $export.W,
-        exports = IS_GLOBAL ? core : core[name] || (core[name] = {}),
-        target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE],
-        key,
-        own,
-        out;
-    if (IS_GLOBAL)
-      source = name;
-    for (key in source) {
-      own = !IS_FORCED && target && key in target;
-      if (own && key in exports)
-        continue;
-      out = own ? target[key] : source[key];
-      exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key] : IS_BIND && own ? ctx(out, global) : IS_WRAP && target[key] == out ? (function(C) {
-        var F = function(param) {
-          return this instanceof C ? new C(param) : C(param);
-        };
-        F[PROTOTYPE] = C[PROTOTYPE];
-        return F;
-      })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-      if (IS_PROTO)
-        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-    }
-  };
-  $export.F = 1;
-  $export.G = 2;
-  $export.S = 4;
-  $export.P = 8;
-  $export.B = 16;
-  $export.W = 32;
-  module.exports = $export;
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@1.2.6/library/modules/$.strict-new", [], true, function($__require, exports, module) {
   ;
   var global = this,
@@ -3784,43 +2855,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.for-of", ["npm:core-
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.set-proto", ["npm:core-js@1.2.6/library/modules/$", "npm:core-js@1.2.6/library/modules/$.is-object", "npm:core-js@1.2.6/library/modules/$.an-object", "npm:core-js@1.2.6/library/modules/$.ctx"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var getDesc = $__require('npm:core-js@1.2.6/library/modules/$').getDesc,
-      isObject = $__require('npm:core-js@1.2.6/library/modules/$.is-object'),
-      anObject = $__require('npm:core-js@1.2.6/library/modules/$.an-object');
-  var check = function(O, proto) {
-    anObject(O);
-    if (!isObject(proto) && proto !== null)
-      throw TypeError(proto + ": can't set as prototype!");
-  };
-  module.exports = {
-    set: Object.setPrototypeOf || ('__proto__' in {} ? function(test, buggy, set) {
-      try {
-        set = $__require('npm:core-js@1.2.6/library/modules/$.ctx')(Function.call, getDesc(Object.prototype, '__proto__').set, 2);
-        set(test, []);
-        buggy = !(test instanceof Array);
-      } catch (e) {
-        buggy = true;
-      }
-      return function setPrototypeOf(O, proto) {
-        check(O, proto);
-        if (buggy)
-          O.__proto__ = proto;
-        else
-          set(O, proto);
-        return O;
-      };
-    }({}, false) : undefined),
-    check: check
-  };
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@1.2.6/library/modules/$.same-value", [], true, function($__require, exports, module) {
   ;
   var global = this,
@@ -3828,21 +2862,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.same-value", [], tru
   global.define = undefined;
   module.exports = Object.is || function is(x, y) {
     return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.an-object", ["npm:core-js@1.2.6/library/modules/$.is-object"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var isObject = $__require('npm:core-js@1.2.6/library/modules/$.is-object');
-  module.exports = function(it) {
-    if (!isObject(it))
-      throw TypeError(it + ' is not an object!');
-    return it;
   };
   global.define = __define;
   return module.exports;
@@ -3860,52 +2879,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.species-constructor"
     var C = anObject(O).constructor,
         S;
     return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.a-function", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(it) {
-    if (typeof it != 'function')
-      throw TypeError(it + ' is not a function!');
-    return it;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.ctx", ["npm:core-js@1.2.6/library/modules/$.a-function"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var aFunction = $__require('npm:core-js@1.2.6/library/modules/$.a-function');
-  module.exports = function(fn, that, length) {
-    aFunction(fn);
-    if (that === undefined)
-      return fn;
-    switch (length) {
-      case 1:
-        return function(a) {
-          return fn.call(that, a);
-        };
-      case 2:
-        return function(a, b) {
-          return fn.call(that, a, b);
-        };
-      case 3:
-        return function(a, b, c) {
-          return fn.call(that, a, b, c);
-        };
-    }
-    return function() {
-      return fn.apply(that, arguments);
-    };
   };
   global.define = __define;
   return module.exports;
@@ -3942,18 +2915,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.html", ["npm:core-js
       __define = global.define;
   global.define = undefined;
   module.exports = $__require('npm:core-js@1.2.6/library/modules/$.global').document && document.documentElement;
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.is-object", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(it) {
-    return typeof it === 'object' ? it !== null : typeof it === 'function';
-  };
   global.define = __define;
   return module.exports;
 });
@@ -4052,19 +3013,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.task", ["npm:core-js
       clear: clearTask
     };
   })($__require('github:jspm/nodelibs-process@0.1.2'));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.cof", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var toString = {}.toString;
-  module.exports = function(it) {
-    return toString.call(it).slice(8, -1);
-  };
   global.define = __define;
   return module.exports;
 });
@@ -4236,44 +3184,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.set-to-string-tag", 
   return module.exports;
 });
 
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var $Object = Object;
-  module.exports = {
-    create: $Object.create,
-    getProto: $Object.getPrototypeOf,
-    isEnum: {}.propertyIsEnumerable,
-    getDesc: $Object.getOwnPropertyDescriptor,
-    setDesc: $Object.defineProperty,
-    setDescs: $Object.defineProperties,
-    getKeys: $Object.keys,
-    getNames: $Object.getOwnPropertyNames,
-    getSymbols: $Object.getOwnPropertySymbols,
-    each: [].forEach
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.fails", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = function(exec) {
-    try {
-      return !!exec();
-    } catch (e) {
-      return true;
-    }
-  };
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:core-js@1.2.6/library/modules/$.descriptors", ["npm:core-js@1.2.6/library/modules/$.fails"], true, function($__require, exports, module) {
   ;
   var global = this,
@@ -4337,18 +3247,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/$.uid", [], true, func
   module.exports = function(key) {
     return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
   };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.global", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var global = module.exports = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-  if (typeof __g == 'number')
-    __g = global;
   global.define = __define;
   return module.exports;
 });
@@ -4714,18 +3612,6 @@ System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.promise", ["npm:co
       }
     });
   })($__require('github:jspm/nodelibs-process@0.1.2'));
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:core-js@1.2.6/library/modules/$.core", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var core = module.exports = {version: '1.2.6'};
-  if (typeof __e == 'number')
-    __e = core;
   global.define = __define;
   return module.exports;
 });
@@ -19917,128 +18803,6 @@ System.registerDynamic("npm:history@2.0.0-rc2/lib/parsePath", ["npm:warning@2.1.
   return module.exports;
 });
 
-System.registerDynamic("npm:process@0.11.2/browser", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  var process = module.exports = {};
-  var queue = [];
-  var draining = false;
-  var currentQueue;
-  var queueIndex = -1;
-  function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-      queue = currentQueue.concat(queue);
-    } else {
-      queueIndex = -1;
-    }
-    if (queue.length) {
-      drainQueue();
-    }
-  }
-  function drainQueue() {
-    if (draining) {
-      return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-    var len = queue.length;
-    while (len) {
-      currentQueue = queue;
-      queue = [];
-      while (++queueIndex < len) {
-        if (currentQueue) {
-          currentQueue[queueIndex].run();
-        }
-      }
-      queueIndex = -1;
-      len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-  }
-  process.nextTick = function(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-      for (var i = 1; i < arguments.length; i++) {
-        args[i - 1] = arguments[i];
-      }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-      setTimeout(drainQueue, 0);
-    }
-  };
-  function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-  }
-  Item.prototype.run = function() {
-    this.fun.apply(null, this.array);
-  };
-  process.title = 'browser';
-  process.browser = true;
-  process.env = {};
-  process.argv = [];
-  process.version = '';
-  process.versions = {};
-  function noop() {}
-  process.on = noop;
-  process.addListener = noop;
-  process.once = noop;
-  process.off = noop;
-  process.removeListener = noop;
-  process.removeAllListeners = noop;
-  process.emit = noop;
-  process.binding = function(name) {
-    throw new Error('process.binding is not supported');
-  };
-  process.cwd = function() {
-    return '/';
-  };
-  process.chdir = function(dir) {
-    throw new Error('process.chdir is not supported');
-  };
-  process.umask = function() {
-    return 0;
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:process@0.11.2", ["npm:process@0.11.2/browser"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('npm:process@0.11.2/browser');
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("github:jspm/nodelibs-process@0.1.2/index", ["npm:process@0.11.2"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = System._nodeRequire ? process : $__require('npm:process@0.11.2');
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("github:jspm/nodelibs-process@0.1.2", ["github:jspm/nodelibs-process@0.1.2/index"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('github:jspm/nodelibs-process@0.1.2/index');
-  global.define = __define;
-  return module.exports;
-});
-
 System.registerDynamic("npm:history@2.0.0-rc2/lib/createMemoryHistory", ["npm:warning@2.1.0", "npm:invariant@2.2.0", "npm:history@2.0.0-rc2/lib/Actions", "npm:history@2.0.0-rc2/lib/createHistory", "npm:history@2.0.0-rc2/lib/parsePath", "github:jspm/nodelibs-process@0.1.2"], true, function($__require, exports, module) {
   ;
   var global = this,
@@ -20376,11 +19140,18 @@ System.register("lib/components/general/LoggedInNav.js", ["npm:babel-runtime@5.8
           this.state = {};
         }
 
-        //componentDidMount(){
-        //  authorize();
-        //}
-
         _createClass(LoggedInNav, [{
+          key: "logout",
+          value: function logout() {
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            window.location = '/';
+          }
+
+          //componentDidMount(){
+          //  authorize();
+          //}
+
+        }, {
           key: "render",
           value: function render() {
             return React.createElement(
@@ -20438,6 +19209,15 @@ System.register("lib/components/general/LoggedInNav.js", ["npm:babel-runtime@5.8
                         { to: "profile" },
                         "Profile"
                       )
+                    ),
+                    React.createElement(
+                      "li",
+                      null,
+                      React.createElement(
+                        "button",
+                        { onClick: this.logout.bind(this) },
+                        "Logout"
+                      )
                     )
                   )
                 )
@@ -20450,6 +19230,1326 @@ System.register("lib/components/general/LoggedInNav.js", ["npm:babel-runtime@5.8
       })(React.Component);
 
       _export("default", LoggedInNav);
+    }
+  };
+});
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.cof", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var toString = {}.toString;
+  module.exports = function(it) {
+    return toString.call(it).slice(8, -1);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.iobject", ["npm:core-js@1.2.6/library/modules/$.cof"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var cof = $__require('npm:core-js@1.2.6/library/modules/$.cof');
+  module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it) {
+    return cof(it) == 'String' ? it.split('') : Object(it);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.defined", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(it) {
+    if (it == undefined)
+      throw TypeError("Can't call method on  " + it);
+    return it;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.to-iobject", ["npm:core-js@1.2.6/library/modules/$.iobject", "npm:core-js@1.2.6/library/modules/$.defined"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var IObject = $__require('npm:core-js@1.2.6/library/modules/$.iobject'),
+      defined = $__require('npm:core-js@1.2.6/library/modules/$.defined');
+  module.exports = function(it) {
+    return IObject(defined(it));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.fails", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(exec) {
+    try {
+      return !!exec();
+    } catch (e) {
+      return true;
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.object-sap", ["npm:core-js@1.2.6/library/modules/$.export", "npm:core-js@1.2.6/library/modules/$.core", "npm:core-js@1.2.6/library/modules/$.fails"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $export = $__require('npm:core-js@1.2.6/library/modules/$.export'),
+      core = $__require('npm:core-js@1.2.6/library/modules/$.core'),
+      fails = $__require('npm:core-js@1.2.6/library/modules/$.fails');
+  module.exports = function(KEY, exec) {
+    var fn = (core.Object || {})[KEY] || Object[KEY],
+        exp = {};
+    exp[KEY] = exec(fn);
+    $export($export.S + $export.F * fails(function() {
+      fn(1);
+    }), 'Object', exp);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor", ["npm:core-js@1.2.6/library/modules/$.to-iobject", "npm:core-js@1.2.6/library/modules/$.object-sap"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var toIObject = $__require('npm:core-js@1.2.6/library/modules/$.to-iobject');
+  $__require('npm:core-js@1.2.6/library/modules/$.object-sap')('getOwnPropertyDescriptor', function($getOwnPropertyDescriptor) {
+    return function getOwnPropertyDescriptor(it, key) {
+      return $getOwnPropertyDescriptor(toIObject(it), key);
+    };
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor", ["npm:core-js@1.2.6/library/modules/$", "npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
+  $__require('npm:core-js@1.2.6/library/modules/es6.object.get-own-property-descriptor');
+  module.exports = function getOwnPropertyDescriptor(it, key) {
+    return $.getDesc(it, key);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor", ["npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": $__require('npm:core-js@1.2.6/library/fn/object/get-own-property-descriptor'),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/helpers/get", ["npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _Object$getOwnPropertyDescriptor = $__require('npm:babel-runtime@5.8.34/core-js/object/get-own-property-descriptor')["default"];
+  exports["default"] = function get(_x, _x2, _x3) {
+    var _again = true;
+    _function: while (_again) {
+      var object = _x,
+          property = _x2,
+          receiver = _x3;
+      _again = false;
+      if (object === null)
+        object = Function.prototype;
+      var desc = _Object$getOwnPropertyDescriptor(object, property);
+      if (desc === undefined) {
+        var parent = Object.getPrototypeOf(object);
+        if (parent === null) {
+          return undefined;
+        } else {
+          _x = parent;
+          _x2 = property;
+          _x3 = receiver;
+          _again = true;
+          desc = parent = undefined;
+          continue _function;
+        }
+      } else if ("value" in desc) {
+        return desc.value;
+      } else {
+        var getter = desc.get;
+        if (getter === undefined) {
+          return undefined;
+        }
+        return getter.call(receiver);
+      }
+    }
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/fn/object/create", ["npm:core-js@1.2.6/library/modules/$"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
+  module.exports = function create(P, D) {
+    return $.create(P, D);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/create", ["npm:core-js@1.2.6/library/fn/object/create"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": $__require('npm:core-js@1.2.6/library/fn/object/create'),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.global", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var global = module.exports = typeof window != 'undefined' && window.Math == Math ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+  if (typeof __g == 'number')
+    __g = global;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.export", ["npm:core-js@1.2.6/library/modules/$.global", "npm:core-js@1.2.6/library/modules/$.core", "npm:core-js@1.2.6/library/modules/$.ctx"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var global = $__require('npm:core-js@1.2.6/library/modules/$.global'),
+      core = $__require('npm:core-js@1.2.6/library/modules/$.core'),
+      ctx = $__require('npm:core-js@1.2.6/library/modules/$.ctx'),
+      PROTOTYPE = 'prototype';
+  var $export = function(type, name, source) {
+    var IS_FORCED = type & $export.F,
+        IS_GLOBAL = type & $export.G,
+        IS_STATIC = type & $export.S,
+        IS_PROTO = type & $export.P,
+        IS_BIND = type & $export.B,
+        IS_WRAP = type & $export.W,
+        exports = IS_GLOBAL ? core : core[name] || (core[name] = {}),
+        target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE],
+        key,
+        own,
+        out;
+    if (IS_GLOBAL)
+      source = name;
+    for (key in source) {
+      own = !IS_FORCED && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key] : IS_BIND && own ? ctx(out, global) : IS_WRAP && target[key] == out ? (function(C) {
+        var F = function(param) {
+          return this instanceof C ? new C(param) : C(param);
+        };
+        F[PROTOTYPE] = C[PROTOTYPE];
+        return F;
+      })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+      if (IS_PROTO)
+        (exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+    }
+  };
+  $export.F = 1;
+  $export.G = 2;
+  $export.S = 4;
+  $export.P = 8;
+  $export.B = 16;
+  $export.W = 32;
+  module.exports = $export;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.is-object", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(it) {
+    return typeof it === 'object' ? it !== null : typeof it === 'function';
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.an-object", ["npm:core-js@1.2.6/library/modules/$.is-object"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var isObject = $__require('npm:core-js@1.2.6/library/modules/$.is-object');
+  module.exports = function(it) {
+    if (!isObject(it))
+      throw TypeError(it + ' is not an object!');
+    return it;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.a-function", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(it) {
+    if (typeof it != 'function')
+      throw TypeError(it + ' is not a function!');
+    return it;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.ctx", ["npm:core-js@1.2.6/library/modules/$.a-function"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var aFunction = $__require('npm:core-js@1.2.6/library/modules/$.a-function');
+  module.exports = function(fn, that, length) {
+    aFunction(fn);
+    if (that === undefined)
+      return fn;
+    switch (length) {
+      case 1:
+        return function(a) {
+          return fn.call(that, a);
+        };
+      case 2:
+        return function(a, b) {
+          return fn.call(that, a, b);
+        };
+      case 3:
+        return function(a, b, c) {
+          return fn.call(that, a, b, c);
+        };
+    }
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.set-proto", ["npm:core-js@1.2.6/library/modules/$", "npm:core-js@1.2.6/library/modules/$.is-object", "npm:core-js@1.2.6/library/modules/$.an-object", "npm:core-js@1.2.6/library/modules/$.ctx"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var getDesc = $__require('npm:core-js@1.2.6/library/modules/$').getDesc,
+      isObject = $__require('npm:core-js@1.2.6/library/modules/$.is-object'),
+      anObject = $__require('npm:core-js@1.2.6/library/modules/$.an-object');
+  var check = function(O, proto) {
+    anObject(O);
+    if (!isObject(proto) && proto !== null)
+      throw TypeError(proto + ": can't set as prototype!");
+  };
+  module.exports = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? function(test, buggy, set) {
+      try {
+        set = $__require('npm:core-js@1.2.6/library/modules/$.ctx')(Function.call, getDesc(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch (e) {
+        buggy = true;
+      }
+      return function setPrototypeOf(O, proto) {
+        check(O, proto);
+        if (buggy)
+          O.__proto__ = proto;
+        else
+          set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+    check: check
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of", ["npm:core-js@1.2.6/library/modules/$.export", "npm:core-js@1.2.6/library/modules/$.set-proto"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $export = $__require('npm:core-js@1.2.6/library/modules/$.export');
+  $export($export.S, 'Object', {setPrototypeOf: $__require('npm:core-js@1.2.6/library/modules/$.set-proto').set});
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.core", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var core = module.exports = {version: '1.2.6'};
+  if (typeof __e == 'number')
+    __e = core;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/fn/object/set-prototype-of", ["npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of", "npm:core-js@1.2.6/library/modules/$.core"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  $__require('npm:core-js@1.2.6/library/modules/es6.object.set-prototype-of');
+  module.exports = $__require('npm:core-js@1.2.6/library/modules/$.core').Object.setPrototypeOf;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/set-prototype-of", ["npm:core-js@1.2.6/library/fn/object/set-prototype-of"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": $__require('npm:core-js@1.2.6/library/fn/object/set-prototype-of'),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/helpers/inherits", ["npm:babel-runtime@5.8.34/core-js/object/create", "npm:babel-runtime@5.8.34/core-js/object/set-prototype-of"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _Object$create = $__require('npm:babel-runtime@5.8.34/core-js/object/create')["default"];
+  var _Object$setPrototypeOf = $__require('npm:babel-runtime@5.8.34/core-js/object/set-prototype-of')["default"];
+  exports["default"] = function(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    subClass.prototype = _Object$create(superClass && superClass.prototype, {constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }});
+    if (superClass)
+      _Object$setPrototypeOf ? _Object$setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $Object = Object;
+  module.exports = {
+    create: $Object.create,
+    getProto: $Object.getPrototypeOf,
+    isEnum: {}.propertyIsEnumerable,
+    getDesc: $Object.getOwnPropertyDescriptor,
+    setDesc: $Object.defineProperty,
+    setDescs: $Object.defineProperties,
+    getKeys: $Object.keys,
+    getNames: $Object.getOwnPropertyNames,
+    getSymbols: $Object.getOwnPropertySymbols,
+    each: [].forEach
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/fn/object/define-property", ["npm:core-js@1.2.6/library/modules/$"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var $ = $__require('npm:core-js@1.2.6/library/modules/$');
+  module.exports = function defineProperty(it, key, desc) {
+    return $.setDesc(it, key, desc);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/define-property", ["npm:core-js@1.2.6/library/fn/object/define-property"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": $__require('npm:core-js@1.2.6/library/fn/object/define-property'),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/helpers/create-class", ["npm:babel-runtime@5.8.34/core-js/object/define-property"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var _Object$defineProperty = $__require('npm:babel-runtime@5.8.34/core-js/object/define-property')["default"];
+  exports["default"] = (function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor)
+          descriptor.writable = true;
+        _Object$defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps)
+        defineProperties(Constructor.prototype, protoProps);
+      if (staticProps)
+        defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  })();
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/helpers/class-call-check", [], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  exports["default"] = function(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:events@1.0.2/events", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  function EventEmitter() {
+    this._events = this._events || {};
+    this._maxListeners = this._maxListeners || undefined;
+  }
+  module.exports = EventEmitter;
+  EventEmitter.EventEmitter = EventEmitter;
+  EventEmitter.prototype._events = undefined;
+  EventEmitter.prototype._maxListeners = undefined;
+  EventEmitter.defaultMaxListeners = 10;
+  EventEmitter.prototype.setMaxListeners = function(n) {
+    if (!isNumber(n) || n < 0 || isNaN(n))
+      throw TypeError('n must be a positive number');
+    this._maxListeners = n;
+    return this;
+  };
+  EventEmitter.prototype.emit = function(type) {
+    var er,
+        handler,
+        len,
+        args,
+        i,
+        listeners;
+    if (!this._events)
+      this._events = {};
+    if (type === 'error') {
+      if (!this._events.error || (isObject(this._events.error) && !this._events.error.length)) {
+        er = arguments[1];
+        if (er instanceof Error) {
+          throw er;
+        }
+        throw TypeError('Uncaught, unspecified "error" event.');
+      }
+    }
+    handler = this._events[type];
+    if (isUndefined(handler))
+      return false;
+    if (isFunction(handler)) {
+      switch (arguments.length) {
+        case 1:
+          handler.call(this);
+          break;
+        case 2:
+          handler.call(this, arguments[1]);
+          break;
+        case 3:
+          handler.call(this, arguments[1], arguments[2]);
+          break;
+        default:
+          len = arguments.length;
+          args = new Array(len - 1);
+          for (i = 1; i < len; i++)
+            args[i - 1] = arguments[i];
+          handler.apply(this, args);
+      }
+    } else if (isObject(handler)) {
+      len = arguments.length;
+      args = new Array(len - 1);
+      for (i = 1; i < len; i++)
+        args[i - 1] = arguments[i];
+      listeners = handler.slice();
+      len = listeners.length;
+      for (i = 0; i < len; i++)
+        listeners[i].apply(this, args);
+    }
+    return true;
+  };
+  EventEmitter.prototype.addListener = function(type, listener) {
+    var m;
+    if (!isFunction(listener))
+      throw TypeError('listener must be a function');
+    if (!this._events)
+      this._events = {};
+    if (this._events.newListener)
+      this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+    if (!this._events[type])
+      this._events[type] = listener;
+    else if (isObject(this._events[type]))
+      this._events[type].push(listener);
+    else
+      this._events[type] = [this._events[type], listener];
+    if (isObject(this._events[type]) && !this._events[type].warned) {
+      var m;
+      if (!isUndefined(this._maxListeners)) {
+        m = this._maxListeners;
+      } else {
+        m = EventEmitter.defaultMaxListeners;
+      }
+      if (m && m > 0 && this._events[type].length > m) {
+        this._events[type].warned = true;
+        console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
+        if (typeof console.trace === 'function') {
+          console.trace();
+        }
+      }
+    }
+    return this;
+  };
+  EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+  EventEmitter.prototype.once = function(type, listener) {
+    if (!isFunction(listener))
+      throw TypeError('listener must be a function');
+    var fired = false;
+    function g() {
+      this.removeListener(type, g);
+      if (!fired) {
+        fired = true;
+        listener.apply(this, arguments);
+      }
+    }
+    g.listener = listener;
+    this.on(type, g);
+    return this;
+  };
+  EventEmitter.prototype.removeListener = function(type, listener) {
+    var list,
+        position,
+        length,
+        i;
+    if (!isFunction(listener))
+      throw TypeError('listener must be a function');
+    if (!this._events || !this._events[type])
+      return this;
+    list = this._events[type];
+    length = list.length;
+    position = -1;
+    if (list === listener || (isFunction(list.listener) && list.listener === listener)) {
+      delete this._events[type];
+      if (this._events.removeListener)
+        this.emit('removeListener', type, listener);
+    } else if (isObject(list)) {
+      for (i = length; i-- > 0; ) {
+        if (list[i] === listener || (list[i].listener && list[i].listener === listener)) {
+          position = i;
+          break;
+        }
+      }
+      if (position < 0)
+        return this;
+      if (list.length === 1) {
+        list.length = 0;
+        delete this._events[type];
+      } else {
+        list.splice(position, 1);
+      }
+      if (this._events.removeListener)
+        this.emit('removeListener', type, listener);
+    }
+    return this;
+  };
+  EventEmitter.prototype.removeAllListeners = function(type) {
+    var key,
+        listeners;
+    if (!this._events)
+      return this;
+    if (!this._events.removeListener) {
+      if (arguments.length === 0)
+        this._events = {};
+      else if (this._events[type])
+        delete this._events[type];
+      return this;
+    }
+    if (arguments.length === 0) {
+      for (key in this._events) {
+        if (key === 'removeListener')
+          continue;
+        this.removeAllListeners(key);
+      }
+      this.removeAllListeners('removeListener');
+      this._events = {};
+      return this;
+    }
+    listeners = this._events[type];
+    if (isFunction(listeners)) {
+      this.removeListener(type, listeners);
+    } else {
+      while (listeners.length)
+        this.removeListener(type, listeners[listeners.length - 1]);
+    }
+    delete this._events[type];
+    return this;
+  };
+  EventEmitter.prototype.listeners = function(type) {
+    var ret;
+    if (!this._events || !this._events[type])
+      ret = [];
+    else if (isFunction(this._events[type]))
+      ret = [this._events[type]];
+    else
+      ret = this._events[type].slice();
+    return ret;
+  };
+  EventEmitter.listenerCount = function(emitter, type) {
+    var ret;
+    if (!emitter._events || !emitter._events[type])
+      ret = 0;
+    else if (isFunction(emitter._events[type]))
+      ret = 1;
+    else
+      ret = emitter._events[type].length;
+    return ret;
+  };
+  function isFunction(arg) {
+    return typeof arg === 'function';
+  }
+  function isNumber(arg) {
+    return typeof arg === 'number';
+  }
+  function isObject(arg) {
+    return typeof arg === 'object' && arg !== null;
+  }
+  function isUndefined(arg) {
+    return arg === void 0;
+  }
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:events@1.0.2", ["npm:events@1.0.2/events"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:events@1.0.2/events');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("github:jspm/nodelibs-events@0.1.1/index", ["npm:events@1.0.2"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = System._nodeRequire ? System._nodeRequire('events') : $__require('npm:events@1.0.2');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("github:jspm/nodelibs-events@0.1.1", ["github:jspm/nodelibs-events@0.1.1/index"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('github:jspm/nodelibs-events@0.1.1/index');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'github:jspm/nodelibs-events@0.1.1', 'lib/AppDispatcher.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, EventEmitter, AppDispatcher, _user, _myInfo, _myPosts, UserStore;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_githubJspmNodelibsEvents011) {
+      EventEmitter = _githubJspmNodelibsEvents011.EventEmitter;
+    }, function (_libAppDispatcherJs) {
+      AppDispatcher = _libAppDispatcherJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      _user = undefined;
+      _myInfo = undefined;
+      _myPosts = undefined;
+
+      UserStore = (function (_EventEmitter) {
+        _inherits(UserStore, _EventEmitter);
+
+        function UserStore(props) {
+          var _this = this;
+
+          _classCallCheck(this, UserStore);
+
+          _get(Object.getPrototypeOf(UserStore.prototype), 'constructor', this).call(this, props);
+
+          AppDispatcher.register(function (action) {
+            switch (action.actionType) {
+              case 'RECEIVE_NEW_USER':
+
+                _user = action.user;
+                _this.emit('CHANGE');
+                break;
+              case 'RECEIVE_USER_INFO':
+                _myInfo = action.user;
+                _this.emit('CHANGE');
+                break;
+              case 'RECEIVE_USER_POSTS':
+                _myPosts = action.posts;
+                _this.emit('CHANGE');
+                break;
+            }
+          });
+        }
+
+        _createClass(UserStore, [{
+          key: 'getUserInfo',
+          value: function getUserInfo() {
+            return _user;
+          }
+        }, {
+          key: 'getUserPosts',
+          value: function getUserPosts() {
+            return _myPosts;
+          }
+        }, {
+          key: 'getUserProfile',
+          value: function getUserProfile() {
+            return _myInfo;
+          }
+        }, {
+          key: 'startListening',
+          value: function startListening(cb) {
+            this.on('CHANGE', cb);
+          }
+        }, {
+          key: 'stopListening',
+          value: function stopListening(cb) {
+            this.removeListener('CHANGE', cb);
+          }
+        }]);
+
+        return UserStore;
+      })(EventEmitter);
+
+      _export('default', new UserStore());
+    }
+  };
+});
+System.registerDynamic("npm:fbjs@0.1.0-alpha.7/lib/invariant", ["github:jspm/nodelibs-process@0.1.2"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    "use strict";
+    var invariant = function(condition, format, a, b, c, d, e, f) {
+      if ("production" !== 'production') {
+        if (format === undefined) {
+          throw new Error('invariant requires an error message argument');
+        }
+      }
+      if (!condition) {
+        var error;
+        if (format === undefined) {
+          error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+        } else {
+          var args = [a, b, c, d, e, f];
+          var argIndex = 0;
+          error = new Error('Invariant Violation: ' + format.replace(/%s/g, function() {
+            return args[argIndex++];
+          }));
+        }
+        error.framesToPop = 1;
+        throw error;
+      }
+    };
+    module.exports = invariant;
+  })($__require('github:jspm/nodelibs-process@0.1.2'));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:process@0.11.2/browser", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var process = module.exports = {};
+  var queue = [];
+  var draining = false;
+  var currentQueue;
+  var queueIndex = -1;
+  function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+      queue = currentQueue.concat(queue);
+    } else {
+      queueIndex = -1;
+    }
+    if (queue.length) {
+      drainQueue();
+    }
+  }
+  function drainQueue() {
+    if (draining) {
+      return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+    var len = queue.length;
+    while (len) {
+      currentQueue = queue;
+      queue = [];
+      while (++queueIndex < len) {
+        if (currentQueue) {
+          currentQueue[queueIndex].run();
+        }
+      }
+      queueIndex = -1;
+      len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+  }
+  process.nextTick = function(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+      for (var i = 1; i < arguments.length; i++) {
+        args[i - 1] = arguments[i];
+      }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+      setTimeout(drainQueue, 0);
+    }
+  };
+  function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+  }
+  Item.prototype.run = function() {
+    this.fun.apply(null, this.array);
+  };
+  process.title = 'browser';
+  process.browser = true;
+  process.env = {};
+  process.argv = [];
+  process.version = '';
+  process.versions = {};
+  function noop() {}
+  process.on = noop;
+  process.addListener = noop;
+  process.once = noop;
+  process.off = noop;
+  process.removeListener = noop;
+  process.removeAllListeners = noop;
+  process.emit = noop;
+  process.binding = function(name) {
+    throw new Error('process.binding is not supported');
+  };
+  process.cwd = function() {
+    return '/';
+  };
+  process.chdir = function(dir) {
+    throw new Error('process.chdir is not supported');
+  };
+  process.umask = function() {
+    return 0;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:process@0.11.2", ["npm:process@0.11.2/browser"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:process@0.11.2/browser');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("github:jspm/nodelibs-process@0.1.2/index", ["npm:process@0.11.2"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = System._nodeRequire ? process : $__require('npm:process@0.11.2');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("github:jspm/nodelibs-process@0.1.2", ["github:jspm/nodelibs-process@0.1.2/index"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('github:jspm/nodelibs-process@0.1.2/index');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:flux@2.1.1/lib/Dispatcher", ["npm:fbjs@0.1.0-alpha.7/lib/invariant", "github:jspm/nodelibs-process@0.1.2"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    exports.__esModule = true;
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError('Cannot call a class as a function');
+      }
+    }
+    var invariant = $__require('npm:fbjs@0.1.0-alpha.7/lib/invariant');
+    var _prefix = 'ID_';
+    var Dispatcher = (function() {
+      function Dispatcher() {
+        _classCallCheck(this, Dispatcher);
+        this._callbacks = {};
+        this._isDispatching = false;
+        this._isHandled = {};
+        this._isPending = {};
+        this._lastID = 1;
+      }
+      Dispatcher.prototype.register = function register(callback) {
+        var id = _prefix + this._lastID++;
+        this._callbacks[id] = callback;
+        return id;
+      };
+      Dispatcher.prototype.unregister = function unregister(id) {
+        !this._callbacks[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+        delete this._callbacks[id];
+      };
+      Dispatcher.prototype.waitFor = function waitFor(ids) {
+        !this._isDispatching ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+        for (var ii = 0; ii < ids.length; ii++) {
+          var id = ids[ii];
+          if (this._isPending[id]) {
+            !this._isHandled[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+            continue;
+          }
+          !this._callbacks[id] ? "production" !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+          this._invokeCallback(id);
+        }
+      };
+      Dispatcher.prototype.dispatch = function dispatch(payload) {
+        !!this._isDispatching ? "production" !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+        this._startDispatching(payload);
+        try {
+          for (var id in this._callbacks) {
+            if (this._isPending[id]) {
+              continue;
+            }
+            this._invokeCallback(id);
+          }
+        } finally {
+          this._stopDispatching();
+        }
+      };
+      Dispatcher.prototype.isDispatching = function isDispatching() {
+        return this._isDispatching;
+      };
+      Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+        this._isPending[id] = true;
+        this._callbacks[id](this._pendingPayload);
+        this._isHandled[id] = true;
+      };
+      Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+        for (var id in this._callbacks) {
+          this._isPending[id] = false;
+          this._isHandled[id] = false;
+        }
+        this._pendingPayload = payload;
+        this._isDispatching = true;
+      };
+      Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+        delete this._pendingPayload;
+        this._isDispatching = false;
+      };
+      return Dispatcher;
+    })();
+    module.exports = Dispatcher;
+  })($__require('github:jspm/nodelibs-process@0.1.2'));
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:flux@2.1.1/index", ["npm:flux@2.1.1/lib/Dispatcher"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports.Dispatcher = $__require('npm:flux@2.1.1/lib/Dispatcher');
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:flux@2.1.1", ["npm:flux@2.1.1/index"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:flux@2.1.1/index');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register('lib/AppDispatcher.js', ['npm:flux@2.1.1'], function (_export) {
+  'use strict';
+
+  var Flux;
+  return {
+    setters: [function (_npmFlux211) {
+      Flux = _npmFlux211['default'];
+    }],
+    execute: function () {
+      _export('default', new Flux.Dispatcher());
+    }
+  };
+});
+System.register('lib/actions/ServerActions.js', ['lib/AppDispatcher.js'], function (_export) {
+  'use strict';
+
+  var AppDispatcher, ServerActions;
+  return {
+    setters: [function (_libAppDispatcherJs) {
+      AppDispatcher = _libAppDispatcherJs['default'];
+    }],
+    execute: function () {
+      ServerActions = {
+        receivePosts: function receivePosts(posts) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_POSTS',
+            posts: posts
+          });
+        },
+        receiveNewPost: function receiveNewPost(post) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_ONE_POST',
+            post: post
+          });
+        },
+        receivePost: function receivePost(post) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_POST',
+            post: post
+          });
+        },
+        receiveNewUser: function receiveNewUser(user) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_NEW_USER',
+            user: user
+          });
+        },
+        receiveUserInfo: function receiveUserInfo(user) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_USER_INFO',
+            user: user
+          });
+        },
+        receiveUserPosts: function receiveUserPosts(posts) {
+          AppDispatcher.dispatch({
+            actionType: 'RECEIVE_USER_POSTS',
+            posts: posts
+          });
+        }
+      };
+
+      _export('default', ServerActions);
+    }
+  };
+});
+System.register('lib/API.js', ['npm:jquery@2.2.0', 'lib/actions/ServerActions.js'], function (_export) {
+  'use strict';
+
+  var get, post, ajax, ServerActions, API;
+  return {
+    setters: [function (_npmJquery220) {
+      get = _npmJquery220.get;
+      post = _npmJquery220.post;
+      ajax = _npmJquery220.ajax;
+    }, function (_libActionsServerActionsJs) {
+      ServerActions = _libActionsServerActionsJs['default'];
+    }],
+    execute: function () {
+      API = {
+        fetchAllPosts: function fetchAllPosts() {
+          get('/posts').done(function (data) {
+            return ServerActions.receivePosts(data);
+          });
+        },
+        createNewPost: function createNewPost(postInfo) {
+          post('/posts', postInfo).done(function (data) {
+            return ServerActions.receiveNewPost(data);
+          });
+        },
+        getPostInfo: function getPostInfo(postId) {
+          get('/posts/' + postId).done(function (data) {
+            return ServerActions.receivePost(data);
+          });
+        },
+
+        createNewUser: function createNewUser(newUser) {
+          post('/users/register', newUser).done(function (data) {
+            ServerActions.receiveNewUser(data);
+          });
+        },
+        loginUser: function loginUser(user) {
+          post('/users/login', user).done(function (data) {
+            ServerActions.receiveNewUser(data);
+          });
+        },
+
+        fetchUserInfo: function fetchUserInfo() {
+          get('/users/myinfo').done(function (data) {
+            ServerActions.receiveUserInfo(data);
+          });
+        },
+        fetchUserPosts: function fetchUserPosts() {
+          get('/users/myposts').done(function (data) {
+            ServerActions.receiveUserPosts(data);
+          });
+        },
+
+        updateUserInfo: function updateUserInfo(info) {
+          post('/users/edit', info).done(function (data) {
+            ServerActions.receiveUserInfo(data);
+          });
+        },
+
+        createNewCommentOnPost: function createNewCommentOnPost(commentData) {
+          post('/posts/' + commentData.postId + '/newcomment', { body: commentData.body }).done(function (data) {
+            ServerActions.receivePost(data);
+          });
+        },
+        createNewCommentOnComment: function createNewCommentOnComment(commentData) {
+          var data = { postId: commentData.postId, body: commentData.body };
+          post('/comments/' + commentData.commentId + '/newcomment', data).done(function (data) {
+            ServerActions.receivePost(data);
+          });
+        }
+      };
+
+      _export('default', API);
+    }
+  };
+});
+System.register('lib/actions/UserActions.js', ['lib/API.js'], function (_export) {
+  'use strict';
+
+  var API, UserActions;
+  return {
+    setters: [function (_libAPIJs) {
+      API = _libAPIJs['default'];
+    }],
+    execute: function () {
+      UserActions = {
+        createNewUser: function createNewUser(newUser) {
+          API.createNewUser(newUser);
+        },
+
+        loginUser: function loginUser(user) {
+          API.loginUser(user);
+        },
+
+        fetchUserInfo: function fetchUserInfo() {
+          API.fetchUserInfo();
+        },
+        fetchUserPosts: function fetchUserPosts() {
+          API.fetchUserPosts();
+        },
+
+        updateUserInfo: function updateUserInfo(info) {
+          API.updateUserInfo(info);
+        }
+
+      };
+
+      _export('default', UserActions);
     }
   };
 });
@@ -26480,8 +26580,8 @@ define("npm:jquery@2.2.0", ["npm:jquery@2.2.0/dist/jquery"], function(main) {
 
 _removeDefine();
 })();
-System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/LoggedInNav.js", "npm:jquery@2.2.0"], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, get, UserProfile;
+System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/LoggedInNav.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "npm:jquery@2.2.0"], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, UserStore, UserActions, get, UserProfile;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -26499,6 +26599,10 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
       hashHistory = _npmReactRouter200Rc5.hashHistory;
     }, function (_libComponentsGeneralLoggedInNavJs) {
       LoggedInNav = _libComponentsGeneralLoggedInNavJs["default"];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs["default"];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs["default"];
     }, function (_npmJquery220) {
       get = _npmJquery220.get;
     }],
@@ -26513,8 +26617,11 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
 
           _get(Object.getPrototypeOf(UserProfile.prototype), "constructor", this).call(this, props);
           this.state = {
-            editing: false
+            editing: false,
+            user: UserStore.getUserProfile(),
+            posts: UserStore.getUserPosts()
           };
+          this._onChange = this._onChange.bind(this);
         }
 
         _createClass(UserProfile, [{
@@ -26533,6 +26640,26 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
             })();
           }
         }, {
+          key: "componentDidMount",
+          value: function componentDidMount() {
+            UserActions.fetchUserInfo();
+            UserActions.fetchUserPosts();
+            UserStore.startListening(this._onChange);
+          }
+        }, {
+          key: "componentWillUnmount",
+          value: function componentWillUnmount() {
+            UserStore.stopListening(this._onChange);
+          }
+        }, {
+          key: "_onChange",
+          value: function _onChange() {
+            this.setState({
+              user: UserStore.getUserProfile(),
+              posts: UserStore.getUserPosts()
+            });
+          }
+        }, {
           key: "uploadFile",
           value: function uploadFile(e) {
             console.log('file', e.target.files);
@@ -26544,6 +26671,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
               reader.onload = function (readerEvt) {
                 var binaryString = readerEvt.target.result;
                 // send image to db
+                UserActions.updateUserInfo({ profilePic: "data:image/jpeg;base64," + btoa(binaryString) });
 
                 // update image after success
                 $('.img').attr('src', "data:image/jpeg;base64," + btoa(binaryString));
@@ -26559,6 +26687,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
               var $editIcon = $(e.target).closest('tr').find('td:nth-child(3)');
               var currentNameText = $currentName.find('input').val();
               // send new display name info to db
+              UserActions.updateUserInfo({ name: currentNameText });
 
               // update after success
               $currentName.empty();
@@ -26580,45 +26709,32 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
         }, {
           key: "render",
           value: function render() {
-            // example API call to users/:id/posts
-            var exampleCall = [{
-              "_id": "56a1ae5ea4faed201adfea98",
-              "title": "Robbie's post",
-              "body": "Robbie was here",
-              "author": "56a1ae04a4faed201adfea97",
-              "__v": 0,
-              "totalComments": 6,
-              "comments": [{
-                "_id": "56a1b76c52bfbce11d8051c0",
-                "author": "56a1ae27a4faed201adfea95",
-                "body": "This is Rich",
-                "__v": 0,
-                "comments": ["56a1b8d4462059891e2b15dd"]
-              }, {
-                "_id": "56a1c4a61744c53222828183",
-                "author": "56a1ae27a4faed201adfea95",
-                "body": "This isn't Rich, sorry",
-                "__v": 0,
-                "comments": ["56a1c4b61744c53222828184"]
-              }],
-              "tags": ["Robbie"]
-            }];
+            var username = this.state.user ? this.state.user.username : 'username';
+            var name = undefined;
+            var profilePic = undefined;
+            if (this.state.user) {
+              name = this.state.user.name ? this.state.user.name : "DevCamp Fire";
+              profilePic = this.state.user.profilePic ? this.state.user.profilePic : "https://placehold.it/350x350";
+            }
 
-            var links = exampleCall.map(function (post) {
-              var params = 'post/' + post._id;
-              return React.createElement(
-                "li",
-                { key: post._id },
-                React.createElement(
-                  Link,
-                  { to: params },
-                  post.title
-                ),
-                " - ",
-                post.totalComments,
-                " comments"
-              );
-            });
+            var links = undefined;
+            if (this.state.posts) {
+              links = this.state.posts.map(function (post) {
+                var params = 'post/' + post._id;
+                var comments = post.totalComments + " " + (post.totalComments === 1 ? "comment" : "comments");
+                return React.createElement(
+                  "li",
+                  { key: post._id },
+                  React.createElement(
+                    Link,
+                    { to: params },
+                    post.title
+                  ),
+                  " - ",
+                  comments
+                );
+              });
+            }
 
             return React.createElement(
               "div",
@@ -26636,7 +26752,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
                     React.createElement(
                       "div",
                       { className: "profileImageWrapper" },
-                      React.createElement("img", { className: "img img-responsive profileImage", src: "https://placehold.it/350x350" })
+                      React.createElement("img", { className: "img img-responsive profileImage", src: profilePic })
                     )
                   ),
                   React.createElement(
@@ -26659,7 +26775,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
                           React.createElement(
                             "td",
                             null,
-                            "myusername"
+                            username
                           )
                         ),
                         React.createElement(
@@ -26673,7 +26789,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
                           React.createElement(
                             "td",
                             null,
-                            "My Name"
+                            name
                           ),
                           React.createElement(
                             "td",

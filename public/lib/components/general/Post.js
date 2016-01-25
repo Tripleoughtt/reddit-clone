@@ -9,6 +9,8 @@ class Post extends React.Component{
   render(){
     let params = 'post/' + this.props.data._id
     let snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
+    let votes = this.props.data.votes || 0;
+
     let authorDisplayName = this.props.data.author.name;
     let author;
     if(authorDisplayName){
@@ -17,13 +19,24 @@ class Post extends React.Component{
       author = this.props.data.author.username;
     }
     return(
-      <div className="postComponent">
-        <h1><Link to={params}>{this.props.data.title}</Link></h1>
-        <p>{snippets}<Link to={params}>...</Link></p>
+      <div className="postComponent row">
+        <div className="voteArea col-xs-1">
+          <h3>
+            <span className="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            <br />
+            &nbsp;{votes}
+            <br />
+            <span className="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+          </h3>
+        </div>
+        <div className="col-xs-11">
+          <h1><Link to={params}>{this.props.data.title}</Link></h1>
+          <p>{snippets}<Link to={params}>...</Link></p>
           <div>
             <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
             <span> - <em>{author}</em></span>
           </div>
+        </div>
       </div>
     )
   }

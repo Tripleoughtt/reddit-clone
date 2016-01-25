@@ -16,7 +16,7 @@ class PostFeed extends React.Component{
       return <Post data={post} key={post._id} />
     })
     return(
-      <div className="col-xs-12 col-sm-9 postFeedComponent">
+      <div className="postFeedComponent">
         {posts}
       </div>
     )

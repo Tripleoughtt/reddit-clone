@@ -27,7 +27,7 @@ class AddCommentOnPost extends React.Component{
         <button className="btn btn-primary" onClick={this.toggleCommentInput.bind(this)}>Add A Comment</button>
         <div ref="hiddenInput" className="hideInput">
           <textarea className="commentText" ref="commentText"  name="" rows="5"></textarea>
-          <button className="submit" onClick={this.addComment.bind(this)} >Submit Comment!</button>
+          <button className="submit btn btn-primary" onClick={this.addComment.bind(this)} >Submit Comment!</button>
         </div>
       </div>
     )

@@ -66,6 +66,7 @@ class NotLoggedInHome extends React.Component{
       swal('Sorry!', errorMessage, "error")
     }
   }
+
   render(){
     return(
       <div className="homeComponent">
@@ -77,9 +78,14 @@ class NotLoggedInHome extends React.Component{
               <h4>A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions</h4>
             </div>
           </div>
+          <div className="homePageArrow">
+            <image src="./lib/arrow-down.png" />
+          </div>
         </div>
         <SignUpForm />
-        <PostFeed posts={this.state.posts} />
+        <div className="col-xs-12 col-sm-9" id="feed">
+          <PostFeed posts={this.state.posts} />
+        </div>
       </div>
     )
   }

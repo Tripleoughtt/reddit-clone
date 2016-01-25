@@ -12,6 +12,9 @@ let API = {
   getPostInfo(postId){
     get(`/posts/${postId}`).done(data => ServerActions.receivePost(data));
   },
+  updatePostInfo(update, postId) {
+    post(`posts/${postId}`, update).done(data => ServerActions.receivePost(data));
+  },
 
   createNewUser(newUser) {
     post('/users/register', newUser).done(data => {
