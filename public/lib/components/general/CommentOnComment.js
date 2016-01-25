@@ -19,6 +19,10 @@ class CommentOnComment extends React.Component{
     CommentActions.downVote(this.props.data._id, this.props.postId);
   }
 
+  displayAddButton() {
+    if(this.props.user) return (<AddCommentOnComment commentId={this.props.data._id} postId={this.props.postId} />);
+  }
+
   render(){
     let userId = this.props.user ? this.props.user._id : false;
     let votes = this.props.data.votes.reduce((a, voteObj) => voteObj.vote ? a + 1 : a - 1, 0) || 0;
@@ -72,7 +76,7 @@ class CommentOnComment extends React.Component{
                 <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
                 <span> - <em>{author}</em></span>
               </div>
-              <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
+              {this.displayAddButton()}
             </div>
             <div className="row">
               <div className="col-xs-offset-1 col-xs-11 subcomments">
