@@ -20,7 +20,10 @@ class Post extends React.Component{
       <div className="postComponent">
         <h1><Link to={params}>{this.props.data.title}</Link></h1>
         <p>{snippets}<Link to={params}>...</Link></p>
-        <p>{author}</p>
+          <div>
+            <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
+            <span> - <em>{author}</em></span>
+          </div>
       </div>
     )
   }

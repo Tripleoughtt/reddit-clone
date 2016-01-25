@@ -38,6 +38,11 @@ hr {
   background-color: #F6F1ED;
 }
 
+.profilePicDisplay {
+  width: 20px;
+  height: 20px;
+}
+
 
 
 /* Not Logged In Home Page */

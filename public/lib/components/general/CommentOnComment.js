@@ -29,7 +29,11 @@ class CommentOnComment extends React.Component{
     return(
       <div className="col-xs-12 commentComponent">
         <div className="well well-sm">
-          <p>{this.props.data.body} - <em>{author}</em></p>
+          <p>{this.props.data.body}</p> 
+          <div>
+            <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
+            <span> - <em>{author}</em></span>
+          </div>
           <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
           <div className="row">
             <div className="col-xs-offset-1 col-xs-11 subcomments">
