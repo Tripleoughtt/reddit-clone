@@ -15,10 +15,10 @@ let PostActions = {
   },
 
   upVote(postId){
-    API.vote(postId, 'up');
+    API.voteOnPost(postId, 'up');
   },
   downVote(postId){
-    API.vote(postId, 'down');
+    API.voteOnPost(postId, 'down');
   }
 }
 

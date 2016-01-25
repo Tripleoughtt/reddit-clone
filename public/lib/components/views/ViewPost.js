@@ -102,7 +102,7 @@ class ViewPost extends React.Component{
     if (this.state.post.comments) {
       let postId = this.state.post._id;
       comments = this.state.post.comments.map(comment => {
-        return <Comment  postId={postId} data={comment} key={comment._id} />
+        return <Comment user={this.state.user}  postId={postId} data={comment} key={comment._id} />
       })
     }
 

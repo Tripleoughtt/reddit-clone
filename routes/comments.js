@@ -71,16 +71,27 @@ router.post('/vote/:id', authenticate, (req, res) => {
 
     // user has not voted yet
     } else {
+      console.log('IN ELSE STATEMENT WITHIN VOTE COMMENTS', foundComment);
       foundComment.votes.push(voteObj);
       saveAndReturn(foundComment);
     }
 
-    function saveAndReturn(postToBeSaved){
-      postToBeSaved.save((err, savedComment) => {
+    function saveAndReturn(commentToBeSaved){
+      commentToBeSaved.save((err, savedComment) => {
         if (err) return res.status(400).send(err);
-        Comment.find({}, (err, posts) => {
-          res.status(err ? 400:200).send(err || posts);
-        }).populate('author');
+        Post.findById(req.body.postId, (err, post) => {
+          
+   
+          var authorString = []
+          for(var i = 0; i < post.totalComments; i++){
+            authorString.push(`comments${'.comments'.repeat(i)}.author`);
+          }
+
+          post.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
+            console.log("IN POST POPULATION BEFORE SEND!",post)
+            res.status(err ? 400:200).send(err || post);
+          });
+        })
       })
     }
   })

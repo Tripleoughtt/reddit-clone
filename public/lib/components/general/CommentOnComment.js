@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import $ from 'jquery';
 import AddCommentOnComment from './AddCommentOnComment';
 import classNames from 'classnames';
+import CommentActions from '../../actions/CommentActions';
 
 class CommentOnComment extends React.Component{
   constructor(props){
@@ -11,27 +12,29 @@ class CommentOnComment extends React.Component{
   }
 
   upVote(){
-    PostActions.upVote(this.props.data._id);
+    CommentActions.upVote(this.props.data._id, this.props.postId);
   }
 
   downVote(){
-    PostActions.downVote(this.props.data._id);
+    CommentActions.downVote(this.props.data._id, this.props.postId);
   }
 
   render(){
-    //let upColor = this.props.data.votes.some(voteObj => voteObj.user == userId && voteObj.vote);
-    //let downColor = this.props.data.votes.some(voteObj => voteObj.user == userId && !voteObj.vote);
+    let userId = this.props.user._id
+    let votes = this.props.data.votes.reduce((a, voteObj) => voteObj.vote ? a + 1 : a - 1, 0) || 0;
+    let upColor = this.props.data.votes.some(voteObj => voteObj.user == userId && voteObj.vote);
+    let downColor = this.props.data.votes.some(voteObj => voteObj.user == userId && !voteObj.vote);
 
     let upArrow = classNames({
       'glyphicon': true,
       'glyphicon-arrow-up': true,
-      //'highlight': upColor
+      'highlight': upColor
       // 'noUser': !userId
     });
     let downArrow = classNames({
       'glyphicon': true,
       'glyphicon-arrow-down': true,
-      //'highlight': downColor
+      'highlight': downColor
       // 'noUser': !userId
     });
     let comments;
@@ -39,7 +42,7 @@ class CommentOnComment extends React.Component{
     let postId = this.props.postId;
     if (this.props.data.comments.length){
       comments = this.props.data.comments.map(comment => {
-        return <CommentOnComment postId={postId} data={comment} key={comment._id} />
+        return <CommentOnComment user={this.props.user} postId={postId} data={comment} key={comment._id} />
       });
     }
     let authorDisplayName = this.props.data.author.name;
@@ -52,18 +55,18 @@ class CommentOnComment extends React.Component{
 
     return(
       <div className="commentComponent">
-        <div className="row">
-          <div className='well well-sm'>
+        <div className="well well-sm">
+          <div className=''>
             <div className="voteArea col-xs-1">
               <h4>
                 <span onClick={this.upVote.bind(this)} className={upArrow} aria-hidden="true"></span>
                 <br />
-                &nbsp;0
+                &nbsp;{votes}
                 <br />
                 <span onClick={this.downVote.bind(this)} className={downArrow} aria-hidden="true"></span>
               </h4>
             </div>
-            <div className="col-xs-11">
+            <div className="col-xs-10">
               <p className="">{this.props.data.body}</p> 
               <div>
                 <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />

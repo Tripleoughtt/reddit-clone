@@ -16,8 +16,12 @@ let API = {
     post(`posts/${postId}`, update).done(data => ServerActions.receivePost(data));
   },
 
-  vote(postId, direction){
+  voteOnPost(postId, direction){
     post(`posts/vote/${postId}`, {direction: direction}).done(data => ServerActions.receivePosts(data));
+  },
+  voteOnComment(commentId, direction, postId){
+    post(`comments/vote/${commentId}`, {direction: direction, postId: postId}).done(data => ServerActions.receivePost(data));
+
   },
 
   createNewUser(newUser) {
