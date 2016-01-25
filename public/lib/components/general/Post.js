@@ -1,11 +1,22 @@
 import React from "react";
 import {Link} from 'react-router';
 
+import PostActions from '../../actions/PostActions';
+
 class Post extends React.Component{
   constructor(props){
     super(props);
     this.state = {  }
   }
+
+  upVote(){
+    PostActions.upVote(this.props.data._id);
+  }
+
+  downVote(){
+    PostActions.downVote(this.props.data._id);
+  }
+
   render(){
     let params = 'post/' + this.props.data._id
     let snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
@@ -22,11 +33,11 @@ class Post extends React.Component{
       <div className="postComponent row">
         <div className="voteArea col-xs-1">
           <h3>
-            <span className="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            <span onClick={this.upVote.bind(this)} className="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
             <br />
             &nbsp;{votes}
             <br />
-            <span className="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            <span onClick={this.downVote.bind(this)} className="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
           </h3>
         </div>
         <div className="col-xs-11">

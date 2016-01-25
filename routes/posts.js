@@ -62,6 +62,18 @@ router.post('/:id/newcomment', authenticate, (req, res) => {
   })
 });
 
+// Vote on a post
+router.post('/vote/:id', (req, res) => {
+  let direction = req.body.direction === 'up' ? 1 : -1;
+  Post.findByIdAndUpdate(req.params.id, {$inc: { votes: direction }}, (err, oldPost) => {
+    if(err) return res.status(400).send(err);
+
+    Post.find({}, (err, posts) => {
+      res.status(err ? 400:200).send(err || posts);
+    }).populate('author');
+  });
+});
+
 // Update An Indivual Post
 router.post('/:id', (req, res) => {
   Post.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, oldPost) => {
@@ -78,6 +90,8 @@ router.post('/:id', (req, res) => {
     });
   });
 });
+
+
 
 // Delete A Single Post
 router.delete('/:id', (req, res) => {

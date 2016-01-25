@@ -9,7 +9,8 @@ let postSchema = Schema({
   tags: [{ type: String }],
   author: { type: Schema.Types.ObjectId, ref: "User" },
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
-  totalComments: { type: Number, default: 0 }
+  totalComments: { type: Number, default: 0 },
+  votes: {type: Number, default: 0, required: true}
 }).plugin(deepPopulate);
 
 let Post = mongoose.model('Post', postSchema);
