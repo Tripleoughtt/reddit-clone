@@ -163,6 +163,10 @@ hr {
 
 }
 
+/* Post */
+.voteArea {
+  padding-left: 3%;
+}
 
 /* Add Post Component */
 .addPostComponent {
