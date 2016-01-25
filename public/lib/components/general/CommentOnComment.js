@@ -20,7 +20,7 @@ class CommentOnComment extends React.Component{
   }
 
   render(){
-    let userId = this.props.user._id
+    let userId = this.props.user ? this.props.user._id : false;
     let votes = this.props.data.votes.reduce((a, voteObj) => voteObj.vote ? a + 1 : a - 1, 0) || 0;
     let upColor = this.props.data.votes.some(voteObj => voteObj.user == userId && voteObj.vote);
     let downColor = this.props.data.votes.some(voteObj => voteObj.user == userId && !voteObj.vote);
