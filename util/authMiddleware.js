@@ -8,17 +8,16 @@ import CONFIG from './authConfig';
 // Import User To Interact With Mongo
 import User from '../models/User';
 
-let tokenParts = function(token, res) {
-  try {
-    return jwt.decode(token, process.env.JWT_SECRET);
-  } catch(err) {
-    return res.status(401).send('Authorization Required');
-  }
-}
 
 export function authenticate(req, res, next){
   let token = req.cookies.token;
-  let decoded = tokenParts(token, res);
+  let decoded;
+
+  try {
+    decoded = jwt.decode(token, process.env.JWT_SECRET);
+  } catch(err) {
+    return res.status(401).send('Authorization Required');
+  }
 
   if(!token || decoded.exp < moment().unix()) {
     return res.status(401).send('authorization required');

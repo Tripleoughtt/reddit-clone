@@ -20,7 +20,7 @@ class Post extends React.Component{
   render(){
     let params = 'post/' + this.props.data._id
     let snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
-    let votes = this.props.data.votes || 0;
+    let votes = this.props.data.votes.reduce((a, voteObj) => voteObj.vote ? a + 1 : a - 1, 0) || 0;
 
     let authorDisplayName = this.props.data.author.name;
     let author;

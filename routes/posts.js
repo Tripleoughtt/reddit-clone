@@ -63,15 +63,57 @@ router.post('/:id/newcomment', authenticate, (req, res) => {
 });
 
 // Vote on a post
-router.post('/vote/:id', (req, res) => {
-  let direction = req.body.direction === 'up' ? 1 : -1;
-  Post.findByIdAndUpdate(req.params.id, {$inc: { votes: direction }}, (err, oldPost) => {
+router.post('/vote/:id', authenticate, (req, res) => {
+  let direction = req.body.direction === 'up';
+  let voteObj = {
+    user: req.decodedToken.id,
+    vote: direction
+  };
+
+  Post.findById(req.params.id, (err, foundPost) => {
     if(err) return res.status(400).send(err);
 
-    Post.find({}, (err, posts) => {
-      res.status(err ? 400:200).send(err || posts);
-    }).populate('author');
-  });
+    // check if user has voted - userId in votes array?
+    let index;
+    let voteToChange = foundPost.votes.filter((userVote, i) => {
+      // console.log('uservote', userVote, 'token', req.decodedToken.id, '?', userVote.user === req.decodedToken.id);
+      if (userVote.user == req.decodedToken.id){
+        index = i;
+        return userVote;
+      }
+    })
+    console.log('voteToChange', voteToChange);
+
+    // if user has voted already
+    if (voteToChange.length){
+      // 1) vote:true && direction:true => user wants to unvote an upvote
+      // 4) vote:false && direction:false => user wants to unvote a downvote
+      if (voteToChange[0].vote === direction){
+        foundPost.votes.splice(index, 1);
+        saveAndReturn(foundPost);
+
+      // 2) vote: true && direction: false => user wants to change upvote to downVote
+      // 3) vote: false && direction: true => user wants to change downvote to upvote
+      } else {
+        foundPost.votes[index].vote = !foundPost.votes[index].vote;
+        saveAndReturn(foundPost);
+      }
+
+    // user has not voted yet
+    } else {
+      foundPost.votes.push(voteObj);
+      saveAndReturn(foundPost);
+    }
+
+    function saveAndReturn(postToBeSaved){
+      postToBeSaved.save((err, savedPost) => {
+        if (err) return res.status(400).send(err);
+        Post.find({}, (err, posts) => {
+          res.status(err ? 400:200).send(err || posts);
+        }).populate('author');
+      })
+    }
+  })
 });
 
 // Update An Indivual Post
