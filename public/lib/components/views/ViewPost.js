@@ -3,6 +3,7 @@ import {Link, browserHistory} from 'react-router';
 import $ from 'jquery';
 
 import LoggedInNav from '../general/LoggedInNav';
+import NotLoggedInNav from '../general/NotLoggedInNav';
 import Comment from '../general/Comment';
 
 import PostActions from '../../actions/PostActions';
@@ -92,6 +93,15 @@ class ViewPost extends React.Component{
     }
   }
 
+  displayCommentButton() {
+    if(this.state.user) return(<AddCommentOnPost id={this.state.post._id} />);
+  }
+
+  switchNav() {
+    if(this.state.user) return (<LoggedInNav />); 
+    return (<NotLoggedInNav />);
+  }
+
   render(){
     if (!this.state.post) {
       return (
@@ -102,14 +112,13 @@ class ViewPost extends React.Component{
     if (this.state.post.comments) {
       let postId = this.state.post._id;
       comments = this.state.post.comments.map(comment => {
-        return <Comment  postId={postId} data={comment} key={comment._id} />
+        return <Comment  postId={postId} data={comment} key={comment._id} user={this.state.user} />
       })
     }
 
     return(
       <div className="viewPostComponent">
-        <LoggedInNav />
-
+        {this.switchNav()}
         <div className="container-fluid text-left postArea">
           <div className="row">
             <div className="col-xs-12 col-sm-11 viewPostTitle">
@@ -131,7 +140,7 @@ class ViewPost extends React.Component{
             </div>
           </div>
           <div className="row">
-            <AddCommentOnPost id={this.state.post._id} />
+            {this.displayCommentButton()}
           </div>
         </div>
 
@@ -142,7 +151,6 @@ class ViewPost extends React.Component{
             </div>
           </div>
         </div>
-
       </div>
     )
   }

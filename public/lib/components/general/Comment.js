@@ -10,8 +10,11 @@ class Comment extends React.Component{
     this.state = {  }
   }
 
+  displayAddButton() {
+    if(this.props.user) return (<AddCommentOnComment commentId={commentId} postId={this.props.postId} />);
+  }
 
-  render(){
+  render() {
     let comments;
     let commentId = this.props.data._id
     if (this.props.data.comments){
@@ -35,7 +38,6 @@ class Comment extends React.Component{
             <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
             <span> - <em>{author}</em></span>
           </div>
-          <AddCommentOnComment commentId={commentId} postId={this.props.postId} />
           <div className="row">
             <div className="col-xs-offset-1 col-xs-11 subcomments">
               {comments}
@@ -47,4 +49,4 @@ class Comment extends React.Component{
   }
 }
 
-export default Comment
+export default Comment;
