@@ -12,7 +12,6 @@ class PostStore extends EventEmitter {
     AppDispatcher.register(action => {
       switch (action.actionType) {
         case 'RECEIVE_POSTS':
-          ;
           _posts = action.posts;
           this.emit('CHANGE');
           break;
@@ -30,7 +29,6 @@ class PostStore extends EventEmitter {
   }
 
   getAllPosts() {
-
     return _posts;
   }
 

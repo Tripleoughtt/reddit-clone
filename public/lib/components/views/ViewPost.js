@@ -1,5 +1,6 @@
 import React from "react";
 import {Link, browserHistory} from 'react-router';
+import $ from 'jquery';
 
 import LoggedInNav from '../general/LoggedInNav';
 import Comment from '../general/Comment';
@@ -7,12 +8,17 @@ import Comment from '../general/Comment';
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
 
+import UserStore from '../../stores/UserStore';
+import UserActions from '../../actions/UserActions';
+
 import AddCommentOnPost from '../general/AddCommentOnPost'
 import marked from 'marked';
 
 let _getComponentState = () => {
   return {
-    post: PostStore.getPost()
+    post: PostStore.getPost(),
+    user: UserStore.getUserProfile(),
+    editing: false
   }
 }
 
@@ -26,34 +32,74 @@ class ViewPost extends React.Component{
   componentDidMount(){
     PostActions.getPostInfo(this.props.params.postId);
     PostStore.startListening(this._onChange);
+
+    UserActions.fetchUserInfo();
+    UserStore.startListening(this._onChange);
   }
 
   componentWillUnmount(){
     PostStore.stopListening(this._onChange);
+    UserStore.stopListening(this._onChange);
   }
 
   _onChange() {
     this.setState(_getComponentState());
-    console.log(this.state)
+    console.log(this.state);
   }
 
   rawMarkup() {
     return { __html: marked(this.state.post.body, {sanitize: true}) };
   }
 
+  handleEditClick() {
+    if(this.state.editing) {
+      let $currentTitle = $('.viewPostTitle h1');
+      let title = $currentTitle.find('input').val();
+
+      PostActions.updatePost({ title: title }, this.state.post._id);
+
+      console.log('title', title);
+      $currentTitle.empty();
+      $currentTitle.text(title);
+      $('.edit-btn').text('Edit Post');
+
+      this.setState({ editing: false });
+    } else {
+      let $currentTitle = $('.viewPostTitle h1');
+      let title = $currentTitle.text();
+
+      $currentTitle.empty();
+      $currentTitle.append($(`<input type='text' value=${title} />`));
+      $('.edit-btn').text('Save Post');
+
+      this.setState({ editing: true });
+    }
+  }
+
+  displayEditButton() {
+    if(this.state.user && this.state.user._id === this.state.post.author) {
+      return (
+        <div className="row">
+          <button className='edit-btn btn btn-primary' onClick={this.handleEditClick.bind(this)}>Edit Post</button>
+        </div>
+      );
+    }
+  }
+
   render(){
-    if (!this.state.post){
+    if (!this.state.post) {
       return (
         <div></div>
       )
     }
     let comments;
-    if (this.state.post.comments){
+    if (this.state.post.comments) {
       let postId = this.state.post._id;
       comments = this.state.post.comments.map(comment => {
         return <Comment  postId={postId} data={comment} key={comment._id} />
       })
     }
+
     return(
       <div className="viewPostComponent">
         <LoggedInNav />
@@ -71,6 +117,9 @@ class ViewPost extends React.Component{
               <hr />
             </div>
           </div>
+
+            {this.displayEditButton()}
+
           <div className="row viewTags">
             <div className="col-xs-12 col-sm-11">
             </div>

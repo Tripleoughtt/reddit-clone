@@ -63,11 +63,18 @@ router.post('/:id/newcomment', authenticate, (req, res) => {
 });
 
 // Update An Indivual Post
-router.put('/:id', (req, res) => {
-  Post.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, post) => {
+router.post('/:id', (req, res) => {
+  Post.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, oldPost) => {
     if(err) return res.status(400).send(err);
     Post.findById(req.params.id, (err, updatedPost) => {
-      res.status(err ? 400:200).send(err || updatedPost);
+      var authorString = []
+      for(var i = 0; i < updatedPost.totalComments; i++){
+        authorString.push(`comments${'.comments'.repeat(i)}.author`);
+      }
+
+      updatedPost.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(updatedPost.totalComments)}`, (err, post) => {
+        res.status(err ? 400:200).send(err || post);
+      });
     });
   });
 });
