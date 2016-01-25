@@ -37,7 +37,7 @@ class NotLoggedInHome extends React.Component{
         }
         hashHistory.push('home');
       }, (err) => {
-        console.log(err)
+
         hashHistory.push('/');
       })
     })()

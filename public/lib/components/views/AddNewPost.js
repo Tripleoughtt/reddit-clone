@@ -25,7 +25,7 @@ class AddNewPost extends React.Component{
         }
         return true
       }, (err) => {
-        console.log(err)
+        
         hashHistory.push('/');
       })
     })()

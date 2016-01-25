@@ -37,7 +37,7 @@ router.get('/myposts', authenticate, (req, res) => {
 
 // Get Logged In User
 router.get('/myinfo', authenticate, (req, res) => {
-  console.log('req.decodedToken', req.decodedToken);
+
   User.findById(req.decodedToken.id, (err, user) => {
     if (err) return res.status(400).send(err);
     user.password = null;
@@ -55,7 +55,7 @@ router.get('/comments/:id', (req, res) => {
 // Logging In
 router.post('/login', (req, res) => {
   User.login(req.body, (err, token, userInfo) => {
-    console.log(err)
+
     if(err) return res.status(401).send(err);
     res.status(200).cookie("token", token).send(userInfo);
   });

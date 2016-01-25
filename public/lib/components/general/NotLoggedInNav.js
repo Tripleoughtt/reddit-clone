@@ -22,7 +22,7 @@ class NotLoggedInNav extends React.Component{
     newUserInfo.password2 = this.refs.pass2.value;
     newUserInfo.username = this.refs.username.value;
     if (newUserInfo.password1 === newUserInfo.password2){
-      console.log('in registration function!!!', newUserInfo)
+      
       UserActions.createNewUser(newUserInfo);
     } 
   }

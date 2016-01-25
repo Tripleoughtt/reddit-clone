@@ -76,13 +76,13 @@ router.post('/vote/:id', authenticate, (req, res) => {
     // check if user has voted - userId in votes array?
     let index;
     let voteToChange = foundPost.votes.filter((userVote, i) => {
-      // console.log('uservote', userVote, 'token', req.decodedToken.id, '?', userVote.user === req.decodedToken.id);
+      //
       if (userVote.user == req.decodedToken.id){
         index = i;
         return userVote;
       }
     })
-    console.log('voteToChange', voteToChange);
+
 
     // if user has voted already
     if (voteToChange.length){

@@ -28,7 +28,7 @@ class UserProfile extends React.Component{
         }
         return true
       }, (err) => {
-        console.log(err)
+        
         hashHistory.push('/');
       })
     })()
@@ -52,12 +52,12 @@ class UserProfile extends React.Component{
   }
 
   uploadFile(e){
-    console.log('file', e.target.files);
+    
     var file = e.target.files[0];
 
     if (file) {
         var reader = new FileReader();
-        console.log('inside', reader);
+        
         reader.onload = function(readerEvt) {
             var binaryString = readerEvt.target.result;
             // send image to db

@@ -29,7 +29,7 @@ let API = {
     post('/users/login', user).done(data => {
       ServerActions.receiveNewUser(data)
     }).fail(err => {
-      console.log("error catching on login", err)
+
       ServerActions.receiveLoginError(err);
     })
   },

@@ -28,7 +28,7 @@ class LoggedInHome extends React.Component{
   }
 
   componentWillMount(){
-    // console.log('before mount!',authorize())
+    //
     // if (!authorize()){
     //   hashHistory.push('/');
     // }
@@ -40,7 +40,7 @@ class LoggedInHome extends React.Component{
         }
         return true
       }, (err) => {
-        console.log(err)
+
         hashHistory.push('/');
       })
     })()
@@ -48,8 +48,6 @@ class LoggedInHome extends React.Component{
   }
 
   componentDidMount(){
-
-
     PostActions.getAllPosts();
     PostStore.startListening(this._onChange);
 
@@ -60,7 +58,7 @@ class LoggedInHome extends React.Component{
     PostStore.stopListening(this._onChange);
 
     UserStore.stopListening(this._onChange);
-    console.log('home unmounting');
+
   }
 
   _onChange() {

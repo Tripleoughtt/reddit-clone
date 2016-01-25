@@ -26,7 +26,7 @@ router.post('/:id/newcomment', authenticate, (req, res) => {
             authorString.push(`comments${'.comments'.repeat(i)}.author`);
           }
           updatedPost.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(updatedPost.totalComments)}`, (err, post) => {
-            console.log(post)
+            
             return res.status(err ? 400:200).send(err || post);
           });
         })

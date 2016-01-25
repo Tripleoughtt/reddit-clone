@@ -303,7 +303,7 @@ System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5
                 }
                 hashHistory.push('home');
               }, function (err) {
-                console.log(err);
+                
                 hashHistory.push('/');
               });
             })();
@@ -667,7 +667,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
         _createClass(LoggedInHome, [{
           key: "componentWillMount",
           value: function componentWillMount() {
-            // console.log('before mount!',authorize())
+            // 
             // if (!authorize()){
             //   hashHistory.push('/');
             // }
@@ -679,7 +679,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
                 }
                 return true;
               }, function (err) {
-                console.log(err);
+                
                 hashHistory.push('/');
               });
             })();
@@ -699,7 +699,7 @@ System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.
             PostStore.stopListening(this._onChange);
 
             UserStore.stopListening(this._onChange);
-            console.log('home unmounting');
+            
           }
         }, {
           key: "_onChange",
@@ -795,7 +795,7 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
                 }
                 return true;
               }, function (err) {
-                console.log(err);
+                
                 hashHistory.push('/');
               });
             })();
@@ -961,7 +961,7 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
             var postId = this.props.postId;
             if (this.props.data.comments.length) {
               comments = this.props.data.comments.map(function (comment) {
-                console.log('IN COMMENT ON COMMENT MAP (DATAS): ', comment);
+                
                 return React.createElement(CommentOnComment, { postId: postId, data: comment, key: comment._id });
               });
             }
@@ -2295,7 +2295,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
           key: '_onChange',
           value: function _onChange() {
             this.setState(_getComponentState());
-            console.log(this.state);
+            
           }
         }, {
           key: 'rawMarkup',
@@ -12825,7 +12825,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
           'Instances': item.count
         };
       }));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     getMeasurementsSummaryMap: function(measurements) {
       var summary = ReactDefaultPerfAnalysis.getInclusiveSummary(measurements, true);
@@ -12840,7 +12840,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
     printWasted: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
       console.table(ReactDefaultPerf.getMeasurementsSummaryMap(measurements));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     printDOM: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
@@ -12852,7 +12852,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
         result.args = JSON.stringify(item.args);
         return result;
       }));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     _recordWrite: function(id, fnName, totalTime, args) {
       var writes = ReactDefaultPerf._allMeasurements[ReactDefaultPerf._allMeasurements.length - 1].writes;
@@ -19070,7 +19070,7 @@ System.register('lib/authorize.js', ['npm:babel-runtime@5.8.34/core-js/promise',
   //       }
   //       return true
   //     }, (err) => {
-  //       console.log(err)
+  //       
   //       return false
   //
   //     })
@@ -19086,7 +19086,7 @@ System.register('lib/authorize.js', ['npm:babel-runtime@5.8.34/core-js/promise',
         }
         return true;
       }, function (err) {
-        console.log(err);
+        
         return false;
       });
     });
@@ -26634,7 +26634,7 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
                 }
                 return true;
               }, function (err) {
-                console.log(err);
+                
                 hashHistory.push('/');
               });
             })();
@@ -26662,12 +26662,12 @@ System.register("lib/components/views/UserProfile.js", ["npm:babel-runtime@5.8.3
         }, {
           key: "uploadFile",
           value: function uploadFile(e) {
-            console.log('file', e.target.files);
+            
             var file = e.target.files[0];
 
             if (file) {
               var reader = new FileReader();
-              console.log('inside', reader);
+              
               reader.onload = function (readerEvt) {
                 var binaryString = readerEvt.target.result;
                 // send image to db

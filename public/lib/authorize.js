@@ -9,7 +9,7 @@ import {hashHistory} from 'react-router';
 //       }
 //       return true
 //     }, (err) => {
-//       console.log(err)
+//       
 //       return false
 //
 //     })
@@ -25,7 +25,7 @@ function authorize(){
       }
       return true
     }, (err) => {
-      console.log(err)
+      
       return false
     })
   })
