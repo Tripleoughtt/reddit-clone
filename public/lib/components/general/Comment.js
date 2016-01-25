@@ -22,7 +22,6 @@ class Comment extends React.Component{
     }
     let authorDisplayName = this.props.data.author.name;
     let author;
-    console.log(authorDisplayName)
     if(authorDisplayName){
       author = authorDisplayName;
     } else {

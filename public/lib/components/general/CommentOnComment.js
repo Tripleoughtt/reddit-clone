@@ -15,13 +15,11 @@ class CommentOnComment extends React.Component{
     let postId = this.props.postId;
     if (this.props.data.comments.length){
       comments = this.props.data.comments.map(comment => {
-        console.log('IN COMMENT ON COMMENT MAP (DATAS): ', comment)
         return <CommentOnComment postId={postId} data={comment} key={comment._id} />
       });
     }
     let authorDisplayName = this.props.data.author.name;
     let author;
-    console.log(authorDisplayName)
     if(authorDisplayName){
       author = authorDisplayName;
     } else {

@@ -34,7 +34,6 @@ class ViewPost extends React.Component{
 
   _onChange() {
     this.setState(_getComponentState());
-    console.log(this.state)
   }
 
   rawMarkup() {
