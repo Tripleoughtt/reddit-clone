@@ -14,7 +14,7 @@ let userSchema = mongoose.Schema({
   name: { type: String },
   phone: { type: String },
   address: { type: String },
-  profilePic: { type: String },
+  profilePic: { type: String , default: "lib/logo.png", required: true},
 });
 
 userSchema.statics.authenticate = (token, cb) => {
