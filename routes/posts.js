@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   Post.find({}, (err, posts) => {
     res.status(err ? 400:200).send(err || posts);
-  });
+  }).populate('author');
 });
 
 // Get Individual Post Info (After Clicking On Post)
