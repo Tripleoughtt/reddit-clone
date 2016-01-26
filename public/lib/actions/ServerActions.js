@@ -26,6 +26,7 @@ let ServerActions = {
     });
   },
   receiveUserInfo(user) {
+    console.log(user)
     AppDispatcher.dispatch({
       actionType: 'RECEIVE_USER_INFO',
       user

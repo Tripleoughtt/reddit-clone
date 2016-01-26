@@ -42,6 +42,9 @@ class Comment extends React.Component{
       'highlight': downColor
       // 'noUser': !userId
     });
+
+    let voteUpArrow = userId ? upArrow : "hide";
+    let voteDownArrow = userId ? downArrow : "hide";
     let comments;
     let commentId = this.props.data._id
     if (this.props.data.comments){
@@ -63,11 +66,11 @@ class Comment extends React.Component{
           <div className=''>
             <div className="voteArea col-xs-1">
               <h4>
-                <span onClick={this.upVote.bind(this)} className={upArrow} aria-hidden="true"></span>
+                <span onClick={this.upVote.bind(this)} className={voteUpArrow} aria-hidden="true"></span>
                 <br />
                 &nbsp;{votes}
                 <br />
-                <span onClick={this.downVote.bind(this)} className={downArrow} aria-hidden="true"></span>
+                <span onClick={this.downVote.bind(this)} className={voteDownArrow} aria-hidden="true"></span>
               </h4>
             </div>
             <div className="panel-body commentDiv">

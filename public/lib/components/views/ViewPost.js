@@ -18,7 +18,7 @@ import marked from 'marked';
 let _getComponentState = () => {
   return {
     post: PostStore.getPost(),
-    user: UserStore.getUserProfile(),
+    user: UserStore.getUserInfo(),
     editing: false
   }
 }
@@ -45,6 +45,8 @@ class ViewPost extends React.Component{
 
   _onChange() {
     this.setState(_getComponentState());
+    console.log('USER STATE IN FUCKING CHANGING BITCHES!!!!', this.state)
+
   }
 
   rawMarkup() {

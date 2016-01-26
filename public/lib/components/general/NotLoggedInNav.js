@@ -36,6 +36,7 @@ class NotLoggedInNav extends React.Component{
 
   loginUser(e){
     e.preventDefault();
+    console.log("is this happening right nao?: ", this.state)
     if (!this.state.username){
       swal('Oops!', "Please enter your username.", "error")
     } else if (!this.state.password){

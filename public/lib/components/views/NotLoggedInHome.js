@@ -2,15 +2,18 @@ import React from "react";
 import {Link, hashHistory} from 'react-router';
 
 import NotLoggedInNav from "../general/NotLoggedInNav";
-import SignUpForm from "../general/SignUpForm";
+import SignUpBanner from "../general/SignUpBanner";
 import PostFeed from "../general/PostFeed";
+import TagCloud from "../general/TagCloud";
 
 import UserStore from '../../stores/UserStore';
 import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
-import SweetAlert from 'sweetalert'
+import SweetAlert from 'sweetalert';
+
+import classNames from "classnames";
 
 import {get} from 'jquery';
 
@@ -18,7 +21,8 @@ let _getAppState = () => {
   return {
     posts: PostStore.getAllPosts(),
     user: UserStore.getUserInfo(),
-    error: UserStore.getLoginError()
+    error: UserStore.getLoginError(),
+    hideSignUpBanner: false
   }
 }
 
@@ -67,24 +71,86 @@ class NotLoggedInHome extends React.Component{
     }
   }
 
+  filterByTag(tag){
+    if (this.state.filtering){
+      let atIndex;
+      let shouldRemoveTag = this.state.filterByTags.some((currentlyFilteringTag, i) => {
+        if (tag === currentlyFilteringTag){
+          atIndex = i;
+          return currentlyFilteringTag;
+        }
+      });
+      if (shouldRemoveTag){
+        let filterByTags = this.state.filterByTags;
+        filterByTags.splice(atIndex, 1);
+        this.setState({
+          filterByTags: filterByTags,
+          filtering: this.state.filterByTags.length ? true : false
+        });
+      } else {
+        this.setState({
+          filterByTags: this.state.filterByTags.concat(tag)
+        })
+      }
+    } else {
+      this.setState({
+        filterByTags: this.state.filterByTags ? this.state.filterByTags.concat(tag) : [tag],
+        filtering: true
+      });
+    }
+  }
+
+  toggleSignUpBanner(){
+    this.setState({ hideSignUpBanner: !this.state.hideSignUpBanner })
+  }
+
   render(){
+    let posts = this.state.posts;
+    if (this.state.filtering){
+      this.state.filterByTags.forEach(filterByTag => {
+        let regex = new RegExp(filterByTag, 'gi');
+        posts = posts.filter(post => {
+          return post.tags.some(tag => tag.match(regex));
+        });
+      })
+    }
+
+    let currentlyFilteringTags = this.state.filterByTags || [];
+
+    let dismiss = this.state.hideSignUpBanner ? 'Join The Camp Fire!' : 'Dismiss';
+    let glyphicon = this.state.hideSignUpBanner ? classNames('glyphicon glyphicon-menu-down') : classNames('glyphicon glyphicon-menu-up');
+
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
-        <div className='container-fluid greeting'>
-          <div className="row">
-            <div className="col-xs-12 col-sm-offset-2 col-sm-8 text-center greetingText">
-              <h1>Welcome to Dev Camp Fire</h1>
-              <h4>A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions</h4>
+        <div className="container-fluid">
+          <div className="row greeting text-center">
+            <div className="collapse in" id="signUpBanner" aria-expanded="true">
+              <div className='col-xs-12 col-sm-6'>
+                <h1>What Are You Waiting For?</h1>
+                <h4>Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And <strong>You!</strong></h4>
+              </div>
+              <div className='col-xs-12 col-sm-6'>
+                <SignUpBanner />
+              </div>
+            </div>
+            <div className="col-xs-12">
+              <button onClick={this.toggleSignUpBanner.bind(this)} data-toggle="collapse" className="toggleSignUpBanner" data-target="#signUpBanner" type="button">
+                <span className={glyphicon} aria-hidden="true"></span>
+                &nbsp;{dismiss}&nbsp;
+                <span className={glyphicon} aria-hidden="true"></span>
+              </button>
             </div>
           </div>
-          <div className="homePageArrow">
-            <image src="./lib/arrow-down.png" />
+          <div className="row">
+            <div className="hidden-xs col-sm-2 tagCloud">
+              <h4>Popular Tags:</h4>
+              <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
+            </div>
+            <div className="col-xs-12 col-sm-10" id="feed">
+              <PostFeed posts={posts} />
+            </div>
           </div>
-        </div>
-        <SignUpForm />
-        <div className="col-xs-12 col-sm-9" id="feed">
-          <PostFeed posts={this.state.posts} />
         </div>
       </div>
     )

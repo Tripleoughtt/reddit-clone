@@ -58,11 +58,14 @@ class AddNewPost extends React.Component{
   }
 
   submitNewPost(){
-    if(this.state.body && this.state.title) {
-      PostActions.createNewPost(this.state);
-    } else {
-      swal('Sorry!', 'Please Enter In All Fields', 'error');
+    let newPost = this.state;
+    if(!this.state.body || !this.state.title) {
+      return swal('Sorry!', 'Please Enter a title and a body for your post!', 'error');
     }
+    if (newPost.tags.length){
+      newPost.tags = newPost.tags.replace(/,\s?/g, ' ').split(' ');
+    }
+    PostActions.createNewPost(newPost);
   }
 
   render(){
