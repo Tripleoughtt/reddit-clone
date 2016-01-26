@@ -12,6 +12,15 @@ label {
   width: 100%;
 }
 
+.commentText {
+  word-wrap: break-word;
+}
+
+.commentDiv {
+  overflow-x: scroll;
+
+}
+
 hr {
   border-top: 2px solid #30231D;
   width: 100%;

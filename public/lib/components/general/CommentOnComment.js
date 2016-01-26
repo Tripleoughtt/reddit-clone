@@ -59,7 +59,7 @@ class CommentOnComment extends React.Component{
 
     return(
       <div className="commentComponent">
-        <div className="well well-sm">
+        <div className="panel panel-default">
           <div className=''>
             <div className="voteArea col-xs-1">
               <h4>
@@ -70,8 +70,8 @@ class CommentOnComment extends React.Component{
                 <span onClick={this.downVote.bind(this)} className={downArrow} aria-hidden="true"></span>
               </h4>
             </div>
-            <div className="col-xs-10">
-              <p className="">{this.props.data.body}</p> 
+            <div className="panel-body commentDiv">
+              <p className="commentText">{this.props.data.body}</p> 
               <div>
                 <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
                 <span> - <em>{author}</em></span>
