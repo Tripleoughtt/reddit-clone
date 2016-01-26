@@ -78,7 +78,6 @@ hr {
 .greeting {
   color:  #F6F1ED;
   font-weight: 800;
-  height: 100vh;
   background: linear-gradient( rgba(48, 35, 29, 0.5), rgba(48, 35, 29, 0.5) ), url('https://images.unsplash.com/photo-1437376576540-236661ddb41f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=63a9ff11faa1b85fa838f3df68ebca2e') center center no-repeat;
   background-size: cover;
 }
@@ -177,6 +176,32 @@ hr {
   height: 100%;
   color: #F6F1ED;
   padding-top: 2%;
+}
+/* Tag Cloud */
+.tagCloud {
+  background-color: #6A5750;
+  color: #F6F1ED;
+  padding: 2%;
+}
+/* Sign Up Banner */
+.signUpBanner {
+  background-color: #6A5750;
+  color: #F6F1ED;
+  padding: 2%;
+  transition: all 1s ease
+}
+
+.signUpBannerHide {
+  display: none;
+}
+
+button.close {
+  float: none;
+}
+
+.toggleSignUpBanner {
+  color: #6A5750;
+  float: none;
 }
 
 /* Post Feed */

@@ -2,7 +2,7 @@ import React from "react";
 import {Link, hashHistory} from 'react-router';
 
 import NotLoggedInNav from "../general/NotLoggedInNav";
-import SignUpForm from "../general/SignUpForm";
+import SignUpBanner from "../general/SignUpBanner";
 import PostFeed from "../general/PostFeed";
 import TagCloud from "../general/TagCloud";
 
@@ -11,7 +11,9 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
-import SweetAlert from 'sweetalert'
+import SweetAlert from 'sweetalert';
+
+import classNames from "classnames";
 
 import {get} from 'jquery';
 
@@ -19,7 +21,8 @@ let _getAppState = () => {
   return {
     posts: PostStore.getAllPosts(),
     user: UserStore.getUserInfo(),
-    error: UserStore.getLoginError()
+    error: UserStore.getLoginError(),
+    hideSignUpBanner: false
   }
 }
 
@@ -97,6 +100,10 @@ class NotLoggedInHome extends React.Component{
     }
   }
 
+  toggleSignUpBanner(){
+    this.setState({ hideSignUpBanner: !this.state.hideSignUpBanner })
+  }
+
   render(){
     let posts = this.state.posts;
     if (this.state.filtering){
@@ -110,15 +117,43 @@ class NotLoggedInHome extends React.Component{
 
     let currentlyFilteringTags = this.state.filterByTags || [];
 
+    let signUpBannerComponent = classNames('col-xs-12 col-sm-6', {
+      signUpBannerHide: this.state.hideSignUpBanner
+    })
+
+    let dismiss = this.state.hideSignUpBanner ? 'Join The Camp Fire!' : 'Dismiss';
+    let glyphicon = this.state.hideSignUpBanner ? classNames('glyphicon glyphicon-menu-down') : classNames('glyphicon glyphicon-menu-up');
+
+    console.log('signUpBannerHide', this.state);
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
-        <div className="hidden-xs col-sm-2">
-          <h4>Popular Tags:</h4>
-          <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
-        </div>
-        <div className="col-xs-12 col-sm-10" id="feed">
-          <PostFeed posts={posts} />
+        <div className="container-fluid">
+          <div className="row greeting text-center">
+            <div className={signUpBannerComponent}>
+              <h1>What Are You Waiting For?</h1>
+              <h4>Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And <strong>You!</strong></h4>
+            </div>
+            <div className={signUpBannerComponent}>
+              <SignUpBanner />
+            </div>
+            <div className="col-xs-12">
+              <button onClick={this.toggleSignUpBanner.bind(this)} type="button" className="close" aria-label="Close">
+                <span className={glyphicon} aria-hidden="true"></span>
+                &nbsp;{dismiss}&nbsp;
+                <span className={glyphicon} aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="hidden-xs col-sm-2 tagCloud">
+              <h4>Popular Tags:</h4>
+              <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
+            </div>
+            <div className="col-xs-12 col-sm-10" id="feed">
+              <PostFeed posts={posts} />
+            </div>
+          </div>
         </div>
       </div>
     )
