@@ -56,6 +56,16 @@ hr {
   display: none;
 }
 
+.filteringByTag, .filteringByTag:hover, .filteringByTag:active:hover, .filteringByTag.focus, .filteringByTag:focus {
+  color: #F6F1ED;
+  background-color: #30231D;
+  border-color: #F6F1ED;
+}
+
+.filteringByTag .badge {
+  background-color: #F6F1ED;
+  color: #30231D;
+}
 
 /* Not Logged In Home Page */
 .homeComponent {

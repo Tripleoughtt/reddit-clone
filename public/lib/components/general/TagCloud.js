@@ -14,7 +14,6 @@ class TagCloud extends React.Component{
   }
 
   render(){
-    console.log(this.props.posts);
     let tags;
     if (this.props.posts.length){
       // create a tags dictionary to get totals for tag badge number
@@ -29,13 +28,14 @@ class TagCloud extends React.Component{
 
       // create the Tag components array with the name and
       // total count of each tag in ascending order
+      let currentlyFilteringTags = this.props.currentlyFilteringTags;
       tags = Object.keys(tagsDictionary).map((tag, i) => {
-        return <Tag key={i} name={tag} number={tagsDictionary[tag]} filterByTag={this.props.filterByTag} />
+        return <Tag key={i} name={tag} number={tagsDictionary[tag]} filterByTag={this.props.filterByTag} currentlyFilteringTags={currentlyFilteringTags} />
       }).sort((firstTag, secondTag) =>{
         return secondTag.props.number - firstTag.props.number;
       });
     }
-    console.log('tags', tags)
+
     return(
       <div className="tagCloud">
         {tags}

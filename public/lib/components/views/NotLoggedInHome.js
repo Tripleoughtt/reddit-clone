@@ -69,23 +69,53 @@ class NotLoggedInHome extends React.Component{
   }
 
   filterByTag(tag){
-    this.setState({filterByTag: tag});
+    if (this.state.filtering){
+      let atIndex;
+      let shouldRemoveTag = this.state.filterByTags.some((currentlyFilteringTag, i) => {
+        if (tag === currentlyFilteringTag){
+          atIndex = i;
+          return currentlyFilteringTag;
+        }
+      });
+      if (shouldRemoveTag){
+        let filterByTags = this.state.filterByTags;
+        filterByTags.splice(atIndex, 1);
+        this.setState({
+          filterByTags: filterByTags,
+          filtering: this.state.filterByTags.length ? true : false
+        });
+      } else {
+        this.setState({
+          filterByTags: this.state.filterByTags.concat(tag)
+        })
+      }
+    } else {
+      this.setState({
+        filterByTags: this.state.filterByTags ? this.state.filterByTags.concat(tag) : [tag],
+        filtering: true
+      });
+    }
   }
 
   render(){
     let posts = this.state.posts;
-    if (this.state.filterByTag){
-      let regex = new RegExp(this.state.filterByTag, 'gi');
-      posts = posts.filter(post => {
-        return post.tags.some(tag => tag.match(regex));
-      });
+    if (this.state.filtering){
+      this.state.filterByTags.forEach(filterByTag => {
+        let regex = new RegExp(filterByTag, 'gi');
+        posts = posts.filter(post => {
+          return post.tags.some(tag => tag.match(regex));
+        });
+      })
     }
-    console.log(posts);
+
+    let currentlyFilteringTags = this.state.filterByTags || [];
+
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
         <div className="hidden-xs col-sm-2">
-          <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} />
+          <h4>Popular Tags:</h4>
+          <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
         </div>
         <div className="col-xs-12 col-sm-10" id="feed">
           <PostFeed posts={posts} />
