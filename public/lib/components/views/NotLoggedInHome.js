@@ -117,28 +117,25 @@ class NotLoggedInHome extends React.Component{
 
     let currentlyFilteringTags = this.state.filterByTags || [];
 
-    let signUpBannerComponent = classNames('col-xs-12 col-sm-6', {
-      signUpBannerHide: this.state.hideSignUpBanner
-    })
-
     let dismiss = this.state.hideSignUpBanner ? 'Join The Camp Fire!' : 'Dismiss';
     let glyphicon = this.state.hideSignUpBanner ? classNames('glyphicon glyphicon-menu-down') : classNames('glyphicon glyphicon-menu-up');
 
-    console.log('signUpBannerHide', this.state);
     return(
       <div className="homeComponent">
         <NotLoggedInNav />
         <div className="container-fluid">
           <div className="row greeting text-center">
-            <div className={signUpBannerComponent}>
-              <h1>What Are You Waiting For?</h1>
-              <h4>Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And <strong>You!</strong></h4>
-            </div>
-            <div className={signUpBannerComponent}>
-              <SignUpBanner />
+            <div className="collapse in" id="signUpBanner" aria-expanded="true">
+              <div className='col-xs-12 col-sm-6'>
+                <h1>What Are You Waiting For?</h1>
+                <h4>Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And <strong>You!</strong></h4>
+              </div>
+              <div className='col-xs-12 col-sm-6'>
+                <SignUpBanner />
+              </div>
             </div>
             <div className="col-xs-12">
-              <button onClick={this.toggleSignUpBanner.bind(this)} type="button" className="close" aria-label="Close">
+              <button onClick={this.toggleSignUpBanner.bind(this)} data-toggle="collapse" className="toggleSignUpBanner" data-target="#signUpBanner" type="button">
                 <span className={glyphicon} aria-hidden="true"></span>
                 &nbsp;{dismiss}&nbsp;
                 <span className={glyphicon} aria-hidden="true"></span>
