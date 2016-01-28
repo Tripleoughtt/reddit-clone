@@ -53,7 +53,6 @@ class Post extends React.Component{
       author = this.props.data.author.username;
     }
 
-
     return(
       <div className="postComponent row">
         <div className="voteArea col-xs-1">
