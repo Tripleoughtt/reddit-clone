@@ -16,6 +16,7 @@ class UserModal extends React.Component{
       name = this.props.userInfo.name ? this.props.userInfo.name : this.props.userInfo.username;
       profilePic = this.props.userInfo.profilePic;
     }
+    
 
     return(
       <div id="userModal" className="modal fade" tabIndex="-1" role="dialog">
