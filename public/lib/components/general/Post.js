@@ -70,7 +70,7 @@ class Post extends React.Component{
           <p>{snippets}<Link to={params}>...</Link></p>
           <div>
             <img className="profilePicDisplay" src={this.props.data.author.profilePic}  />
-            <span> - <em>{author}</em></span>
+            <span> - <a onClick={this.props.openUserModal.bind(this, this.props.data)} type="button" data-toggle="modal" data-target="#userModal"><em>{author}</em></a></span>
           </div>
         </div>
       </div>
