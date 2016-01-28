@@ -15,6 +15,7 @@ let userSchema = mongoose.Schema({
   phone: { type: String },
   address: { type: String },
   profilePic: { type: String , default: "lib/logo.png", required: true},
+  reputation: {type: Number, default: 0, required: true}
 });
 
 userSchema.statics.authenticate = (token, cb) => {
@@ -22,6 +23,13 @@ userSchema.statics.authenticate = (token, cb) => {
   User.findById(userInfo.id, (err, foundUser) => {
     if(err || !foundUser) return cb(null, false);
     return cb(null, true);
+  });
+}
+
+userSchema.statics.calculateReputation = (userId) => {
+  console.log(userId);
+  User.findById(userId, (err, foundUser) => {
+    console.log(foundUser)
   });
 }
 

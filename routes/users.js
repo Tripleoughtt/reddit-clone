@@ -4,6 +4,8 @@ import express from 'express';
 import User from '../models/User';
 import Post from '../models/Post';
 import Comment from '../models/Comment';
+import {calculateReputation} from '../models/UserMethods';
+
 
 // Import for authentication
 import { authenticate, passChange } from '../util/authMiddleware';

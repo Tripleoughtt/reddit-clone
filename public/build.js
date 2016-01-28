@@ -69,8 +69,8 @@ System.register("lib/components/AppController.js", ["npm:babel-runtime@5.8.34/he
     }
   };
 });
-System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, UserActions, NotLoggedInNav;
+System.register('lib/components/general/SignUpBanner.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, UserActions, SignUpBanner;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -89,165 +89,802 @@ System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@
     execute: function () {
       'use strict';
 
-      NotLoggedInNav = (function (_React$Component) {
-        _inherits(NotLoggedInNav, _React$Component);
+      SignUpBanner = (function (_React$Component) {
+        _inherits(SignUpBanner, _React$Component);
 
-        function NotLoggedInNav(props) {
-          _classCallCheck(this, NotLoggedInNav);
+        function SignUpBanner(props) {
+          _classCallCheck(this, SignUpBanner);
 
-          _get(Object.getPrototypeOf(NotLoggedInNav.prototype), 'constructor', this).call(this, props);
+          _get(Object.getPrototypeOf(SignUpBanner.prototype), 'constructor', this).call(this, props);
           this.state = {};
         }
 
-        _createClass(NotLoggedInNav, [{
+        _createClass(SignUpBanner, [{
           key: 'updateUsername',
           value: function updateUsername(e) {
             this.setState({ username: e.target.value });
           }
         }, {
-          key: 'updatePassword',
-          value: function updatePassword(e) {
-            this.setState({ password: e.target.value });
+          key: 'updatePassword1',
+          value: function updatePassword1(e) {
+            this.setState({ password1: e.target.value });
           }
         }, {
-          key: 'submitRegistration',
-          value: function submitRegistration(e) {
-            e.preventDefault();
-            var newUserInfo = {};
-            newUserInfo.password1 = this.refs.pass1.value;
-            newUserInfo.password2 = this.refs.pass2.value;
-            newUserInfo.username = this.refs.username.value;
-
-            if (!newUserInfo.username) {
-              swal('Oops!', "Please enter a new username.", "error");
-            } else if (!newUserInfo.password1 || !newUserInfo.password2) {
-              swal('Oops!', "Please enter a new password", "error");
-            } else if (newUserInfo.password1 !== newUserInfo.password2) {
-              swal('Oops!', "Passwords must match.", "error");
-            } else {
-              UserActions.createNewUser(newUserInfo);
-            }
+          key: 'updatePassword2',
+          value: function updatePassword2(e) {
+            this.setState({ password2: e.target.value });
           }
         }, {
-          key: 'loginUser',
-          value: function loginUser(e) {
+          key: 'submitNewUser',
+          value: function submitNewUser(e) {
             e.preventDefault();
             if (!this.state.username) {
-              swal('Oops!', "Please enter your username.", "error");
-            } else if (!this.state.password) {
-              swal('Oops!', "Please enter your password", "error");
+              swal('Oops!', "Please enter a new username.", "error");
+            } else if (!this.state.password1 || !this.state.password2) {
+              swal('Oops!', "Please enter a new password", "error");
+            } else if (this.state.password1 !== this.state.password2) {
+              swal('Oops!', "Passwords must match.", "error");
             } else {
-              UserActions.loginUser(this.state);
+              UserActions.createNewUser(this.state);
             }
           }
         }, {
           key: 'render',
           value: function render() {
             return React.createElement(
-              'nav',
-              { className: 'navbar navbar-default' },
+              'div',
+              { className: 'signUpBanner text-left' },
               React.createElement(
-                'div',
-                { className: 'container-fluid' },
+                'form',
+                { className: 'form' },
                 React.createElement(
                   'div',
-                  { className: 'navbar-header' },
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'username' },
+                    'Choose a username'
+                  ),
+                  React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', id: 'username', placeholder: 'username' })
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'pass1' },
+                    'Password'
+                  ),
+                  React.createElement('input', { onChange: this.updatePassword1.bind(this), type: 'password', className: 'form-control', id: 'pass1', placeholder: 'Password' })
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'pass2' },
+                    'Confirm Password'
+                  ),
+                  React.createElement('input', { onChange: this.updatePassword2.bind(this), type: 'password', className: 'form-control', id: 'pass2', placeholder: 'Re-enter password' })
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
                   React.createElement(
                     'button',
-                    { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
+                    { onClick: this.submitNewUser.bind(this), type: 'submit', className: 'btn btn-default' },
+                    'Submit'
+                  )
+                )
+              )
+            );
+          }
+        }]);
+
+        return SignUpBanner;
+      })(React.Component);
+
+      _export('default', SignUpBanner);
+    }
+  };
+});
+System.registerDynamic("npm:core-js@1.2.6/library/modules/$.to-object", ["npm:core-js@1.2.6/library/modules/$.defined"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var defined = $__require('npm:core-js@1.2.6/library/modules/$.defined');
+  module.exports = function(it) {
+    return Object(defined(it));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/modules/es6.object.keys", ["npm:core-js@1.2.6/library/modules/$.to-object", "npm:core-js@1.2.6/library/modules/$.object-sap"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  var toObject = $__require('npm:core-js@1.2.6/library/modules/$.to-object');
+  $__require('npm:core-js@1.2.6/library/modules/$.object-sap')('keys', function($keys) {
+    return function keys(it) {
+      return $keys(toObject(it));
+    };
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:core-js@1.2.6/library/fn/object/keys", ["npm:core-js@1.2.6/library/modules/es6.object.keys", "npm:core-js@1.2.6/library/modules/$.core"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  $__require('npm:core-js@1.2.6/library/modules/es6.object.keys');
+  module.exports = $__require('npm:core-js@1.2.6/library/modules/$.core').Object.keys;
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:babel-runtime@5.8.34/core-js/object/keys", ["npm:core-js@1.2.6/library/fn/object/keys"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": $__require('npm:core-js@1.2.6/library/fn/object/keys'),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register('lib/components/general/Tag.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/components/general/Post.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'npm:classnames@2.2.3'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Post, PostActions, PostStore, classNames, Tag;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_libComponentsGeneralPostJs) {
+      Post = _libComponentsGeneralPostJs['default'];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs['default'];
+    }, function (_libStoresPostStoreJs) {
+      PostStore = _libStoresPostStoreJs['default'];
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      Tag = (function (_React$Component) {
+        _inherits(Tag, _React$Component);
+
+        function Tag(props) {
+          _classCallCheck(this, Tag);
+
+          _get(Object.getPrototypeOf(Tag.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(Tag, [{
+          key: 'render',
+          value: function render() {
+            var name = this.props.name;
+            var buttonClass = classNames('btn btn-default tag', {
+              'filteringByTag': this.props.currentlyFilteringTags.some(function (tag) {
+                return tag === name;
+              })
+            });
+
+            return React.createElement(
+              'button',
+              { className: buttonClass, onClick: this.props.filterByTag.bind(this, name) },
+              name,
+              ' ',
+              React.createElement(
+                'span',
+                { className: 'badge' },
+                this.props.number
+              )
+            );
+          }
+        }]);
+
+        return Tag;
+      })(React.Component);
+
+      _export('default', Tag);
+    }
+  };
+});
+System.register('lib/components/general/TagCloud.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:babel-runtime@5.8.34/core-js/object/keys', 'npm:react@0.14.6', 'lib/components/general/Post.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/components/general/Tag.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, _Object$keys, React, Post, PostActions, PostStore, Tag, TagCloud;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmBabelRuntime5834CoreJsObjectKeys) {
+      _Object$keys = _npmBabelRuntime5834CoreJsObjectKeys['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_libComponentsGeneralPostJs) {
+      Post = _libComponentsGeneralPostJs['default'];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs['default'];
+    }, function (_libStoresPostStoreJs) {
+      PostStore = _libStoresPostStoreJs['default'];
+    }, function (_libComponentsGeneralTagJs) {
+      Tag = _libComponentsGeneralTagJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      TagCloud = (function (_React$Component) {
+        _inherits(TagCloud, _React$Component);
+
+        function TagCloud(props) {
+          _classCallCheck(this, TagCloud);
+
+          _get(Object.getPrototypeOf(TagCloud.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(TagCloud, [{
+          key: 'render',
+          value: function render() {
+            var _this = this;
+
+            var tags = undefined;
+            if (this.props.posts.length) {
+              (function () {
+                // create a tags dictionary to get totals for tag badge number
+                var tagsDictionary = _this.props.posts.reduce(function (a, post) {
+                  // post.tags is an array of tags for that post
+                  // a is the current state of the dictionary
+                  post.tags.forEach(function (tag) {
+                    a[tag] = a[tag] ? a[tag] + 1 : 1;
+                  });
+                  return a;
+                }, {});
+
+                // create the Tag components array with the name and
+                // total count of each tag in ascending order
+                var currentlyFilteringTags = _this.props.currentlyFilteringTags;
+                tags = _Object$keys(tagsDictionary).map(function (tag, i) {
+                  return React.createElement(Tag, { key: i, name: tag, number: tagsDictionary[tag], filterByTag: _this.props.filterByTag, currentlyFilteringTags: currentlyFilteringTags });
+                }).sort(function (firstTag, secondTag) {
+                  return secondTag.props.number - firstTag.props.number;
+                });
+              })();
+            }
+
+            return React.createElement(
+              'div',
+              { className: 'tagCloud' },
+              tags
+            );
+          }
+        }]);
+
+        return TagCloud;
+      })(React.Component);
+
+      _export('default', TagCloud);
+    }
+  };
+});
+System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/NotLoggedInNav.js", "lib/components/general/SignUpBanner.js", "lib/components/general/PostFeed.js", "lib/components/general/TagCloud.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:sweetalert@1.1.3", "npm:classnames@2.2.3", "npm:jquery@2.2.0"], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, NotLoggedInNav, SignUpBanner, PostFeed, TagCloud, UserStore, UserActions, PostActions, PostStore, SweetAlert, classNames, get, _getAppState, NotLoggedInHome;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet["default"];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
+    }, function (_npmReact0146) {
+      React = _npmReact0146["default"];
+    }, function (_npmReactRouter200Rc5) {
+      Link = _npmReactRouter200Rc5.Link;
+      hashHistory = _npmReactRouter200Rc5.hashHistory;
+    }, function (_libComponentsGeneralNotLoggedInNavJs) {
+      NotLoggedInNav = _libComponentsGeneralNotLoggedInNavJs["default"];
+    }, function (_libComponentsGeneralSignUpBannerJs) {
+      SignUpBanner = _libComponentsGeneralSignUpBannerJs["default"];
+    }, function (_libComponentsGeneralPostFeedJs) {
+      PostFeed = _libComponentsGeneralPostFeedJs["default"];
+    }, function (_libComponentsGeneralTagCloudJs) {
+      TagCloud = _libComponentsGeneralTagCloudJs["default"];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs["default"];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs["default"];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs["default"];
+    }, function (_libStoresPostStoreJs) {
+      PostStore = _libStoresPostStoreJs["default"];
+    }, function (_npmSweetalert113) {
+      SweetAlert = _npmSweetalert113["default"];
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223["default"];
+    }, function (_npmJquery220) {
+      get = _npmJquery220.get;
+    }],
+    execute: function () {
+      "use strict";
+
+      _getAppState = function _getAppState() {
+        return {
+          posts: PostStore.getAllPosts(),
+          user: UserStore.getUserInfo(),
+          error: UserStore.getLoginError(),
+          hideSignUpBanner: false
+        };
+      };
+
+      NotLoggedInHome = (function (_React$Component) {
+        _inherits(NotLoggedInHome, _React$Component);
+
+        function NotLoggedInHome(props) {
+          _classCallCheck(this, NotLoggedInHome);
+
+          _get(Object.getPrototypeOf(NotLoggedInHome.prototype), "constructor", this).call(this, props);
+          this.state = _getAppState();
+          this._onChange = this._onChange.bind(this);
+        }
+
+        _createClass(NotLoggedInHome, [{
+          key: "componentWillMount",
+          value: function componentWillMount() {
+            (function authorize() {
+              get('/users/authorize').then(function (res) {
+                if (res === "Error with authentication, please try again!") {
+                  hashHistory.push('/');
+                }
+                hashHistory.push('home');
+              }, function (err) {
+
+                hashHistory.push('/');
+              });
+            })();
+          }
+        }, {
+          key: "componentDidMount",
+          value: function componentDidMount() {
+            PostActions.getAllPosts();
+            PostStore.startListening(this._onChange);
+
+            UserStore.startListening(this._onChange);
+          }
+        }, {
+          key: "componentWillUnmount",
+          value: function componentWillUnmount() {
+            PostStore.stopListening(this._onChange);
+
+            UserStore.stopListening(this._onChange);
+          }
+        }, {
+          key: "_onChange",
+          value: function _onChange() {
+            this.setState(_getAppState());
+
+            if (this.state.user) {
+              hashHistory.push('/home');
+            } else if (this.state.error) {
+              var errorMessage = this.state.error.responseText;
+              swal('Sorry!', errorMessage, "error");
+            }
+          }
+        }, {
+          key: "filterByTag",
+          value: function filterByTag(tag) {
+            if (this.state.filtering) {
+              var atIndex = undefined;
+              var shouldRemoveTag = this.state.filterByTags.some(function (currentlyFilteringTag, i) {
+                if (tag === currentlyFilteringTag) {
+                  atIndex = i;
+                  return currentlyFilteringTag;
+                }
+              });
+              if (shouldRemoveTag) {
+                var filterByTags = this.state.filterByTags;
+                filterByTags.splice(atIndex, 1);
+                this.setState({
+                  filterByTags: filterByTags,
+                  filtering: this.state.filterByTags.length ? true : false
+                });
+              } else {
+                this.setState({
+                  filterByTags: this.state.filterByTags.concat(tag)
+                });
+              }
+            } else {
+              this.setState({
+                filterByTags: this.state.filterByTags ? this.state.filterByTags.concat(tag) : [tag],
+                filtering: true
+              });
+            }
+          }
+        }, {
+          key: "toggleSignUpBanner",
+          value: function toggleSignUpBanner() {
+            this.setState({ hideSignUpBanner: !this.state.hideSignUpBanner });
+          }
+        }, {
+          key: "render",
+          value: function render() {
+            var posts = this.state.posts;
+            if (this.state.filtering) {
+              this.state.filterByTags.forEach(function (filterByTag) {
+                var regex = new RegExp(filterByTag, 'gi');
+                posts = posts.filter(function (post) {
+                  return post.tags.some(function (tag) {
+                    return tag.match(regex);
+                  });
+                });
+              });
+            }
+
+            var currentlyFilteringTags = this.state.filterByTags || [];
+
+            var dismiss = this.state.hideSignUpBanner ? 'Join The Camp Fire!' : 'Dismiss';
+            var glyphicon = this.state.hideSignUpBanner ? classNames('glyphicon glyphicon-menu-down') : classNames('glyphicon glyphicon-menu-up');
+
+            return React.createElement(
+              "div",
+              { className: "homeComponent" },
+              React.createElement(NotLoggedInNav, null),
+              React.createElement(
+                "div",
+                { className: "container-fluid" },
+                React.createElement(
+                  "div",
+                  { className: "row greeting text-center" },
+                  React.createElement(
+                    "div",
+                    { className: "collapse in", id: "signUpBanner", "aria-expanded": "true" },
                     React.createElement(
-                      'span',
-                      { className: 'sr-only' },
-                      'Toggle navigation'
+                      "div",
+                      { className: "col-xs-12 col-sm-6" },
+                      React.createElement(
+                        "h1",
+                        null,
+                        "What Are You Waiting For?"
+                      ),
+                      React.createElement(
+                        "h4",
+                        null,
+                        "Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And ",
+                        React.createElement(
+                          "strong",
+                          null,
+                          "You!"
+                        )
+                      )
                     ),
-                    React.createElement('span', { className: 'icon-bar' }),
-                    React.createElement('span', { className: 'icon-bar' }),
-                    React.createElement('span', { className: 'icon-bar' })
+                    React.createElement(
+                      "div",
+                      { className: "col-xs-12 col-sm-6" },
+                      React.createElement(SignUpBanner, null)
+                    )
                   ),
                   React.createElement(
-                    'a',
-                    { className: 'navbar-brand', href: '#' },
-                    React.createElement('img', { src: 'lib/logo.png' }),
+                    "div",
+                    { className: "col-xs-12" },
                     React.createElement(
-                      'p',
-                      { className: 'logoImage' },
-                      ' DCF'
+                      "button",
+                      { onClick: this.toggleSignUpBanner.bind(this), "data-toggle": "collapse", className: "toggleSignUpBanner", "data-target": "#signUpBanner", type: "button" },
+                      React.createElement("span", { className: glyphicon, "aria-hidden": "true" }),
+                      " ",
+                      dismiss,
+                      " ",
+                      React.createElement("span", { className: glyphicon, "aria-hidden": "true" })
                     )
                   )
                 ),
                 React.createElement(
-                  'div',
-                  { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
+                  "div",
+                  { className: "row" },
                   React.createElement(
-                    'ul',
-                    { className: 'nav navbar-nav navbar-right' },
+                    "div",
+                    { className: "hidden-xs col-sm-2 tagCloud" },
                     React.createElement(
-                      'form',
-                      { className: 'navbar-form navbar-left', id: 'loginForm' },
-                      React.createElement(
-                        'label',
-                        { htmlFor: 'loginForm', className: 'navbar-form navbar-left' },
-                        'LOGIN'
-                      ),
-                      React.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', placeholder: 'username' })
-                      ),
-                      React.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        React.createElement('input', { onChange: this.updatePassword.bind(this), type: 'password', className: 'form-control', placeholder: 'password' })
-                      ),
-                      React.createElement(
-                        'button',
-                        { onClick: this.loginUser.bind(this), type: 'submit', className: 'btn btn-default' },
-                        'Submit'
-                      )
+                      "h4",
+                      null,
+                      "Popular Tags:"
                     ),
+                    React.createElement(TagCloud, { posts: this.state.posts, filterByTag: this.filterByTag.bind(this), currentlyFilteringTags: currentlyFilteringTags })
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "col-xs-12 col-sm-10", id: "feed" },
+                    React.createElement(PostFeed, { posts: posts })
+                  )
+                )
+              )
+            );
+          }
+        }]);
+
+        return NotLoggedInHome;
+      })(React.Component);
+
+      _export("default", NotLoggedInHome);
+    }
+  };
+});
+System.register('lib/components/general/SignUpForm.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, UserActions, SignUpForm;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      SignUpForm = (function (_React$Component) {
+        _inherits(SignUpForm, _React$Component);
+
+        function SignUpForm(props) {
+          _classCallCheck(this, SignUpForm);
+
+          _get(Object.getPrototypeOf(SignUpForm.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(SignUpForm, [{
+          key: 'updateUsername',
+          value: function updateUsername(e) {
+            this.setState({ username: e.target.value });
+          }
+        }, {
+          key: 'updatePassword1',
+          value: function updatePassword1(e) {
+            this.setState({ password1: e.target.value });
+          }
+        }, {
+          key: 'updatePassword2',
+          value: function updatePassword2(e) {
+            this.setState({ password2: e.target.value });
+          }
+        }, {
+          key: 'submitNewUser',
+          value: function submitNewUser(e) {
+            e.preventDefault();
+            if (!this.state.username) {
+              swal('Oops!', "Please enter a new username.", "error");
+            } else if (!this.state.password1 || !this.state.password2) {
+              swal('Oops!', "Please enter a new password", "error");
+            } else if (this.state.password1 !== this.state.password2) {
+              swal('Oops!', "Passwords must match.", "error");
+            } else {
+              UserActions.createNewUser(this.state);
+            }
+          }
+        }, {
+          key: 'render',
+          value: function render() {
+            return React.createElement(
+              'div',
+              { className: 'hidden-xs col-sm-3 signUpFormComponent' },
+              React.createElement(
+                'form',
+                null,
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'username' },
+                    'Choose a username'
+                  ),
+                  React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', id: 'username', placeholder: 'username' })
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'pass1' },
+                    'Password'
+                  ),
+                  React.createElement('input', { onChange: this.updatePassword1.bind(this), type: 'password', className: 'form-control', id: 'pass1', placeholder: 'Password' })
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  React.createElement(
+                    'label',
+                    { htmlFor: 'pass2' },
+                    'Confirm Password'
+                  ),
+                  React.createElement('input', { onChange: this.updatePassword2.bind(this), type: 'password', className: 'form-control', id: 'pass2', placeholder: 'Re-enter password' })
+                ),
+                React.createElement(
+                  'button',
+                  { onClick: this.submitNewUser.bind(this), type: 'submit', className: 'btn btn-default' },
+                  'Submit'
+                )
+              )
+            );
+          }
+        }]);
+
+        return SignUpForm;
+      })(React.Component);
+
+      _export('default', SignUpForm);
+    }
+  };
+});
+System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:classnames@2.2.3', 'lib/actions/PostActions.js', 'lib/stores/UserStore.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, classNames, PostActions, UserStore, Post;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_npmReactRouter200Rc5) {
+      Link = _npmReactRouter200Rc5.Link;
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223['default'];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs['default'];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      Post = (function (_React$Component) {
+        _inherits(Post, _React$Component);
+
+        function Post(props) {
+          _classCallCheck(this, Post);
+
+          _get(Object.getPrototypeOf(Post.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(Post, [{
+          key: 'upVote',
+          value: function upVote() {
+            PostActions.upVote(this.props.data._id);
+          }
+        }, {
+          key: 'downVote',
+          value: function downVote() {
+            PostActions.downVote(this.props.data._id);
+          }
+        }, {
+          key: 'render',
+          value: function render() {
+            var params = 'post/' + this.props.data._id;
+            var snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
+            var votes = this.props.data.votes.reduce(function (a, voteObj) {
+              return voteObj.vote ? a + 1 : a - 1;
+            }, 0) || 0;
+
+            var userId = this.props.user ? this.props.user._id : false;
+            var upColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && voteObj.vote;
+            });
+            var downColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && !voteObj.vote;
+            });
+
+            var upArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-up': true,
+              'highlight': upColor
+              // 'noUser': !userId
+            });
+            var downArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-down': true,
+              'highlight': downColor
+              // 'noUser': !userId
+            });
+            // let votesWord = classNames({
+            //   'noUser': userId
+            // })
+
+            var authorDisplayName = this.props.data.author.name;
+            var author = undefined;
+            if (authorDisplayName) {
+              author = authorDisplayName;
+            } else {
+              author = this.props.data.author.username;
+            }
+
+            return React.createElement(
+              'div',
+              { className: 'postComponent row' },
+              React.createElement(
+                'div',
+                { className: 'voteArea col-xs-1' },
+                React.createElement(
+                  'h3',
+                  null,
+                  React.createElement('span', { onClick: this.upVote.bind(this), className: upArrow, 'aria-hidden': 'true' }),
+                  React.createElement('br', null),
+                  ' ',
+                  votes,
+                  React.createElement('br', null),
+                  React.createElement('span', { onClick: this.downVote.bind(this), className: downArrow, 'aria-hidden': 'true' })
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'col-xs-11' },
+                React.createElement(
+                  'h1',
+                  null,
+                  React.createElement(
+                    Link,
+                    { to: params },
+                    this.props.data.title
+                  )
+                ),
+                React.createElement(
+                  'p',
+                  null,
+                  snippets,
+                  React.createElement(
+                    Link,
+                    { to: params },
+                    '...'
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  null,
+                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
+                  React.createElement(
+                    'span',
+                    null,
+                    ' - ',
                     React.createElement(
-                      'form',
-                      { className: 'navbar-form visible-xs-block' },
-                      React.createElement(
-                        'label',
-                        { htmlFor: 'signUpForm', className: 'navbar-form navbar-left' },
-                        'SIGN UP'
-                      ),
-                      React.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        React.createElement(
-                          'label',
-                          { htmlFor: 'username' },
-                          'Choose a username'
-                        ),
-                        React.createElement('input', { type: 'text', className: 'form-control', ref: 'username', id: 'username', placeholder: 'username' })
-                      ),
-                      React.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        React.createElement(
-                          'label',
-                          { htmlFor: 'pass1' },
-                          'Password'
-                        ),
-                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass1', ref: 'pass1', placeholder: 'Password' })
-                      ),
-                      React.createElement(
-                        'div',
-                        { className: 'form-group' },
-                        React.createElement(
-                          'label',
-                          { htmlFor: 'pass2' },
-                          'Confirm Password'
-                        ),
-                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass2', ref: 'pass2', placeholder: 'Re-enter password' })
-                      ),
-                      React.createElement(
-                        'button',
-                        { type: 'submit', className: 'btn btn-default', onClick: this.submitRegistration.bind(this) },
-                        'Submit'
-                      )
+                      'em',
+                      null,
+                      author
                     )
                   )
                 )
@@ -256,10 +893,232 @@ System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@
           }
         }]);
 
-        return NotLoggedInNav;
+        return Post;
       })(React.Component);
 
-      _export('default', NotLoggedInNav);
+      _export('default', Post);
+    }
+  };
+});
+System.register('lib/components/general/PostFeed.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/components/general/Post.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Post, PostActions, PostStore, PostFeed;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_libComponentsGeneralPostJs) {
+      Post = _libComponentsGeneralPostJs['default'];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs['default'];
+    }, function (_libStoresPostStoreJs) {
+      PostStore = _libStoresPostStoreJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      PostFeed = (function (_React$Component) {
+        _inherits(PostFeed, _React$Component);
+
+        function PostFeed(props) {
+          _classCallCheck(this, PostFeed);
+
+          _get(Object.getPrototypeOf(PostFeed.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(PostFeed, [{
+          key: 'render',
+          value: function render() {
+            var user = this.props.user;
+            var posts = this.props.posts.map(function (post) {
+              return React.createElement(Post, { data: post, user: user, key: post._id });
+            });
+            return React.createElement(
+              'div',
+              { className: 'postFeedComponent' },
+              posts
+            );
+          }
+        }]);
+
+        return PostFeed;
+      })(React.Component);
+
+      _export('default', PostFeed);
+    }
+  };
+});
+System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/LoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:jquery@2.2.0"], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, get, _getAppState, LoggedInHome;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet["default"];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
+    }, function (_npmReact0146) {
+      React = _npmReact0146["default"];
+    }, function (_npmReactRouter200Rc5) {
+      Link = _npmReactRouter200Rc5.Link;
+      hashHistory = _npmReactRouter200Rc5.hashHistory;
+    }, function (_libComponentsGeneralLoggedInNavJs) {
+      LoggedInNav = _libComponentsGeneralLoggedInNavJs["default"];
+    }, function (_libComponentsGeneralSignUpFormJs) {
+      SignUpForm = _libComponentsGeneralSignUpFormJs["default"];
+    }, function (_libComponentsGeneralPostFeedJs) {
+      PostFeed = _libComponentsGeneralPostFeedJs["default"];
+    }, function (_libStoresUserStoreJs) {
+      UserStore = _libStoresUserStoreJs["default"];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs["default"];
+    }, function (_libActionsPostActionsJs) {
+      PostActions = _libActionsPostActionsJs["default"];
+    }, function (_libStoresPostStoreJs) {
+      PostStore = _libStoresPostStoreJs["default"];
+    }, function (_npmJquery220) {
+      get = _npmJquery220.get;
+    }],
+    execute: function () {
+      "use strict";
+
+      // import authorize from '../../authorize';
+
+      _getAppState = function _getAppState() {
+        return {
+          posts: PostStore.getAllPosts(),
+          user: UserStore.getUserProfile()
+        };
+      };
+
+      LoggedInHome = (function (_React$Component) {
+        _inherits(LoggedInHome, _React$Component);
+
+        function LoggedInHome(props) {
+          _classCallCheck(this, LoggedInHome);
+
+          _get(Object.getPrototypeOf(LoggedInHome.prototype), "constructor", this).call(this, props);
+          this.state = _getAppState();
+          this._onChange = this._onChange.bind(this);
+        }
+
+        _createClass(LoggedInHome, [{
+          key: "componentWillMount",
+          value: function componentWillMount() {
+            //
+            // if (!authorize()){
+            //   hashHistory.push('/');
+            // }
+
+            (function authorize() {
+              get('/users/authorize').then(function (res) {
+                if (res === "Error with authentication, please try again!") {
+                  hashHistory.push('/');
+                }
+                return true;
+              }, function (err) {
+
+                hashHistory.push('/');
+              });
+            })();
+          }
+        }, {
+          key: "componentDidMount",
+          value: function componentDidMount() {
+            PostActions.getAllPosts();
+            PostStore.startListening(this._onChange);
+            UserActions.fetchUserInfo();
+            UserStore.startListening(this._onChange);
+          }
+        }, {
+          key: "componentWillUnmount",
+          value: function componentWillUnmount() {
+            PostStore.stopListening(this._onChange);
+
+            UserStore.stopListening(this._onChange);
+          }
+        }, {
+          key: "_onChange",
+          value: function _onChange() {
+            this.setState(_getAppState());
+          }
+        }, {
+          key: "filterPosts",
+          value: function filterPosts(e) {
+            this.setState({ filter: e.target.value });
+          }
+        }, {
+          key: "render",
+          value: function render() {
+            var _this = this;
+
+            var posts = this.state.posts;
+            if (this.state.filter) {
+              (function () {
+                var regex = new RegExp(_this.state.filter, 'gi');
+                posts = posts.filter(function (post) {
+                  return post.title.match(regex) || post.body.match(regex);
+                });
+              })();
+            }
+            return React.createElement(
+              "div",
+              { className: "loggedInHomeComponent" },
+              React.createElement(LoggedInNav, null),
+              React.createElement(
+                "div",
+                { className: "container-fluid loggedInHome" },
+                React.createElement(
+                  "div",
+                  { className: "row" },
+                  React.createElement(
+                    "div",
+                    { className: "col-xs-12 col-sm-3 pull-right text-center sidebar" },
+                    React.createElement(
+                      "div",
+                      { className: "row" },
+                      React.createElement(
+                        "div",
+                        { className: "col-xs-6 col-sm-12" },
+                        React.createElement("input", { onChange: this.filterPosts.bind(this), type: "text", placeholder: "Search posts...", className: "filterPostsInput" })
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "col-xs-6 col-sm-12" },
+                        React.createElement(
+                          Link,
+                          { to: "addpost", className: "btn btn-primary btn-lg" },
+                          "Add A New Post"
+                        )
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "col-xs-12 col-sm-9" },
+                    React.createElement(PostFeed, { posts: posts, user: this.state.user })
+                  )
+                )
+              )
+            );
+          }
+        }]);
+
+        return LoggedInHome;
+      })(React.Component);
+
+      _export("default", LoggedInHome);
     }
   };
 });
@@ -1150,703 +2009,8 @@ System.registerDynamic("npm:sweetalert@1.1.3", ["npm:sweetalert@1.1.3/lib/sweeta
   return module.exports;
 });
 
-System.register("lib/components/views/NotLoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/NotLoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:sweetalert@1.1.3", "npm:jquery@2.2.0"], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, NotLoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, SweetAlert, get, _getAppState, NotLoggedInHome;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet["default"];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
-    }, function (_npmReact0146) {
-      React = _npmReact0146["default"];
-    }, function (_npmReactRouter200Rc5) {
-      Link = _npmReactRouter200Rc5.Link;
-      hashHistory = _npmReactRouter200Rc5.hashHistory;
-    }, function (_libComponentsGeneralNotLoggedInNavJs) {
-      NotLoggedInNav = _libComponentsGeneralNotLoggedInNavJs["default"];
-    }, function (_libComponentsGeneralSignUpFormJs) {
-      SignUpForm = _libComponentsGeneralSignUpFormJs["default"];
-    }, function (_libComponentsGeneralPostFeedJs) {
-      PostFeed = _libComponentsGeneralPostFeedJs["default"];
-    }, function (_libStoresUserStoreJs) {
-      UserStore = _libStoresUserStoreJs["default"];
-    }, function (_libActionsUserActionsJs) {
-      UserActions = _libActionsUserActionsJs["default"];
-    }, function (_libActionsPostActionsJs) {
-      PostActions = _libActionsPostActionsJs["default"];
-    }, function (_libStoresPostStoreJs) {
-      PostStore = _libStoresPostStoreJs["default"];
-    }, function (_npmSweetalert113) {
-      SweetAlert = _npmSweetalert113["default"];
-    }, function (_npmJquery220) {
-      get = _npmJquery220.get;
-    }],
-    execute: function () {
-      "use strict";
-
-      _getAppState = function _getAppState() {
-        return {
-          posts: PostStore.getAllPosts(),
-          user: UserStore.getUserInfo(),
-          error: UserStore.getLoginError()
-        };
-      };
-
-      NotLoggedInHome = (function (_React$Component) {
-        _inherits(NotLoggedInHome, _React$Component);
-
-        function NotLoggedInHome(props) {
-          _classCallCheck(this, NotLoggedInHome);
-
-          _get(Object.getPrototypeOf(NotLoggedInHome.prototype), "constructor", this).call(this, props);
-          this.state = _getAppState();
-          this._onChange = this._onChange.bind(this);
-        }
-
-        _createClass(NotLoggedInHome, [{
-          key: "componentWillMount",
-          value: function componentWillMount() {
-            (function authorize() {
-              get('/users/authorize').then(function (res) {
-                if (res === "Error with authentication, please try again!") {
-                  hashHistory.push('/');
-                }
-                hashHistory.push('home');
-              }, function (err) {
-
-                hashHistory.push('/');
-              });
-            })();
-          }
-        }, {
-          key: "componentDidMount",
-          value: function componentDidMount() {
-            PostActions.getAllPosts();
-            PostStore.startListening(this._onChange);
-
-            UserStore.startListening(this._onChange);
-          }
-        }, {
-          key: "componentWillUnmount",
-          value: function componentWillUnmount() {
-            PostStore.stopListening(this._onChange);
-
-            UserStore.stopListening(this._onChange);
-          }
-        }, {
-          key: "_onChange",
-          value: function _onChange() {
-            this.setState(_getAppState());
-
-            if (this.state.user) {
-              hashHistory.push('/home');
-            } else if (this.state.error) {
-              var errorMessage = this.state.error.responseText;
-              swal('Sorry!', errorMessage, "error");
-            }
-          }
-        }, {
-          key: "render",
-          value: function render() {
-            return React.createElement(
-              "div",
-              { className: "homeComponent" },
-              React.createElement(NotLoggedInNav, null),
-              React.createElement(
-                "div",
-                { className: "container-fluid greeting" },
-                React.createElement(
-                  "div",
-                  { className: "row" },
-                  React.createElement(
-                    "div",
-                    { className: "col-xs-12 col-sm-offset-2 col-sm-8 text-center greetingText" },
-                    React.createElement(
-                      "h1",
-                      null,
-                      "Welcome to Dev Camp Fire"
-                    ),
-                    React.createElement(
-                      "h4",
-                      null,
-                      "A forum for dev camp alumni, current dev camp students, and people interested in dev bootcamps to connect and ask questions"
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "homePageArrow" },
-                  React.createElement("image", { src: "./lib/arrow-down.png" })
-                )
-              ),
-              React.createElement(SignUpForm, null),
-              React.createElement(
-                "div",
-                { className: "col-xs-12 col-sm-9", id: "feed" },
-                React.createElement(PostFeed, { posts: this.state.posts })
-              )
-            );
-          }
-        }]);
-
-        return NotLoggedInHome;
-      })(React.Component);
-
-      _export("default", NotLoggedInHome);
-    }
-  };
-});
-System.register('lib/components/general/SignUpForm.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, UserActions, SignUpForm;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet['default'];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
-    }, function (_npmReact0146) {
-      React = _npmReact0146['default'];
-    }, function (_libActionsUserActionsJs) {
-      UserActions = _libActionsUserActionsJs['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      SignUpForm = (function (_React$Component) {
-        _inherits(SignUpForm, _React$Component);
-
-        function SignUpForm(props) {
-          _classCallCheck(this, SignUpForm);
-
-          _get(Object.getPrototypeOf(SignUpForm.prototype), 'constructor', this).call(this, props);
-          this.state = {};
-        }
-
-        _createClass(SignUpForm, [{
-          key: 'updateUsername',
-          value: function updateUsername(e) {
-            this.setState({ username: e.target.value });
-          }
-        }, {
-          key: 'updatePassword1',
-          value: function updatePassword1(e) {
-            this.setState({ password1: e.target.value });
-          }
-        }, {
-          key: 'updatePassword2',
-          value: function updatePassword2(e) {
-            this.setState({ password2: e.target.value });
-          }
-        }, {
-          key: 'submitNewUser',
-          value: function submitNewUser(e) {
-            e.preventDefault();
-            if (!this.state.username) {
-              swal('Oops!', "Please enter a new username.", "error");
-            } else if (!this.state.password1 || !this.state.password2) {
-              swal('Oops!', "Please enter a new password", "error");
-            } else if (this.state.password1 !== this.state.password2) {
-              swal('Oops!', "Passwords must match.", "error");
-            } else {
-              UserActions.createNewUser(this.state);
-            }
-          }
-        }, {
-          key: 'render',
-          value: function render() {
-            return React.createElement(
-              'div',
-              { className: 'hidden-xs col-sm-3 signUpFormComponent' },
-              React.createElement(
-                'form',
-                null,
-                React.createElement(
-                  'div',
-                  { className: 'form-group' },
-                  React.createElement(
-                    'label',
-                    { htmlFor: 'username' },
-                    'Choose a username'
-                  ),
-                  React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', id: 'username', placeholder: 'username' })
-                ),
-                React.createElement(
-                  'div',
-                  { className: 'form-group' },
-                  React.createElement(
-                    'label',
-                    { htmlFor: 'pass1' },
-                    'Password'
-                  ),
-                  React.createElement('input', { onChange: this.updatePassword1.bind(this), type: 'password', className: 'form-control', id: 'pass1', placeholder: 'Password' })
-                ),
-                React.createElement(
-                  'div',
-                  { className: 'form-group' },
-                  React.createElement(
-                    'label',
-                    { htmlFor: 'pass2' },
-                    'Confirm Password'
-                  ),
-                  React.createElement('input', { onChange: this.updatePassword2.bind(this), type: 'password', className: 'form-control', id: 'pass2', placeholder: 'Re-enter password' })
-                ),
-                React.createElement(
-                  'button',
-                  { onClick: this.submitNewUser.bind(this), type: 'submit', className: 'btn btn-default' },
-                  'Submit'
-                )
-              )
-            );
-          }
-        }]);
-
-        return SignUpForm;
-      })(React.Component);
-
-      _export('default', SignUpForm);
-    }
-  };
-});
-System.registerDynamic("npm:classnames@2.2.3/index", [], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  "format cjs";
-  (function() {
-    'use strict';
-    var hasOwn = {}.hasOwnProperty;
-    function classNames() {
-      var classes = [];
-      for (var i = 0; i < arguments.length; i++) {
-        var arg = arguments[i];
-        if (!arg)
-          continue;
-        var argType = typeof arg;
-        if (argType === 'string' || argType === 'number') {
-          classes.push(arg);
-        } else if (Array.isArray(arg)) {
-          classes.push(classNames.apply(null, arg));
-        } else if (argType === 'object') {
-          for (var key in arg) {
-            if (hasOwn.call(arg, key) && arg[key]) {
-              classes.push(key);
-            }
-          }
-        }
-      }
-      return classes.join(' ');
-    }
-    if (typeof module !== 'undefined' && module.exports) {
-      module.exports = classNames;
-    } else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
-      define('classnames', [], function() {
-        return classNames;
-      });
-    } else {
-      window.classNames = classNames;
-    }
-  }());
-  global.define = __define;
-  return module.exports;
-});
-
-System.registerDynamic("npm:classnames@2.2.3", ["npm:classnames@2.2.3/index"], true, function($__require, exports, module) {
-  ;
-  var global = this,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = $__require('npm:classnames@2.2.3/index');
-  global.define = __define;
-  return module.exports;
-});
-
-System.register('lib/components/general/Post.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:classnames@2.2.3', 'lib/actions/PostActions.js', 'lib/stores/UserStore.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, classNames, PostActions, UserStore, Post;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet['default'];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
-    }, function (_npmReact0146) {
-      React = _npmReact0146['default'];
-    }, function (_npmReactRouter200Rc5) {
-      Link = _npmReactRouter200Rc5.Link;
-    }, function (_npmClassnames223) {
-      classNames = _npmClassnames223['default'];
-    }, function (_libActionsPostActionsJs) {
-      PostActions = _libActionsPostActionsJs['default'];
-    }, function (_libStoresUserStoreJs) {
-      UserStore = _libStoresUserStoreJs['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      Post = (function (_React$Component) {
-        _inherits(Post, _React$Component);
-
-        function Post(props) {
-          _classCallCheck(this, Post);
-
-          _get(Object.getPrototypeOf(Post.prototype), 'constructor', this).call(this, props);
-          this.state = {};
-        }
-
-        _createClass(Post, [{
-          key: 'upVote',
-          value: function upVote() {
-            PostActions.upVote(this.props.data._id);
-          }
-        }, {
-          key: 'downVote',
-          value: function downVote() {
-            PostActions.downVote(this.props.data._id);
-          }
-        }, {
-          key: 'render',
-          value: function render() {
-            var params = 'post/' + this.props.data._id;
-            var snippets = this.props.data.body.split(' ').slice(0, 30).join(' ');
-            var votes = this.props.data.votes.reduce(function (a, voteObj) {
-              return voteObj.vote ? a + 1 : a - 1;
-            }, 0) || 0;
-
-            var userId = this.props.user ? this.props.user._id : false;
-            var upColor = this.props.data.votes.some(function (voteObj) {
-              return voteObj.user == userId && voteObj.vote;
-            });
-            var downColor = this.props.data.votes.some(function (voteObj) {
-              return voteObj.user == userId && !voteObj.vote;
-            });
-
-            var upArrow = classNames({
-              'glyphicon': true,
-              'glyphicon-arrow-up': true,
-              'highlight': upColor
-              // 'noUser': !userId
-            });
-            var downArrow = classNames({
-              'glyphicon': true,
-              'glyphicon-arrow-down': true,
-              'highlight': downColor
-              // 'noUser': !userId
-            });
-            // let votesWord = classNames({
-            //   'noUser': userId
-            // })
-
-            var authorDisplayName = this.props.data.author.name;
-            var author = undefined;
-            if (authorDisplayName) {
-              author = authorDisplayName;
-            } else {
-              author = this.props.data.author.username;
-            }
-
-            return React.createElement(
-              'div',
-              { className: 'postComponent row' },
-              React.createElement(
-                'div',
-                { className: 'voteArea col-xs-1' },
-                React.createElement(
-                  'h3',
-                  null,
-                  React.createElement('span', { onClick: this.upVote.bind(this), className: upArrow, 'aria-hidden': 'true' }),
-                  React.createElement('br', null),
-                  ' ',
-                  votes,
-                  React.createElement('br', null),
-                  React.createElement('span', { onClick: this.downVote.bind(this), className: downArrow, 'aria-hidden': 'true' })
-                )
-              ),
-              React.createElement(
-                'div',
-                { className: 'col-xs-11' },
-                React.createElement(
-                  'h1',
-                  null,
-                  React.createElement(
-                    Link,
-                    { to: params },
-                    this.props.data.title
-                  )
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  snippets,
-                  React.createElement(
-                    Link,
-                    { to: params },
-                    '...'
-                  )
-                ),
-                React.createElement(
-                  'div',
-                  null,
-                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
-                  React.createElement(
-                    'span',
-                    null,
-                    ' - ',
-                    React.createElement(
-                      'em',
-                      null,
-                      author
-                    )
-                  )
-                )
-              )
-            );
-          }
-        }]);
-
-        return Post;
-      })(React.Component);
-
-      _export('default', Post);
-    }
-  };
-});
-System.register('lib/components/general/PostFeed.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/components/general/Post.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Post, PostActions, PostStore, PostFeed;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet['default'];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
-    }, function (_npmReact0146) {
-      React = _npmReact0146['default'];
-    }, function (_libComponentsGeneralPostJs) {
-      Post = _libComponentsGeneralPostJs['default'];
-    }, function (_libActionsPostActionsJs) {
-      PostActions = _libActionsPostActionsJs['default'];
-    }, function (_libStoresPostStoreJs) {
-      PostStore = _libStoresPostStoreJs['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      PostFeed = (function (_React$Component) {
-        _inherits(PostFeed, _React$Component);
-
-        function PostFeed(props) {
-          _classCallCheck(this, PostFeed);
-
-          _get(Object.getPrototypeOf(PostFeed.prototype), 'constructor', this).call(this, props);
-          this.state = {};
-        }
-
-        _createClass(PostFeed, [{
-          key: 'render',
-          value: function render() {
-            var user = this.props.user;
-            var posts = this.props.posts.map(function (post) {
-              return React.createElement(Post, { data: post, user: user, key: post._id });
-            });
-            return React.createElement(
-              'div',
-              { className: 'postFeedComponent' },
-              posts
-            );
-          }
-        }]);
-
-        return PostFeed;
-      })(React.Component);
-
-      _export('default', PostFeed);
-    }
-  };
-});
-System.register("lib/components/views/LoggedInHome.js", ["npm:babel-runtime@5.8.34/helpers/get", "npm:babel-runtime@5.8.34/helpers/inherits", "npm:babel-runtime@5.8.34/helpers/create-class", "npm:babel-runtime@5.8.34/helpers/class-call-check", "npm:react@0.14.6", "npm:react-router@2.0.0-rc5", "lib/components/general/LoggedInNav.js", "lib/components/general/SignUpForm.js", "lib/components/general/PostFeed.js", "lib/stores/UserStore.js", "lib/actions/UserActions.js", "lib/actions/PostActions.js", "lib/stores/PostStore.js", "npm:jquery@2.2.0"], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, SignUpForm, PostFeed, UserStore, UserActions, PostActions, PostStore, get, _getAppState, LoggedInHome;
-
-  return {
-    setters: [function (_npmBabelRuntime5834HelpersGet) {
-      _get = _npmBabelRuntime5834HelpersGet["default"];
-    }, function (_npmBabelRuntime5834HelpersInherits) {
-      _inherits = _npmBabelRuntime5834HelpersInherits["default"];
-    }, function (_npmBabelRuntime5834HelpersCreateClass) {
-      _createClass = _npmBabelRuntime5834HelpersCreateClass["default"];
-    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck["default"];
-    }, function (_npmReact0146) {
-      React = _npmReact0146["default"];
-    }, function (_npmReactRouter200Rc5) {
-      Link = _npmReactRouter200Rc5.Link;
-      hashHistory = _npmReactRouter200Rc5.hashHistory;
-    }, function (_libComponentsGeneralLoggedInNavJs) {
-      LoggedInNav = _libComponentsGeneralLoggedInNavJs["default"];
-    }, function (_libComponentsGeneralSignUpFormJs) {
-      SignUpForm = _libComponentsGeneralSignUpFormJs["default"];
-    }, function (_libComponentsGeneralPostFeedJs) {
-      PostFeed = _libComponentsGeneralPostFeedJs["default"];
-    }, function (_libStoresUserStoreJs) {
-      UserStore = _libStoresUserStoreJs["default"];
-    }, function (_libActionsUserActionsJs) {
-      UserActions = _libActionsUserActionsJs["default"];
-    }, function (_libActionsPostActionsJs) {
-      PostActions = _libActionsPostActionsJs["default"];
-    }, function (_libStoresPostStoreJs) {
-      PostStore = _libStoresPostStoreJs["default"];
-    }, function (_npmJquery220) {
-      get = _npmJquery220.get;
-    }],
-    execute: function () {
-      "use strict";
-
-      // import authorize from '../../authorize';
-
-      _getAppState = function _getAppState() {
-        return {
-          posts: PostStore.getAllPosts(),
-          user: UserStore.getUserProfile()
-        };
-      };
-
-      LoggedInHome = (function (_React$Component) {
-        _inherits(LoggedInHome, _React$Component);
-
-        function LoggedInHome(props) {
-          _classCallCheck(this, LoggedInHome);
-
-          _get(Object.getPrototypeOf(LoggedInHome.prototype), "constructor", this).call(this, props);
-          this.state = _getAppState();
-          this._onChange = this._onChange.bind(this);
-        }
-
-        _createClass(LoggedInHome, [{
-          key: "componentWillMount",
-          value: function componentWillMount() {
-            //
-            // if (!authorize()){
-            //   hashHistory.push('/');
-            // }
-
-            (function authorize() {
-              get('/users/authorize').then(function (res) {
-                if (res === "Error with authentication, please try again!") {
-                  hashHistory.push('/');
-                }
-                return true;
-              }, function (err) {
-
-                hashHistory.push('/');
-              });
-            })();
-          }
-        }, {
-          key: "componentDidMount",
-          value: function componentDidMount() {
-            PostActions.getAllPosts();
-            PostStore.startListening(this._onChange);
-            UserActions.fetchUserInfo();
-            UserStore.startListening(this._onChange);
-          }
-        }, {
-          key: "componentWillUnmount",
-          value: function componentWillUnmount() {
-            PostStore.stopListening(this._onChange);
-
-            UserStore.stopListening(this._onChange);
-          }
-        }, {
-          key: "_onChange",
-          value: function _onChange() {
-            this.setState(_getAppState());
-          }
-        }, {
-          key: "filterPosts",
-          value: function filterPosts(e) {
-            this.setState({ filter: e.target.value });
-          }
-        }, {
-          key: "render",
-          value: function render() {
-            var _this = this;
-
-            var posts = this.state.posts;
-            if (this.state.filter) {
-              (function () {
-                var regex = new RegExp(_this.state.filter, 'gi');
-                posts = posts.filter(function (post) {
-                  return post.title.match(regex) || post.body.match(regex);
-                });
-              })();
-            }
-            return React.createElement(
-              "div",
-              { className: "loggedInHomeComponent" },
-              React.createElement(LoggedInNav, null),
-              React.createElement(
-                "div",
-                { className: "container-fluid loggedInHome" },
-                React.createElement(
-                  "div",
-                  { className: "row" },
-                  React.createElement(
-                    "div",
-                    { className: "col-xs-12 col-sm-3 pull-right text-center sidebar" },
-                    React.createElement(
-                      "div",
-                      { className: "row" },
-                      React.createElement(
-                        "div",
-                        { className: "col-xs-6 col-sm-12" },
-                        React.createElement("input", { onChange: this.filterPosts.bind(this), type: "text", placeholder: "Search posts...", className: "filterPostsInput" })
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "col-xs-6 col-sm-12" },
-                        React.createElement(
-                          Link,
-                          { to: "addpost", className: "btn btn-primary btn-lg" },
-                          "Add A New Post"
-                        )
-                      )
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "col-xs-12 col-sm-9" },
-                    React.createElement(PostFeed, { posts: posts, user: this.state.user })
-                  )
-                )
-              )
-            );
-          }
-        }]);
-
-        return LoggedInHome;
-      })(React.Component);
-
-      _export("default", LoggedInHome);
-    }
-  };
-});
-System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'lib/components/general/LoggedInNav.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'npm:jquery@2.2.0'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, PostActions, PostStore, get, AddNewPost;
+System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'lib/components/general/LoggedInNav.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'npm:jquery@2.2.0', 'npm:sweetalert@1.1.3'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, hashHistory, LoggedInNav, PostActions, PostStore, get, SweetAlert, AddNewPost;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -1870,11 +2034,11 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
       PostStore = _libStoresPostStoreJs['default'];
     }, function (_npmJquery220) {
       get = _npmJquery220.get;
+    }, function (_npmSweetalert113) {
+      SweetAlert = _npmSweetalert113['default'];
     }],
     execute: function () {
       'use strict';
-
-      // import authorize from '../../authorize';
 
       AddNewPost = (function (_React$Component) {
         _inherits(AddNewPost, _React$Component);
@@ -1897,7 +2061,6 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
                 }
                 return true;
               }, function (err) {
-
                 hashHistory.push('/');
               });
             })();
@@ -1938,7 +2101,14 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
         }, {
           key: 'submitNewPost',
           value: function submitNewPost() {
-            PostActions.createNewPost(this.state);
+            var newPost = this.state;
+            if (!this.state.body || !this.state.title) {
+              return swal('Sorry!', 'Please Enter a title and a body for your post!', 'error');
+            }
+            if (newPost.tags.length) {
+              newPost.tags = newPost.tags.replace(/,\s?/g, ' ').split(' ');
+            }
+            PostActions.createNewPost(newPost);
           }
         }, {
           key: 'render',
@@ -2021,8 +2191,203 @@ System.register('lib/components/views/AddNewPost.js', ['npm:babel-runtime@5.8.34
     }
   };
 });
-System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/AddCommentOnComment.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, $, AddCommentOnComment, CommentOnComment;
+System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'lib/actions/UserActions.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, UserActions, NotLoggedInNav;
+
+  return {
+    setters: [function (_npmBabelRuntime5834HelpersGet) {
+      _get = _npmBabelRuntime5834HelpersGet['default'];
+    }, function (_npmBabelRuntime5834HelpersInherits) {
+      _inherits = _npmBabelRuntime5834HelpersInherits['default'];
+    }, function (_npmBabelRuntime5834HelpersCreateClass) {
+      _createClass = _npmBabelRuntime5834HelpersCreateClass['default'];
+    }, function (_npmBabelRuntime5834HelpersClassCallCheck) {
+      _classCallCheck = _npmBabelRuntime5834HelpersClassCallCheck['default'];
+    }, function (_npmReact0146) {
+      React = _npmReact0146['default'];
+    }, function (_libActionsUserActionsJs) {
+      UserActions = _libActionsUserActionsJs['default'];
+    }],
+    execute: function () {
+      'use strict';
+
+      NotLoggedInNav = (function (_React$Component) {
+        _inherits(NotLoggedInNav, _React$Component);
+
+        function NotLoggedInNav(props) {
+          _classCallCheck(this, NotLoggedInNav);
+
+          _get(Object.getPrototypeOf(NotLoggedInNav.prototype), 'constructor', this).call(this, props);
+          this.state = {};
+        }
+
+        _createClass(NotLoggedInNav, [{
+          key: 'updateUsername',
+          value: function updateUsername(e) {
+            this.setState({ username: e.target.value });
+          }
+        }, {
+          key: 'updatePassword',
+          value: function updatePassword(e) {
+            this.setState({ password: e.target.value });
+          }
+        }, {
+          key: 'submitRegistration',
+          value: function submitRegistration(e) {
+            e.preventDefault();
+            var newUserInfo = {};
+            newUserInfo.password1 = this.refs.pass1.value;
+            newUserInfo.password2 = this.refs.pass2.value;
+            newUserInfo.username = this.refs.username.value;
+
+            if (!newUserInfo.username) {
+              swal('Oops!', "Please enter a new username.", "error");
+            } else if (!newUserInfo.password1 || !newUserInfo.password2) {
+              swal('Oops!', "Please enter a new password", "error");
+            } else if (newUserInfo.password1 !== newUserInfo.password2) {
+              swal('Oops!', "Passwords must match.", "error");
+            } else {
+              UserActions.createNewUser(newUserInfo);
+            }
+          }
+        }, {
+          key: 'loginUser',
+          value: function loginUser(e) {
+            e.preventDefault();
+            console.log("is this happening right nao?: ", this.state);
+            if (!this.state.username) {
+              swal('Oops!', "Please enter your username.", "error");
+            } else if (!this.state.password) {
+              swal('Oops!', "Please enter your password", "error");
+            } else {
+              UserActions.loginUser(this.state);
+            }
+          }
+        }, {
+          key: 'render',
+          value: function render() {
+            return React.createElement(
+              'nav',
+              { className: 'navbar navbar-default' },
+              React.createElement(
+                'div',
+                { className: 'container-fluid' },
+                React.createElement(
+                  'div',
+                  { className: 'navbar-header' },
+                  React.createElement(
+                    'button',
+                    { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
+                    React.createElement(
+                      'span',
+                      { className: 'sr-only' },
+                      'Toggle navigation'
+                    ),
+                    React.createElement('span', { className: 'icon-bar' }),
+                    React.createElement('span', { className: 'icon-bar' }),
+                    React.createElement('span', { className: 'icon-bar' })
+                  ),
+                  React.createElement(
+                    'a',
+                    { className: 'navbar-brand', href: '#' },
+                    React.createElement('img', { src: 'lib/logo.png' }),
+                    React.createElement(
+                      'p',
+                      { className: 'logoImage' },
+                      ' DCF'
+                    )
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
+                  React.createElement(
+                    'ul',
+                    { className: 'nav navbar-nav navbar-right' },
+                    React.createElement(
+                      'form',
+                      { className: 'navbar-form navbar-left', id: 'loginForm' },
+                      React.createElement(
+                        'label',
+                        { htmlFor: 'loginForm', className: 'navbar-form navbar-left' },
+                        'LOGIN'
+                      ),
+                      React.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement('input', { onChange: this.updateUsername.bind(this), type: 'text', className: 'form-control', placeholder: 'username' })
+                      ),
+                      React.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement('input', { onChange: this.updatePassword.bind(this), type: 'password', className: 'form-control', placeholder: 'password' })
+                      ),
+                      React.createElement(
+                        'button',
+                        { onClick: this.loginUser.bind(this), type: 'submit', className: 'btn btn-default' },
+                        'Submit'
+                      )
+                    ),
+                    React.createElement(
+                      'form',
+                      { className: 'navbar-form visible-xs-block' },
+                      React.createElement(
+                        'label',
+                        { htmlFor: 'signUpForm', className: 'navbar-form navbar-left' },
+                        'SIGN UP'
+                      ),
+                      React.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement(
+                          'label',
+                          { htmlFor: 'username' },
+                          'Choose a username'
+                        ),
+                        React.createElement('input', { type: 'text', className: 'form-control', ref: 'username', id: 'username', placeholder: 'username' })
+                      ),
+                      React.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement(
+                          'label',
+                          { htmlFor: 'pass1' },
+                          'Password'
+                        ),
+                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass1', ref: 'pass1', placeholder: 'Password' })
+                      ),
+                      React.createElement(
+                        'div',
+                        { className: 'form-group' },
+                        React.createElement(
+                          'label',
+                          { htmlFor: 'pass2' },
+                          'Confirm Password'
+                        ),
+                        React.createElement('input', { type: 'password', className: 'form-control', id: 'pass2', ref: 'pass2', placeholder: 'Re-enter password' })
+                      ),
+                      React.createElement(
+                        'button',
+                        { type: 'submit', className: 'btn btn-default', onClick: this.submitRegistration.bind(this) },
+                        'Submit'
+                      )
+                    )
+                  )
+                )
+              )
+            );
+          }
+        }]);
+
+        return NotLoggedInNav;
+      })(React.Component);
+
+      _export('default', NotLoggedInNav);
+    }
+  };
+});
+System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/AddCommentOnComment.js', 'npm:classnames@2.2.3', 'lib/actions/CommentActions.js'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, $, AddCommentOnComment, classNames, CommentActions, CommentOnComment;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -2041,6 +2406,10 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
       $ = _npmJquery220['default'];
     }, function (_libComponentsGeneralAddCommentOnCommentJs) {
       AddCommentOnComment = _libComponentsGeneralAddCommentOnCommentJs['default'];
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223['default'];
+    }, function (_libActionsCommentActionsJs) {
+      CommentActions = _libActionsCommentActionsJs['default'];
     }],
     execute: function () {
       'use strict';
@@ -2056,14 +2425,58 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
         }
 
         _createClass(CommentOnComment, [{
+          key: 'upVote',
+          value: function upVote() {
+            CommentActions.upVote(this.props.data._id, this.props.postId);
+          }
+        }, {
+          key: 'downVote',
+          value: function downVote() {
+            CommentActions.downVote(this.props.data._id, this.props.postId);
+          }
+        }, {
+          key: 'displayAddButton',
+          value: function displayAddButton() {
+            if (this.props.user) return React.createElement(AddCommentOnComment, { commentId: this.props.data._id, postId: this.props.postId });
+          }
+        }, {
           key: 'render',
           value: function render() {
+            var _this = this;
+
+            var userId = this.props.user ? this.props.user._id : false;
+            var votes = this.props.data.votes.reduce(function (a, voteObj) {
+              return voteObj.vote ? a + 1 : a - 1;
+            }, 0) || 0;
+            var upColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && voteObj.vote;
+            });
+            var downColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && !voteObj.vote;
+            });
+
+            var upArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-up': true,
+              'highlight': upColor
+              // 'noUser': !userId
+            });
+            var downArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-down': true,
+              'highlight': downColor
+              // 'noUser': !userId
+            });
+
+            var voteUpArrow = userId ? upArrow : "hide";
+            var voteDownArrow = userId ? downArrow : "hide";
+
             var comments = undefined;
             var commentId = this.props.data._id;
             var postId = this.props.postId;
             if (this.props.data.comments.length) {
               comments = this.props.data.comments.map(function (comment) {
-                return React.createElement(CommentOnComment, { postId: postId, data: comment, key: comment._id });
+                return React.createElement(CommentOnComment, { user: _this.props.user, postId: postId, data: comment, key: comment._id });
               });
             }
             var authorDisplayName = this.props.data.author.name;
@@ -2076,38 +2489,60 @@ System.register('lib/components/general/CommentOnComment.js', ['npm:babel-runtim
 
             return React.createElement(
               'div',
-              { className: 'col-xs-12 commentComponent' },
+              { className: 'commentComponent' },
               React.createElement(
                 'div',
-                { className: 'well well-sm' },
-                React.createElement(
-                  'p',
-                  null,
-                  this.props.data.body
-                ),
+                { className: 'panel panel-default' },
                 React.createElement(
                   'div',
-                  null,
-                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
-                  React.createElement(
-                    'span',
-                    null,
-                    ' - ',
-                    React.createElement(
-                      'em',
-                      null,
-                      author
-                    )
-                  )
-                ),
-                React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
-                React.createElement(
-                  'div',
-                  { className: 'row' },
+                  { className: '' },
                   React.createElement(
                     'div',
-                    { className: 'col-xs-offset-1 col-xs-11 subcomments' },
-                    comments
+                    { className: 'voteArea col-xs-1' },
+                    React.createElement(
+                      'h4',
+                      null,
+                      React.createElement('span', { onClick: this.upVote.bind(this), className: voteUpArrow, 'aria-hidden': 'true' }),
+                      React.createElement('br', null),
+                      ' ',
+                      votes,
+                      React.createElement('br', null),
+                      React.createElement('span', { onClick: this.downVote.bind(this), className: voteDownArrow, 'aria-hidden': 'true' })
+                    )
+                  ),
+                  React.createElement(
+                    'div',
+                    { className: 'panel-body commentDiv' },
+                    React.createElement(
+                      'p',
+                      { className: 'commentText' },
+                      this.props.data.body
+                    ),
+                    React.createElement(
+                      'div',
+                      null,
+                      React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
+                      React.createElement(
+                        'span',
+                        null,
+                        ' - ',
+                        React.createElement(
+                          'em',
+                          null,
+                          author
+                        )
+                      )
+                    ),
+                    this.displayAddButton()
+                  ),
+                  React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                      'div',
+                      { className: 'col-xs-offset-1 col-xs-11 subcomments' },
+                      comments
+                    )
                   )
                 )
               )
@@ -2171,6 +2606,9 @@ System.register('lib/components/general/AddCommentOnComment.js', ['npm:babel-run
             CommentActions.createNewCommentOnComment(data);
           }
         }, {
+          key: 'displayAddButton',
+          value: function displayAddButton() {}
+        }, {
           key: 'render',
           value: function render() {
             return React.createElement(
@@ -2202,8 +2640,62 @@ System.register('lib/components/general/AddCommentOnComment.js', ['npm:babel-run
     }
   };
 });
-System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/CommentOnComment.js', 'lib/components/general/AddCommentOnComment.js'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, $, CommentOnComment, AddCommentOnComment, Comment;
+System.registerDynamic("npm:classnames@2.2.3/index", [], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function() {
+    'use strict';
+    var hasOwn = {}.hasOwnProperty;
+    function classNames() {
+      var classes = [];
+      for (var i = 0; i < arguments.length; i++) {
+        var arg = arguments[i];
+        if (!arg)
+          continue;
+        var argType = typeof arg;
+        if (argType === 'string' || argType === 'number') {
+          classes.push(arg);
+        } else if (Array.isArray(arg)) {
+          classes.push(classNames.apply(null, arg));
+        } else if (argType === 'object') {
+          for (var key in arg) {
+            if (hasOwn.call(arg, key) && arg[key]) {
+              classes.push(key);
+            }
+          }
+        }
+      }
+      return classes.join(' ');
+    }
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = classNames;
+    } else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+      define('classnames', [], function() {
+        return classNames;
+      });
+    } else {
+      window.classNames = classNames;
+    }
+  }());
+  global.define = __define;
+  return module.exports;
+});
+
+System.registerDynamic("npm:classnames@2.2.3", ["npm:classnames@2.2.3/index"], true, function($__require, exports, module) {
+  ;
+  var global = this,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = $__require('npm:classnames@2.2.3/index');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/CommentOnComment.js', 'lib/actions/CommentActions.js', 'lib/components/general/AddCommentOnComment.js', 'npm:classnames@2.2.3'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, $, CommentOnComment, CommentActions, AddCommentOnComment, classNames, Comment;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -2222,8 +2714,12 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
       $ = _npmJquery220['default'];
     }, function (_libComponentsGeneralCommentOnCommentJs) {
       CommentOnComment = _libComponentsGeneralCommentOnCommentJs['default'];
+    }, function (_libActionsCommentActionsJs) {
+      CommentActions = _libActionsCommentActionsJs['default'];
     }, function (_libComponentsGeneralAddCommentOnCommentJs) {
       AddCommentOnComment = _libComponentsGeneralAddCommentOnCommentJs['default'];
+    }, function (_npmClassnames223) {
+      classNames = _npmClassnames223['default'];
     }],
     execute: function () {
       'use strict';
@@ -2239,17 +2735,59 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
         }
 
         _createClass(Comment, [{
+          key: 'upVote',
+          value: function upVote() {
+            CommentActions.upVote(this.props.data._id, this.props.postId);
+          }
+        }, {
+          key: 'downVote',
+          value: function downVote() {
+            CommentActions.downVote(this.props.data._id, this.props.postId);
+          }
+        }, {
+          key: 'displayAddButton',
+          value: function displayAddButton() {
+            if (this.props.user) return React.createElement(AddCommentOnComment, { commentId: this.props.data._id, postId: this.props.postId });
+          }
+        }, {
           key: 'render',
           value: function render() {
             var _this = this;
 
+            console.log(this.props.user);
+            var userId = this.props.user ? this.props.user._id : false;
+            var upColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && voteObj.vote;
+            });
+            var downColor = this.props.data.votes.some(function (voteObj) {
+              return voteObj.user == userId && !voteObj.vote;
+            });
+            var votes = this.props.data.votes.reduce(function (a, voteObj) {
+              return voteObj.vote ? a + 1 : a - 1;
+            }, 0) || 0;
+
+            var upArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-up': true,
+              'highlight': upColor
+              // 'noUser': !userId
+            });
+            var downArrow = classNames({
+              'glyphicon': true,
+              'glyphicon-arrow-down': true,
+              'highlight': downColor
+              // 'noUser': !userId
+            });
+
+            var voteUpArrow = userId ? upArrow : "hide";
+            var voteDownArrow = userId ? downArrow : "hide";
             var comments = undefined;
             var commentId = this.props.data._id;
             if (this.props.data.comments) {
               (function () {
                 var postId = _this.props.postId;
                 comments = _this.props.data.comments.map(function (comment) {
-                  return React.createElement(CommentOnComment, { postId: postId, data: comment, key: comment._id });
+                  return React.createElement(CommentOnComment, { user: _this.props.user, postId: postId, data: comment, key: comment._id });
                 });
               })();
             }
@@ -2262,52 +2800,60 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
             }
             return React.createElement(
               'div',
-              { className: 'col-xs-12 commentComponent' },
+              { className: 'commentComponent' },
               React.createElement(
                 'div',
-                { className: 'voteArea col-xs-1' },
-                React.createElement(
-                  'h3',
-                  null,
-                  React.createElement('span', { onClick: this.upVote.bind(this), className: upArrow, 'aria-hidden': 'true' }),
-                  React.createElement('br', null),
-                  ' ',
-                  votes,
-                  React.createElement('br', null),
-                  React.createElement('span', { onClick: this.downVote.bind(this), className: downArrow, 'aria-hidden': 'true' })
-                )
-              ),
-              React.createElement(
-                'div',
-                { className: 'col-xs-11 well well-sm' },
-                React.createElement(
-                  'p',
-                  null,
-                  this.props.data.body
-                ),
+                { className: 'panel panel-default' },
                 React.createElement(
                   'div',
-                  null,
-                  React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
-                  React.createElement(
-                    'span',
-                    null,
-                    ' - ',
-                    React.createElement(
-                      'em',
-                      null,
-                      author
-                    )
-                  )
-                ),
-                React.createElement(AddCommentOnComment, { commentId: commentId, postId: this.props.postId }),
-                React.createElement(
-                  'div',
-                  { className: 'row' },
+                  { className: '' },
                   React.createElement(
                     'div',
-                    { className: 'col-xs-offset-1 col-xs-11 subcomments' },
-                    comments
+                    { className: 'voteArea col-xs-1' },
+                    React.createElement(
+                      'h4',
+                      null,
+                      React.createElement('span', { onClick: this.upVote.bind(this), className: voteUpArrow, 'aria-hidden': 'true' }),
+                      React.createElement('br', null),
+                      ' ',
+                      votes,
+                      React.createElement('br', null),
+                      React.createElement('span', { onClick: this.downVote.bind(this), className: voteDownArrow, 'aria-hidden': 'true' })
+                    )
+                  ),
+                  React.createElement(
+                    'div',
+                    { className: 'panel-body commentDiv' },
+                    React.createElement(
+                      'p',
+                      { className: 'commentText' },
+                      this.props.data.body
+                    ),
+                    React.createElement(
+                      'div',
+                      null,
+                      React.createElement('img', { className: 'profilePicDisplay', src: this.props.data.author.profilePic }),
+                      React.createElement(
+                        'span',
+                        null,
+                        ' - ',
+                        React.createElement(
+                          'em',
+                          null,
+                          author
+                        )
+                      )
+                    ),
+                    this.displayAddButton()
+                  ),
+                  React.createElement(
+                    'div',
+                    { className: 'row' },
+                    React.createElement(
+                      'div',
+                      { className: 'col-xs-offset-1 col-xs-11 subcomments' },
+                      comments
+                    )
                   )
                 )
               )
@@ -2346,10 +2892,10 @@ System.register('lib/actions/PostActions.js', ['lib/API.js'], function (_export)
         },
 
         upVote: function upVote(postId) {
-          API.vote(postId, 'up');
+          API.voteOnPost(postId, 'up');
         },
         downVote: function downVote(postId) {
-          API.vote(postId, 'down');
+          API.voteOnPost(postId, 'down');
         }
       };
 
@@ -2459,6 +3005,12 @@ System.register('lib/actions/CommentActions.js', ['lib/API.js'], function (_expo
         },
         createNewCommentOnComment: function createNewCommentOnComment(data) {
           API.createNewCommentOnComment(data);
+        },
+        upVote: function upVote(commentId, postId) {
+          API.voteOnComment(commentId, 'up', postId);
+        },
+        downVote: function downVote(commentId, postId) {
+          API.voteOnComment(commentId, 'down', postId);
         }
       };
 
@@ -3383,8 +3935,8 @@ System.registerDynamic("npm:marked@0.3.5", ["npm:marked@0.3.5/lib/marked"], true
   return module.exports;
 });
 
-System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/LoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/stores/UserStore.js', 'lib/actions/UserActions.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
-  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, $, LoggedInNav, Comment, PostActions, PostStore, UserStore, UserActions, AddCommentOnPost, marked, _getComponentState, ViewPost;
+System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/helpers/get', 'npm:babel-runtime@5.8.34/helpers/inherits', 'npm:babel-runtime@5.8.34/helpers/create-class', 'npm:babel-runtime@5.8.34/helpers/class-call-check', 'npm:react@0.14.6', 'npm:react-router@2.0.0-rc5', 'npm:jquery@2.2.0', 'lib/components/general/LoggedInNav.js', 'lib/components/general/NotLoggedInNav.js', 'lib/components/general/Comment.js', 'lib/actions/PostActions.js', 'lib/stores/PostStore.js', 'lib/stores/UserStore.js', 'lib/actions/UserActions.js', 'lib/components/general/AddCommentOnPost.js', 'npm:marked@0.3.5'], function (_export) {
+  var _get, _inherits, _createClass, _classCallCheck, React, Link, browserHistory, $, LoggedInNav, NotLoggedInNav, Comment, PostActions, PostStore, UserStore, UserActions, AddCommentOnPost, marked, _getComponentState, ViewPost;
 
   return {
     setters: [function (_npmBabelRuntime5834HelpersGet) {
@@ -3404,6 +3956,8 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
       $ = _npmJquery220['default'];
     }, function (_libComponentsGeneralLoggedInNavJs) {
       LoggedInNav = _libComponentsGeneralLoggedInNavJs['default'];
+    }, function (_libComponentsGeneralNotLoggedInNavJs) {
+      NotLoggedInNav = _libComponentsGeneralNotLoggedInNavJs['default'];
     }, function (_libComponentsGeneralCommentJs) {
       Comment = _libComponentsGeneralCommentJs['default'];
     }, function (_libActionsPostActionsJs) {
@@ -3425,7 +3979,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
       _getComponentState = function _getComponentState() {
         return {
           post: PostStore.getPost(),
-          user: UserStore.getUserProfile(),
+          user: UserStore.getUserInfo(),
           editing: false
         };
       };
@@ -3460,6 +4014,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
           key: '_onChange',
           value: function _onChange() {
             this.setState(_getComponentState());
+            console.log('USER STATE IN FUCKING CHANGING BITCHES!!!!', this.state);
           }
         }, {
           key: 'rawMarkup',
@@ -3515,6 +4070,17 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
             }
           }
         }, {
+          key: 'displayCommentButton',
+          value: function displayCommentButton() {
+            if (this.state.user) return React.createElement(AddCommentOnPost, { id: this.state.post._id });
+          }
+        }, {
+          key: 'switchNav',
+          value: function switchNav() {
+            if (this.state.user) return React.createElement(LoggedInNav, null);
+            return React.createElement(NotLoggedInNav, null);
+          }
+        }, {
           key: 'render',
           value: function render() {
             var _this = this;
@@ -3527,7 +4093,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
               (function () {
                 var postId = _this.state.post._id;
                 comments = _this.state.post.comments.map(function (comment) {
-                  return React.createElement(Comment, { postId: postId, data: comment, key: comment._id });
+                  return React.createElement(Comment, { postId: postId, data: comment, key: comment._id, user: _this.state.user });
                 });
               })();
             }
@@ -3535,7 +4101,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
             return React.createElement(
               'div',
               { className: 'viewPostComponent' },
-              React.createElement(LoggedInNav, null),
+              this.switchNav(),
               React.createElement(
                 'div',
                 { className: 'container-fluid text-left postArea' },
@@ -3572,7 +4138,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
                 React.createElement(
                   'div',
                   { className: 'row' },
-                  React.createElement(AddCommentOnPost, { id: this.state.post._id })
+                  this.displayCommentButton()
                 )
               ),
               React.createElement(
@@ -21279,6 +21845,7 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
                 _this.emit('CHANGE');
                 break;
               case 'RECEIVE_USER_INFO':
+                console.log(action.user);
                 _myInfo = action.user;
                 _this.emit('CHANGE');
                 break;
@@ -21644,6 +22211,7 @@ System.register('lib/actions/ServerActions.js', ['lib/AppDispatcher.js'], functi
           });
         },
         receiveUserInfo: function receiveUserInfo(user) {
+          console.log(user);
           AppDispatcher.dispatch({
             actionType: 'RECEIVE_USER_INFO',
             user: user
@@ -21702,9 +22270,14 @@ System.register('lib/API.js', ['npm:jquery@2.2.0', 'lib/actions/ServerActions.js
           });
         },
 
-        vote: function vote(postId, direction) {
+        voteOnPost: function voteOnPost(postId, direction) {
           post('posts/vote/' + postId, { direction: direction }).done(function (data) {
             return ServerActions.receivePosts(data);
+          });
+        },
+        voteOnComment: function voteOnComment(commentId, direction, postId) {
+          post('comments/vote/' + commentId, { direction: direction, postId: postId }).done(function (data) {
+            return ServerActions.receivePost(data);
           });
         },
 

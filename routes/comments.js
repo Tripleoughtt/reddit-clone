@@ -3,6 +3,9 @@ import express from 'express';
 // Import Schema To Interact With Mongo
 import Comment from '../models/Comment';
 import Post from '../models/Post';
+import User from '../models/User';
+import {calculateReputation} from '../models/UserMethods';
+
 
 // Integrate For Authentication
 import { authenticate, passChange } from '../util/authMiddleware';
@@ -71,7 +74,6 @@ router.post('/vote/:id', authenticate, (req, res) => {
 
     // user has not voted yet
     } else {
-      console.log('IN ELSE STATEMENT WITHIN VOTE COMMENTS', foundComment);
       foundComment.votes.push(voteObj);
       saveAndReturn(foundComment);
     }
@@ -86,9 +88,8 @@ router.post('/vote/:id', authenticate, (req, res) => {
           for(var i = 0; i < post.totalComments; i++){
             authorString.push(`comments${'.comments'.repeat(i)}.author`);
           }
-
+          calculateReputation(foundComment.author);
           post.populate('author').deepPopulate(`${authorString.join(' ')} comments${'.comments'.repeat(post.totalComments)}`, (err, post) => {
-            console.log("IN POST POPULATION BEFORE SEND!",post)
             res.status(err ? 400:200).send(err || post);
           });
         })
