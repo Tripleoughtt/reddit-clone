@@ -13,8 +13,9 @@ class PostFeed extends React.Component{
 
   render(){
     let user = this.props.user;
+    let openUserModal = this.props.openUserModal;
     let posts = this.props.posts.map(post => {
-      return <Post data={post} user={user} key={post._id} />
+      return <Post openUserModal={openUserModal} data={post} user={user} key={post._id} />
     })
     return(
       <div className="postFeedComponent">

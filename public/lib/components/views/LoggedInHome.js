@@ -4,6 +4,7 @@ import {Link, hashHistory} from 'react-router';
 import LoggedInNav from "../general/LoggedInNav";
 import SignUpForm from "../general/SignUpForm";
 import PostFeed from "../general/PostFeed";
+import UserModal from "../general/UserModal";
 
 import UserStore from '../../stores/UserStore';
 import UserActions from '../../actions/UserActions';
@@ -70,6 +71,11 @@ class LoggedInHome extends React.Component{
     this.setState({ filter: e.target.value });
   }
 
+  openUserModal(post){
+    console.log('clicked', post.author);
+    this.setState({ userModalInfo: post.author })
+  }
+
   render(){
     let posts = this.state.posts;
     if (this.state.filter){
@@ -94,8 +100,9 @@ class LoggedInHome extends React.Component{
               </div>
             </div>
             <div className="col-xs-12 col-sm-9">
-              <PostFeed posts={posts} user={this.state.user} />
+              <PostFeed openUserModal={this.openUserModal.bind(this)} posts={posts} user={this.state.user} />
             </div>
+            <UserModal userInfo={this.state.userModalInfo} />
           </div>
         </div>
       </div>
