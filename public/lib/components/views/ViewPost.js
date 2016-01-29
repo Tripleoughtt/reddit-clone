@@ -5,6 +5,7 @@ import $ from 'jquery';
 import LoggedInNav from '../general/LoggedInNav';
 import NotLoggedInNav from '../general/NotLoggedInNav';
 import Comment from '../general/Comment';
+import Tag from '../general/Tag';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
@@ -14,6 +15,8 @@ import UserActions from '../../actions/UserActions';
 
 import AddCommentOnPost from '../general/AddCommentOnPost'
 import marked from 'marked';
+
+import SweetAlert from "sweetalert";
 
 let _getComponentState = () => {
   return {
@@ -45,7 +48,6 @@ class ViewPost extends React.Component{
 
   _onChange() {
     this.setState(_getComponentState());
-    console.log('USER STATE IN FUCKING CHANGING BITCHES!!!!', this.state)
 
   }
 
@@ -55,18 +57,32 @@ class ViewPost extends React.Component{
 
   handleEditClick() {
     if(this.state.editing) {
-      let $currentTitle = $('.viewPostTitle h1');
-      let title = $currentTitle.find('input').val();
+      // get new title, body, tags elements
+      let $titleArea = $('.viewPostTitle h1');
+      let $bodyArea = $('.viewPostBody div div');
 
-      let body = $('.viewPostBody textarea').val();
-      $('.viewPostBody div div').empty();
+      // extract new values
+      let title = $titleArea.find('input').val();
+      let body = $bodyArea.find('textarea').val();
 
+      if (!title || !body){
+        return swal('Oops!', "Please enter both a title and body for your post.", "error");
+      }
+      // update post
       PostActions.updatePost({ title: title, body: body }, this.state.post._id);
 
-      $currentTitle.empty();
-      $currentTitle.text(title);
+      // clear title, body, tags inputs
+      $titleArea.empty()
+      $bodyArea.empty();
+
+      // set title, body, tags to new values
+      $titleArea.text(title);
+      $bodyArea.html(marked(body));
+
+      // change save button to edit button
       $('.edit-btn').text('Edit Post');
 
+      // revert state
       this.setState({ editing: false });
     } else {
       let $currentTitle = $('.viewPostTitle h1');
@@ -99,11 +115,6 @@ class ViewPost extends React.Component{
     if(this.state.user) return(<AddCommentOnPost id={this.state.post._id} />);
   }
 
-  switchNav() {
-    if(this.state.user) return (<LoggedInNav />); 
-    return (<NotLoggedInNav />);
-  }
-
   render(){
     if (!this.state.post) {
       return (
@@ -118,9 +129,15 @@ class ViewPost extends React.Component{
       })
     }
 
+    let tags;
+    if (this.state.post.tags){
+      tags = this.state.post.tags.map((tag, i) => {
+        return <Tag key={i} name={tag} />
+      })
+    }
+
     return(
       <div className="viewPostComponent">
-        {this.switchNav()}
         <div className="container-fluid text-left postArea">
           <div className="row">
             <div className="col-xs-12 col-sm-11 viewPostTitle">
@@ -139,6 +156,7 @@ class ViewPost extends React.Component{
 
           <div className="row viewTags">
             <div className="col-xs-12 col-sm-11">
+              {tags}
             </div>
           </div>
           <div className="row">

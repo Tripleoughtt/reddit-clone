@@ -11,7 +11,6 @@ import UserActions from '../../actions/UserActions';
 
 import PostActions from '../../actions/PostActions';
 import PostStore from '../../stores/PostStore';
-// import authorize from '../../authorize';
 import {get} from 'jquery';
 
 let _getAppState = () => {
@@ -29,10 +28,6 @@ class LoggedInHome extends React.Component{
   }
 
   componentWillMount(){
-    //
-    // if (!authorize()){
-    //   hashHistory.push('/');
-    // }
 
     (function authorize(){
       get('/users/authorize').then((res) => {
@@ -72,7 +67,7 @@ class LoggedInHome extends React.Component{
   }
 
   openUserModal(post){
-    console.log('clicked', post.author);
+
     this.setState({ userModalInfo: post.author })
   }
 
@@ -86,7 +81,6 @@ class LoggedInHome extends React.Component{
     }
     return(
       <div className="loggedInHomeComponent">
-        <LoggedInNav />
         <div className="container-fluid loggedInHome">
           <div className="row">
             <div className="col-xs-12 col-sm-3 pull-right text-center sidebar">

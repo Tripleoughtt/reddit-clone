@@ -1,8 +1,6 @@
 import React from "react";
 import {Link, hashHistory} from "react-router";
 
-import authorize from '../../authorize';
-
 class LoggedInNav extends React.Component{
   constructor(props){
     super(props);
@@ -13,11 +11,6 @@ class LoggedInNav extends React.Component{
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     window.location = '/';
   }
-
-
-  //componentDidMount(){
-  //  authorize();
-  //}
 
   render(){
     return(
@@ -39,7 +32,7 @@ class LoggedInNav extends React.Component{
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li><Link to="home">Home</Link></li>
+              <li><Link to="/">Home</Link></li>
               <li><Link to="profile">Profile</Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">

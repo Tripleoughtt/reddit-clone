@@ -12,9 +12,9 @@ function calculateReputation(userId){
         let postTotal = userPosts.reduce((total, userPost) => {
           return total + (userPost.votes.reduce((a, postVote) => postVote.vote ? a + 1 : a - 1, 0))
         }, 0);
-        console.log( "Comment total here: ", commentTotal);
-        console.log("Post total here: ", postTotal);
-        console.log("reputation total here: ", commentTotal + postTotal);
+        
+        
+        
 
       });
     });

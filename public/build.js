@@ -1316,7 +1316,7 @@ System.registerDynamic("npm:sweetalert@1.1.3/lib/modules/utils", [], true, funct
   };
   var logStr = function logStr(string) {
     if (window.console) {
-      window.console.log('SweetAlert: ' + string);
+      window.
     }
   };
   var colorLuminance = function colorLuminance(hex, lum) {
@@ -2254,7 +2254,7 @@ System.register('lib/components/general/NotLoggedInNav.js', ['npm:babel-runtime@
           key: 'loginUser',
           value: function loginUser(e) {
             e.preventDefault();
-            console.log("is this happening right nao?: ", this.state);
+            
             if (!this.state.username) {
               swal('Oops!', "Please enter your username.", "error");
             } else if (!this.state.password) {
@@ -2754,7 +2754,7 @@ System.register('lib/components/general/Comment.js', ['npm:babel-runtime@5.8.34/
           value: function render() {
             var _this = this;
 
-            console.log(this.props.user);
+            
             var userId = this.props.user ? this.props.user._id : false;
             var upColor = this.props.data.votes.some(function (voteObj) {
               return voteObj.user == userId && voteObj.vote;
@@ -4014,7 +4014,7 @@ System.register('lib/components/views/ViewPost.js', ['npm:babel-runtime@5.8.34/h
           key: '_onChange',
           value: function _onChange() {
             this.setState(_getComponentState());
-            console.log('USER STATE IN FUCKING CHANGING BITCHES!!!!', this.state);
+            
           }
         }, {
           key: 'rawMarkup',
@@ -14595,7 +14595,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
           'Instances': item.count
         };
       }));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     getMeasurementsSummaryMap: function(measurements) {
       var summary = ReactDefaultPerfAnalysis.getInclusiveSummary(measurements, true);
@@ -14610,7 +14610,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
     printWasted: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
       console.table(ReactDefaultPerf.getMeasurementsSummaryMap(measurements));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     printDOM: function(measurements) {
       measurements = measurements || ReactDefaultPerf._allMeasurements;
@@ -14622,7 +14622,7 @@ System.registerDynamic("npm:react@0.14.6/lib/ReactDefaultPerf", ["npm:react@0.14
         result.args = JSON.stringify(item.args);
         return result;
       }));
-      console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
+      
     },
     _recordWrite: function(id, fnName, totalTime, args) {
       var writes = ReactDefaultPerf._allMeasurements[ReactDefaultPerf._allMeasurements.length - 1].writes;
@@ -21845,7 +21845,7 @@ System.register('lib/stores/UserStore.js', ['npm:babel-runtime@5.8.34/helpers/ge
                 _this.emit('CHANGE');
                 break;
               case 'RECEIVE_USER_INFO':
-                console.log(action.user);
+                
                 _myInfo = action.user;
                 _this.emit('CHANGE');
                 break;
@@ -22211,7 +22211,7 @@ System.register('lib/actions/ServerActions.js', ['lib/AppDispatcher.js'], functi
           });
         },
         receiveUserInfo: function receiveUserInfo(user) {
-          console.log(user);
+          
           AppDispatcher.dispatch({
             actionType: 'RECEIVE_USER_INFO',
             user: user

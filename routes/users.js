@@ -39,7 +39,6 @@ router.get('/myposts', authenticate, (req, res) => {
 
 // Get Logged In User
 router.get('/myinfo', authenticate, (req, res) => {
-
   User.findById(req.decodedToken.id, (err, user) => {
     if (err) return res.status(400).send(err);
     user.password = null;

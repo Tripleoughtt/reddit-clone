@@ -8,13 +8,19 @@ import UserActions from '../../actions/UserActions';
 
 import {get} from 'jquery';
 
+let _getUserProfileState = () => {
+  return {
+    user: UserStore.getUserInfo(),
+    posts: UserStore.getUserPosts()
+  }
+}
 
 class UserProfile extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       editing: false,
-      user: UserStore.getUserProfile(),
+      user: UserStore.getUserInfo(),
       posts: UserStore.getUserPosts()
     };
     this._onChange = this._onChange.bind(this);
@@ -45,10 +51,7 @@ class UserProfile extends React.Component{
   }
 
   _onChange() {
-    this.setState({
-      user: UserStore.getUserProfile(),
-      posts: UserStore.getUserPosts()
-    });
+    this.setState(_getUserProfileState())
   }
 
   uploadFile(e){
@@ -102,7 +105,7 @@ class UserProfile extends React.Component{
     let profilePic;
     if (this.state.user){
       name = this.state.user.name ? this.state.user.name : "";
-      profilePic = this.state.user.profilePic ? this.state.user.profilePic : "./lib/logo.png";
+      profilePic = this.state.user.profilePic;
     }
 
     let links;
@@ -117,10 +120,9 @@ class UserProfile extends React.Component{
         )
       })
     }
-
+    console.log('profile pic', profilePic)
     return(
       <div>
-        <LoggedInNav />
         <div className="container-fluid userProfileComponent">
           <div className="row">
             <div className="col-xs-12 col-sm-6 text-center">

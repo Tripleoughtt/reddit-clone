@@ -17,8 +17,8 @@ class UserStore extends EventEmitter {
           this.emit('CHANGE');
           break;
         case 'RECEIVE_USER_INFO':
-          console.log(action.user)
-          _myInfo = action.user;
+
+          _user = action.user;
           this.emit('CHANGE');
           break;
         case 'RECEIVE_USER_POSTS':

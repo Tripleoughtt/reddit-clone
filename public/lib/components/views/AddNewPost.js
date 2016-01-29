@@ -41,7 +41,7 @@ class AddNewPost extends React.Component{
 
   _onChange() {
     if (PostStore.getNewPost()){
-      hashHistory.push('/home');
+      hashHistory.push('/');
     }
   }
 
@@ -71,7 +71,6 @@ class AddNewPost extends React.Component{
   render(){
     return(
       <div>
-        <LoggedInNav />
         <div className="container-fluid text-center addPostComponent">
           <div className="row addPostTitle">
             <h1>What do you want to talk about?</h1>

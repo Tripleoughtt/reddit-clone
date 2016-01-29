@@ -1,74 +1,37 @@
 import React from "react";
 import {Link, hashHistory} from 'react-router';
 
-import NotLoggedInNav from "../general/NotLoggedInNav";
 import SignUpBanner from "../general/SignUpBanner";
 import PostFeed from "../general/PostFeed";
 import TagCloud from "../general/TagCloud";
+import UserModal from "../general/UserModal";
 
-import UserStore from '../../stores/UserStore';
-import UserActions from '../../actions/UserActions';
-
-import PostActions from '../../actions/PostActions';
-import PostStore from '../../stores/PostStore';
 import SweetAlert from 'sweetalert';
 
 import classNames from "classnames";
 
 import {get} from 'jquery';
 
-let _getAppState = () => {
-  return {
-    posts: PostStore.getAllPosts(),
-    user: UserStore.getUserInfo(),
-    error: UserStore.getLoginError(),
-    hideSignUpBanner: false
-  }
-}
-
 class NotLoggedInHome extends React.Component{
   constructor(props){
     super(props);
-    this.state = _getAppState();
-    this._onChange = this._onChange.bind(this);
+    this.state = {
+      hideSignUpBanner: false
+    };
   }
 
   componentWillMount(){
-    (function authorize(){
-      get('/users/authorize').then((res) => {
-        if (res === "Error with authentication, please try again!"){
-          hashHistory.push('/');
-        }
-        hashHistory.push('home');
-      }, (err) => {
-
-        hashHistory.push('/');
-      })
-    })()
-  }
-
-  componentDidMount(){
-    PostActions.getAllPosts();
-    PostStore.startListening(this._onChange);
-
-    UserStore.startListening(this._onChange);
-  }
-
-  componentWillUnmount(){
-    PostStore.stopListening(this._onChange);
-
-    UserStore.stopListening(this._onChange);
-  }
-
-  _onChange() {
-    this.setState(_getAppState());
-
-    if (this.state.user){
-      hashHistory.push('/home');
-    } else if (this.state.error){
-      let errorMessage = this.state.error.responseText;
-      swal('Sorry!', errorMessage, "error")
-    }
+    // (function authorize(){
+    //   get('/users/authorize').then((res) => {
+    //     if (res === "Error with authentication, please try again!"){
+    //       hashHistory.push('/');
+    //     }
+    //     hashHistory.push('home');
+    //   }, (err) => {
+    //
+    //     hashHistory.push('/');
+    //   })
+    // })()
   }
 
   filterByTag(tag){
@@ -104,8 +67,12 @@ class NotLoggedInHome extends React.Component{
     this.setState({ hideSignUpBanner: !this.state.hideSignUpBanner })
   }
 
+  openUserModal(post){
+    this.setState({ userModalInfo: post.author })
+  }
+
   render(){
-    let posts = this.state.posts;
+    let posts = this.props.posts;
     if (this.state.filtering){
       this.state.filterByTags.forEach(filterByTag => {
         let regex = new RegExp(filterByTag, 'gi');
@@ -122,7 +89,6 @@ class NotLoggedInHome extends React.Component{
 
     return(
       <div className="homeComponent">
-        <NotLoggedInNav />
         <div className="container-fluid">
           <div className="row greeting text-center">
             <div className="collapse in" id="signUpBanner" aria-expanded="true">
@@ -131,7 +97,7 @@ class NotLoggedInHome extends React.Component{
                 <h4>Dev Camp Fire Is A Community For Dev BootCamp Alumni, Current Students, And <strong>You!</strong></h4>
               </div>
               <div className='col-xs-12 col-sm-6'>
-                <SignUpBanner />
+                <SignUpBanner signUp={this.props.signUp} />
               </div>
             </div>
             <div className="col-xs-12">
@@ -145,11 +111,12 @@ class NotLoggedInHome extends React.Component{
           <div className="row">
             <div className="hidden-xs col-sm-2 tagCloud">
               <h4>Popular Tags:</h4>
-              <TagCloud posts={this.state.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
+              <TagCloud posts={this.props.posts} filterByTag={this.filterByTag.bind(this)} currentlyFilteringTags={currentlyFilteringTags} />
             </div>
             <div className="col-xs-12 col-sm-10" id="feed">
-              <PostFeed posts={posts} />
+              <PostFeed openUserModal={this.openUserModal.bind(this)} posts={posts} />
             </div>
+            <UserModal userInfo={this.state.userModalInfo} />
           </div>
         </div>
       </div>

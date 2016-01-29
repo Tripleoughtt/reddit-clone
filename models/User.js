@@ -27,9 +27,9 @@ userSchema.statics.authenticate = (token, cb) => {
 }
 
 userSchema.statics.calculateReputation = (userId) => {
-  console.log(userId);
+
   User.findById(userId, (err, foundUser) => {
-    console.log(foundUser)
+
   });
 }
 
@@ -84,7 +84,7 @@ userSchema.statics.register = function(userInfo, cb) {
 
   // Create A User Model
   User.findOne({username: username}, (err, user) => {
-    if (err || user) return cb('error registering user');
+    if (err || user) return cb('Please choose a different username.');
     bcrypt.genSalt(CONFIG.saltRounds, (err, salt) => {
       if (err) return cb(err);
       bcrypt.hash(password, salt, (err, hashedPassword) => {

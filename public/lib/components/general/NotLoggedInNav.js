@@ -5,45 +5,20 @@ import UserActions from '../../actions/UserActions';
 class NotLoggedInNav extends React.Component{
   constructor(props){
     super(props);
-    this.state = {  }
+    this.state = {
+      newUser: {},
+      existingUser: {}
+    };
   }
 
-  updateUsername(e){
-    this.setState({username: e.target.value})
-  }
-  updatePassword(e){
-    this.setState({password: e.target.value})
+  updateExistingUser(key, e){
+    this.state.existingUser[key] = e.target.value;
+    this.setState(this.state);
   }
 
-  submitRegistration(e){
-    e.preventDefault();
-    let newUserInfo = {};
-    newUserInfo.password1 = this.refs.pass1.value;
-    newUserInfo.password2 = this.refs.pass2.value;
-    newUserInfo.username = this.refs.username.value;
-
-    if (!newUserInfo.username){
-      swal('Oops!', "Please enter a new username.", "error")
-    } else if (!newUserInfo.password1 || !newUserInfo.password2){
-      swal('Oops!', "Please enter a new password", "error")
-    } else if (newUserInfo.password1 !== newUserInfo.password2){
-      swal('Oops!', "Passwords must match.", "error")
-    } else {
-      UserActions.createNewUser(newUserInfo);
-    }
-
-  }
-
-  loginUser(e){
-    e.preventDefault();
-    console.log("is this happening right nao?: ", this.state)
-    if (!this.state.username){
-      swal('Oops!', "Please enter your username.", "error")
-    } else if (!this.state.password){
-      swal('Oops!', "Please enter your password", "error")
-    } else {
-      UserActions.loginUser(this.state);
-    }
+  updateNewUser(key, e){
+    this.state.newUser[key] = e.target.value;
+    this.setState(this.state);
   }
 
   render(){
@@ -71,29 +46,29 @@ class NotLoggedInNav extends React.Component{
               <form className="navbar-form navbar-left" id="loginForm">
                 <label htmlFor="loginForm" className="navbar-form navbar-left">LOGIN</label>
                 <div className="form-group">
-                  <input onChange={this.updateUsername.bind(this)} type="text" className="form-control" placeholder="username" />
+                  <input onChange={this.updateExistingUser.bind(this, 'username')} type="text" className="form-control" placeholder="username" />
                 </div>
                 <div className="form-group">
-                  <input onChange={this.updatePassword.bind(this)} type="password" className="form-control" placeholder="password" />
+                  <input onChange={this.updateExistingUser.bind(this, 'password')} type="password" className="form-control" placeholder="password" />
                 </div>
-                <button onClick={this.loginUser.bind(this)} type="submit" className="btn btn-default">Submit</button>
+                <button onClick={this.props.login.bind(this, this.state.existingUser)} type="submit" className="btn btn-default">Submit</button>
               </form>
 
               <form className="navbar-form visible-xs-block">
                 <label htmlFor="signUpForm" className="navbar-form navbar-left">SIGN UP</label>
                 <div className="form-group">
                   <label htmlFor="username">Choose a username</label>
-                  <input type="text" className="form-control" ref="username" id="username" placeholder="username" />
+                  <input onChange={this.updateNewUser.bind(this, 'username')} type="text" className="form-control" id="username" placeholder="username" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="pass1">Password</label>
-                  <input type="password" className="form-control" id="pass1" ref="pass1"  placeholder="Password" />
+                  <input onChange={this.updateNewUser.bind(this, 'password1')} type="password" className="form-control" id="pass1" placeholder="Password" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="pass2">Confirm Password</label>
-                  <input type="password" className="form-control" id="pass2" ref="pass2" placeholder="Re-enter password" />
+                  <input onChange={this.updateNewUser.bind(this, 'password2')} type="password" className="form-control" id="pass2" placeholder="Re-enter password" />
                 </div>
-                <button type="submit" className="btn btn-default" onClick={this.submitRegistration.bind(this)} >Submit</button>
+                <button type="submit" className="btn btn-default" onClick={this.props.signUp.bind(this, this.state.newUser)} >Submit</button>
               </form>
             </ul>
           </div>

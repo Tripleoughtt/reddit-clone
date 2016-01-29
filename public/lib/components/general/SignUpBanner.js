@@ -1,11 +1,9 @@
 import React from "react";
 
-import UserActions from '../../actions/UserActions';
-
 class SignUpBanner extends React.Component{
   constructor(props){
     super(props);
-    this.state = {  }
+    this.state = { }
   }
 
   updateUsername(e){
@@ -16,19 +14,6 @@ class SignUpBanner extends React.Component{
   }
   updatePassword2(e){
     this.setState({password2: e.target.value})
-  }
-
-  submitNewUser(e){
-    e.preventDefault();
-    if (!this.state.username){
-      swal('Oops!', "Please enter a new username.", "error")
-    } else if (!this.state.password1 || !this.state.password2){
-      swal('Oops!', "Please enter a new password", "error")
-    } else if (this.state.password1 !== this.state.password2){
-      swal('Oops!', "Passwords must match.", "error")
-    } else {
-      UserActions.createNewUser(this.state);
-    }
   }
 
   render(){
@@ -48,7 +33,7 @@ class SignUpBanner extends React.Component{
             <input onChange={this.updatePassword2.bind(this)} type="password" className="form-control" id="pass2" placeholder="Re-enter password" />
           </div>
           <div className="form-group">
-            <button onClick={this.submitNewUser.bind(this)} type="submit" className="btn btn-default">Submit</button>
+            <button onClick={this.props.signUp.bind(this, this.state)} type="submit" className="btn btn-default">Submit</button>
           </div>
         </form>
       </div>

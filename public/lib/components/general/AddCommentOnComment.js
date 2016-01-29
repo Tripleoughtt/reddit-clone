@@ -3,6 +3,8 @@ import {Link} from 'react-router';
 import $ from 'jquery';
 import CommentActions from '../../actions/CommentActions';
 
+import SweetAlert from "sweetalert";
+
 class AddCommentOnComment extends React.Component{
   constructor(props){
     super(props);
@@ -15,6 +17,9 @@ class AddCommentOnComment extends React.Component{
 
   addComment(){
     let commentText = this.refs.commentText.value;
+    if (!commentText){
+      return swal("Oops", "Please enter a comment!", "error");
+    }
     let data = {postId: this.props.postId, commentId: this.props.commentId, body: commentText};
     this.toggleCommentInput();
     this.refs.commentText.value = ''

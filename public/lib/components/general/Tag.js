@@ -15,11 +15,13 @@ class Tag extends React.Component{
   render(){
     let name = this.props.name;
     let buttonClass = classNames('btn btn-default tag', {
-      'filteringByTag': this.props.currentlyFilteringTags.some(tag => tag === name)
+      'filteringByTag': this.props.currentlyFilteringTags ? this.props.currentlyFilteringTags.some(tag => tag === name) : false
     });
+    //should be a link to all posts with that tag
+    let filterByTag = this.props.filterByTag ? this.props.filterByTag.bind(this, name) : undefined
 
     return(
-      <button className={buttonClass} onClick={this.props.filterByTag.bind(this, name)}>
+      <button className={buttonClass} onClick={filterByTag}>
         {name} <span className="badge">{this.props.number}</span>
       </button>
     )

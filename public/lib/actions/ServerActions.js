@@ -26,7 +26,7 @@ let ServerActions = {
     });
   },
   receiveUserInfo(user) {
-    console.log(user)
+
     AppDispatcher.dispatch({
       actionType: 'RECEIVE_USER_INFO',
       user
@@ -43,7 +43,15 @@ let ServerActions = {
       actionType: 'RECEIVE_LOGIN_ERROR',
       err
     });
+  },
+  receiveError(error){
+    AppDispatcher.dispatch({
+      actionType: 'ERROR',
+      error
+    });
   }
+
+
 }
 
 export default ServerActions;
