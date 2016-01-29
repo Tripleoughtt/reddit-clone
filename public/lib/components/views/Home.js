@@ -59,7 +59,6 @@ class Home extends React.Component{
   }
 
   render(){
-    console.log('home state', this.state);
     let home = this.state.user
               ? <LoggedInHome user={this.state.user} posts={this.state.posts} />
               : <NotLoggedInHome signUp={this.signUp.bind(this)} posts={this.state.posts} />

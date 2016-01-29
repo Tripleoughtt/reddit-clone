@@ -10,10 +10,7 @@ class NavBar extends React.Component{
   }
 
   render(){
-    console.log('navbar', this.props.user);
-
     let navbar = this.props.user ? <LoggedInNav /> : <NotLoggedInNav signUp={this.props.signUp} login={this.props.login} />
-
     return(
       <div>
         {navbar}

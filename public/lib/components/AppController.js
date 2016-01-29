@@ -70,8 +70,6 @@ class AppController extends React.Component{
   }
 
   render(){
-    console.log('app state', this.state);
-
     return (
       <div className="app">
         <NavBar login={this.login.bind(this)} signUp={this.signUp.bind(this)} user={this.state.user} />
