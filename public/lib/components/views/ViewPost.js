@@ -48,7 +48,6 @@ class ViewPost extends React.Component{
 
   _onChange() {
     this.setState(_getComponentState());
-
   }
 
   rawMarkup() {
@@ -60,43 +59,48 @@ class ViewPost extends React.Component{
       // get new title, body, tags elements
       let $titleArea = $('.viewPostTitle h1');
       let $bodyArea = $('.viewPostBody div div');
+      let $tagArea = $('.viewTags div');
 
       // extract new values
       let title = $titleArea.find('input').val();
       let body = $bodyArea.find('textarea').val();
+      let tags = $tagArea.find('input').val().replace(/,\s?/g, ' ').split(' ');
 
       if (!title || !body){
         return swal('Oops!', "Please enter both a title and body for your post.", "error");
       }
       // update post
-      PostActions.updatePost({ title: title, body: body }, this.state.post._id);
+      PostActions.updatePost({ title: title, body: body, tags: tags }, this.state.post._id);
 
-      // clear title, body, tags inputs
-      $titleArea.empty()
-      $bodyArea.empty();
-
-      // set title, body, tags to new values
-      $titleArea.text(title);
-      $bodyArea.html(marked(body));
+      // clear title, body, tags inputs & set to new values
+      $titleArea.empty().text(title);
+      $bodyArea.empty().html(marked(body));
+      // console.log(tags);
+      // let $tags = tags.map((tag, i) => {
+      //   return <Tag key={i} name={tag} />
+      // })
+      $tagArea.empty().append($('<span>').text('Tags: '))
 
       // change save button to edit button
       $('.edit-btn').text('Edit Post');
 
       // revert state
-      this.setState({ editing: false });
+      this.setState({ editing: false, editedTags: tags });
     } else {
-      let $currentTitle = $('.viewPostTitle h1');
-      let title = $currentTitle.text();
+      // get title, body, tags elements
+      let $titleArea = $('.viewPostTitle h1');
+      let $bodyArea = $('.viewPostBody div div');
+      let $tagArea = $('.viewTags div');
 
-      let $body = $('.viewPostBody div div');
-      $body.empty();
+      // empty title, body, tags elements & replace with inputs
+      $titleArea.empty().append($(`<input type='text' value=${this.state.post.title} />`));
+      $bodyArea.empty().append($('<textarea style="margin-left: 10px; height: 250px; width: 90%;">').text(this.state.post.body));
+      $tagArea.empty().append($(`<input type='text' value=${this.state.post.tags} />`));
 
-      $body.append($('<textarea style="margin-left: 10px; height: 250px; width: 90%;">').text(this.state.post.body));
-
-      $currentTitle.empty();
-      $currentTitle.append($(`<input type='text' value=${title} />`));
+      // change edit button to save button
       $('.edit-btn').text('Save Post');
 
+      // set editing state
       this.setState({ editing: true });
     }
   }
@@ -151,14 +155,14 @@ class ViewPost extends React.Component{
               <hr />
             </div>
           </div>
+          <div className="row viewTags">
+            <div className="col-xs-12 col-sm-11">
+              <span>Tags: </span> {tags}
+            </div>
+          </div>
 
             {this.displayEditButton()}
 
-          <div className="row viewTags">
-            <div className="col-xs-12 col-sm-11">
-              {tags}
-            </div>
-          </div>
           <div className="row">
             {this.displayCommentButton()}
           </div>

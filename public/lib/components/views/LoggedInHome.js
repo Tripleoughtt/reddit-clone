@@ -23,7 +23,6 @@ class LoggedInHome extends React.Component{
         }
         return true
       }, (err) => {
-
         hashHistory.push('/');
       })
     })()
