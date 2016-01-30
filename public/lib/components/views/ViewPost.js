@@ -16,9 +16,12 @@ import UserActions from '../../actions/UserActions';
 import AddCommentOnPost from '../general/AddCommentOnPost'
 import marked from 'marked';
 
+import classNames from "classnames";
+
 import SweetAlert from "sweetalert";
 
 let _getComponentState = () => {
+  console.log('get comp state func');
   return {
     post: PostStore.getPost(),
     user: UserStore.getUserInfo(),
@@ -59,7 +62,7 @@ class ViewPost extends React.Component{
       // get new title, body, tags elements
       let $titleArea = $('.viewPostTitle h1');
       let $bodyArea = $('.viewPostBody div div');
-      let $tagArea = $('.viewTags div');
+      let $tagArea = $('.viewTags div div');
 
       // extract new values
       let title = $titleArea.find('input').val();
@@ -75,22 +78,21 @@ class ViewPost extends React.Component{
       // clear title, body, tags inputs & set to new values
       $titleArea.empty().text(title);
       $bodyArea.empty().html(marked(body));
-      // console.log(tags);
-      // let $tags = tags.map((tag, i) => {
-      //   return <Tag key={i} name={tag} />
-      // })
-      $tagArea.empty().append($('<span>').text('Tags: '))
+      let $tags = tags.map((tag) => {
+        return $('<button>').addClass('btn btn-default tag').text(tag);
+      });
+      $tagArea.empty().append($tags);
 
       // change save button to edit button
       $('.edit-btn').text('Edit Post');
 
       // revert state
-      this.setState({ editing: false, editedTags: tags });
+      this.setState(_getComponentState());
     } else {
       // get title, body, tags elements
       let $titleArea = $('.viewPostTitle h1');
       let $bodyArea = $('.viewPostBody div div');
-      let $tagArea = $('.viewTags div');
+      let $tagArea = $('.viewTags div div');
 
       // empty title, body, tags elements & replace with inputs
       $titleArea.empty().append($(`<input type='text' value=${this.state.post.title} />`));
@@ -135,8 +137,9 @@ class ViewPost extends React.Component{
 
     let tags;
     if (this.state.post.tags){
+      let buttonClass = classNames('btn btn-default tag');
       tags = this.state.post.tags.map((tag, i) => {
-        return <Tag key={i} name={tag} />
+        return <button className={buttonClass} key={i}>{tag}</button>
       })
     }
 
@@ -157,7 +160,10 @@ class ViewPost extends React.Component{
           </div>
           <div className="row viewTags">
             <div className="col-xs-12 col-sm-11">
-              <span>Tags: </span> {tags}
+              <span>Tags: </span>
+              <div className="tagsInPost">
+                {tags}
+              </div>
             </div>
           </div>
 
